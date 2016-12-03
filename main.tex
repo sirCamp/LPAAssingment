@@ -1,0 +1,219 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\usepackage{eurosym}                %simbolo dell'euro
+\usepackage{listings}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\input{listings}
+
+%\tightlist per compatibilità con pandoc
+\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\usepackage[labelfont=bf]{caption}
+
+\usepackage[protrusion=true,expansion=true]{microtype} % Better typography
+\usepackage{graphicx} % Required for including pictures
+\usepackage{wrapfig} % Allows in-line images
+
+
+\usepackage{subfig}
+\usepackage{hyperref}
+\usepackage{placeins}
+\usepackage{sourcecodepro}
+\usepackage{hyperref}                   % collegamenti ipertestuali
+
+\usepackage[colorinlistoftodos,prependcaption]{todonotes} %todo
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode} % https://en.wikibooks.org/wiki/LaTeX/Algorithms#Typesetting_using_the_algorithmicx_package
+\usepackage{amssymb}  %$\mathbb{N}$ per il simbolo dei numeri naturali 
+
+\usepackage{enumerate} % permette di personalizzare enumerate
+
+\usepackage{xmpincl}	%Aggiunge metadati sulla licenza CC
+\usepackage{xspace}
+
+\usepackage{bussproofs}
+
+\makeatletter
+\renewcommand\@biblabel[1]{\textbf{#1.}} % Change the square brackets for each bibliography item from '[1]' to '1.'
+\renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
+
+\renewcommand{\maketitle}{ % Customize the title - do not edit title and author name here, see the TITLE block below
+	\begin{flushright} % Right align
+		{\LARGE\@title} % Increase the font size of the title
+		
+		\vspace{50pt} % Some vertical space between the title and author name
+		
+		{\large\@author} % Author name
+		\\\@date % Date
+		
+		\vspace{100pt} % Some vertical space between the author block and abstract
+	\end{flushright}
+}
+
+%% breakablealgorithm http://tex.stackexchange.com/questions/33866/algorithm-tag-and-page-break
+\makeatletter
+\newenvironment{breakablealgorithm}
+{% \begin{breakablealgorithm}
+	\begin{center}
+		\refstepcounter{algorithm}% New algorithm
+		\hrule height.8pt depth0pt \kern2pt% \@fs@pre for \@fs@ruled
+		\renewcommand{\caption}[2][\relax]{% Make a new \caption
+			{\raggedright\textbf{\ALG@name~\thealgorithm} ##2\par}%
+			\ifx\relax##1\relax % #1 is \relax
+			\addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##2}%
+			\else % #1 is not \relax
+			\addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##1}%
+			\fi
+			\kern2pt\hrule\kern2pt
+		}
+	}{% \end{breakablealgorithm}
+	\kern2pt\hrule\relax% \@fs@post for \@fs@ruled
+\end{center}
+}
+\makeatother
+
+\makeatletter % trattino con punto sopra
+\newcommand{\dotminus}{\mathbin{\text{\@dotminus}}}
+
+\newcommand{\@dotminus}{%
+	\ooalign{\hidewidth\raise1ex\hbox{.}\hidewidth\cr$\m@th-$\cr}%
+}
+\makeatother
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+
+\let\oldtext\text
+\renewcommand{\text}[1]{\oldtext{\normalfont\sffamily #1}}
+\newcommand{\false}{\text{ false }}
+\newcommand{\true}{\text{ true }}
+\newcommand{\fn}{\text{fn }}
+\newcommand{\iif}{\text{ if }}
+\newcommand{\then}{\text{ then }}
+\newcommand{\eelse}{\text{ else }}
+\newcommand{\Nat}{\text{ Nat }}
+\newcommand{\Bool}{\text{ Bool }}
+
+\newcommand{\IF}[3]{\ensuremath{\text{if}\ #1\ \text{then}\ #2\ \text{else}\ #3}}
+
+\newcommand{\vbar}{\:|\:}
+\newcommand{\proj}{.\_}
+
+\newcommand{\throw}[1]{\ensuremath{\text{throw} \: #1}}
+\newcommand{\trycatch}[2]{\ensuremath{\text{try} \: #1 \: \text{catch} \: #2}}
+\newcommand{\TExc}{\ensuremath{T_{exc}}}
+\newcommand{\myrule}[1]{\textsc{(#1)}}
+
+\newcommand{\class}[3]{\text{class} \: #1 \: \text{extends} \: #2 \: \{\: #3 \:\}}
+\newcommand{\construct}[3]{\ensuremath{#1(#2)\{\: #3\:\}}}
+\newcommand{\this}{\text{this}}
+\newcommand{\super}{\text{super}}
+
+\newcommand{\method}[4]{\ensuremath{#1 \: #2(#3) \: \{ \: \text{return} \: #4;\: \} }}
+\newcommand{\new}[2]{\ensuremath{\text{new}\: #1(  #2  )}}
+
+\newcommand{\stype}{\ensuremath{<:}}
+\newcommand{\fields}[1]{fields(#1)}
+\newcommand{\mbody}[1]{mbody(#1)}
+\newcommand{\mtype}[1]{mtype(#1)}
+\newcommand{\IN}[1]{\text{in} \: #1}
+
+
+% Shorcut per prooftree
+\newcommand{\LL}[1]{\LeftLabel{\myrule{#1}}}
+\newcommand{\AC}[1]{\AxiomC{#1}}
+\newenvironment{bprooftree}
+{\leavevmode\hbox\bgroup}
+{\DisplayProof\egroup}
+
+\title{Esercizi}                                % Title
+\author{AALP}                               % Author
+\date{3 Dec 2016}                                         % Date
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+    \centering
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.75]{logo.png}\\[1.0 cm]  % University Logo
+    \textsc{\LARGE Aspetti Avanzati dei Linguaggi \newline\newline di Programmazione}\\[2.0 cm]  % University Name
+    %\textsc{\Large CSX-325}\\[0.5 cm]               % Course Code
+    %\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+    { \huge \bfseries \thetitle}\\
+    \rule{\linewidth}{0.2 mm} \\[1.5 cm]
+    
+    \begin{minipage}{0.4\textwidth}
+        \begin{flushleft} \large
+            \emph{Author:}\\
+            Campese Stefano\\
+            \end{flushleft}
+            \end{minipage}~
+            \begin{minipage}{0.4\textwidth}
+            
+            \begin{flushright} \large
+            \emph{Author :} \\
+            Enrico Savoca\\
+        \end{flushright}
+        
+    \end{minipage}\\[2 cm]
+    
+    
+    
+    
+    
+    
+    
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Example Exercise}
+
+
+\include{esercizi/example}
+
+
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{biblist}
+
+\end{document} 
