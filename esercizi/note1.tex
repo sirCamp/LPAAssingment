@@ -1,0 +1,358 @@
+\subsection{Il mini linguaggio funzionale (note 2)}
+\subsubsection*{Esercizio 1.1}
+La relazione di riduzione data definisce una strategia efficiente per la valutazione del ter-
+mine if-then-else, che permette cioè di valutare unicamente il ramo scelto dalla valutazione della guardia
+booleana. Ridefinire la semantica operazionale del linguaggio in modo che adotti una strategia non efficiente per il costrutto if-then-else, valutando entambi i rami del costrutto condizionale.
+
+\subparagraph{Svolgimento}
+Per ottenere una semantica meno efficiente, si cambiano gli assiomi (IF-TRUE) e (IF-FALSE) e si aggiungono le regole (THEN) ed (ELSE). (IF) si mantiene tale.
+
+\subparagraph{Assiomi}
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(IF-TRUE)}}
+	\UnaryInfC{$if \: TRUE \: then \: v_1 \: else \: v_2 \rightarrow \: v_1$}
+\end{prooftree}
+
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(IF-FALSE)}}
+	\UnaryInfC{$if \: FALSE \: then \: v_1 \: else \: v_2 \rightarrow \: v_2$}
+\end{prooftree}
+
+\subparagraph{Regole}
+\begin{prooftree}
+	\AxiomC{$M_2 \rightarrow \: M_2'$}
+	\LeftLabel{\textsc{(THEN)}}
+	\UnaryInfC{$if \: v_1 \: then \: M_2 \: else \: M_3 \rightarrow \: 
+	if \: v_1 \: then \: M_2' \: else \: M_3$}
+\end{prooftree}
+
+\begin{prooftree}
+	\AxiomC{$M_3 \rightarrow \: M_3'$}
+	\LeftLabel{\textsc{(ELSE)}}
+	\UnaryInfC{$if \: v_1 \: then \: v_2 \: else \: M_3 \rightarrow \: 
+	if \: v_1 \: then \: v_2 \: else \: M_3'$} 
+\end{prooftree} 
+
+\subsubsection*{Esercizio 1.4}
+La valutazione, cioè l’esecuzione del programma, è deterministica. Se $M \rightarrow$ M' e
+$M \rightarrow$ M'' allora M'=M''.\\
+Dimostrare la proposizione precedente per induzione sulla struttura del termine M.
+
+\subparagraph{Dimostrazione}
+Si dimostra per induzione sulla derivazione.
+
+Casi base:
+\begin{itemize}
+	\item M=true \\
+	\indent	Se true $\rightarrow$ M' e true $\rightarrow$ M'' $\implies$ M' = M''\\
+	\indent Vero perchè true è un valore finale;
+	
+ \item M=false \\
+	\indent	Se false $\rightarrow$ M' e false $\rightarrow$ M'' $\implies$ M' = M''\\
+	\indent Vero perchè false è un valore finale;
+
+\item M=fn x.M \\
+	\indent	Se fn x.M $\rightarrow$ M' e fn x.M $\rightarrow$ M'' $\implies$ M' = M''\\
+	\indent Vero perchè fn x.M è un valore finale;
+	\item M=n \\
+	\indent	Se n $\rightarrow$ M' e n $\rightarrow$ M'' $\implies$ M' = M''\\
+	\indent Vero perchè n è un valore finale.
+\end{itemize}
+ 
+Passo induttivo:
+\begin{itemize}
+	\item Tesi: $M=M_1+M_2 \:\rightarrow\: M', \:M_1+M_2 \:\rightarrow$ M'' $\implies$ M'=M''\\
+	\indent Per ipotesi induttiva: 
+	\begin{itemize}
+		\item Se $M_1 \:\rightarrow \: M_1'$ e $M_1 \:\rightarrow \: M_1''$ allora $M_1'=M_1''$;
+		\item Se $M_2 \:\rightarrow \: M_2'$ e $M_2 \:\rightarrow \: M_2''$ allora $M_2'=M_2''$.
+	\end{itemize} 
+	3 Casi possibili:
+	\begin{enumerate}[label=\alph*)]
+		\item Derivazione tramite l'uso della regola (SUM-LEFT): 
+		\begin{prooftree}
+					\AxiomC{$M_1\:\rightarrow\:M_1'$}
+					\LeftLabel{\textsc{(SUM-LEFT)}}
+					\UnaryInfC{$M_1+M_2 \:\rightarrow \: M_1'+M_2=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_1'=M_1''$ per ipotesi 
+						induttiva e quindi anche $M'=M''$;\\
+				\indent La derivazione risulta deterministica applicando questa regola.
+		\item Derivazione tramite l'uso della regola (SUM-RIGHT): 
+		\begin{prooftree}
+					\AxiomC{$M_2\:\rightarrow\:M_2'$}
+					\LeftLabel{\textsc{(SUM-RIGHT)}}
+					\UnaryInfC{$v_1+M_2 \:\rightarrow \: v_1+M_2'=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_2'=M_2''$ per ipotesi 
+						induttiva e quindi anche $M'=M''$;\\
+				\indent La derivazione risulta deterministica applicando questa regola.
+		\item Derivazione tramite l'uso della regola (SUM): 
+		\begin{prooftree}
+					\AxiomC{con n'=$n_1+n_2$}
+					\LeftLabel{\textsc{(SUM)}}
+					\UnaryInfC{$n_1+n_2 \:\rightarrow \: n'$}
+				\end{prooftree} 
+				\indent Il risultato della somma è univoco e di conseguenza la derivazione è deterministica. 
+	\end{enumerate}
+	In tutti e 3 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
+	è dimostrata.\\
+	
+	
+	\item Tesi: $M=M_1-M_2 \:\rightarrow\: M', \:M_1-M_2 \:\rightarrow$ M'' $\implies$ M'=M''\\
+	\indent Per ipotesi induttiva: 
+	\begin{itemize}
+		\item Se $M_1 \:\rightarrow \: M_1'$ e $M_1 \:\rightarrow \: M_1''$ allora $M_1'=M_1''$;
+		\item Se $M_2 \:\rightarrow \: M_2'$ e $M_2 \:\rightarrow \: M_2''$ allora $M_2'=M_2''$.
+	\end{itemize} 
+	3 Casi possibili:
+	\begin{enumerate}[label=\alph*)]
+		\item Derivazione tramite l'uso della regola (MINUS-LEFT): 
+		\begin{prooftree}
+					\AxiomC{$M_1\:\rightarrow\:M_1'$}
+					\LeftLabel{\textsc{(MINUS-LEFT)}}
+					\UnaryInfC{$M_1-M_2 \:\rightarrow \: M_1'-M_2=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_1'=M_1''$ per ipotesi 
+						induttiva e quindi anche $M'=M''$;\\
+				\indent La derivazione risulta deterministica applicando questa regola.
+		\item Derivazione tramite l'uso della regola (MINUS-RIGHT): 
+		\begin{prooftree}
+					\AxiomC{$M_2\:\rightarrow\:M_2'$}
+					\LeftLabel{\textsc{(MINUS-RIGHT)}}
+					\UnaryInfC{$v_1-M_2 \:\rightarrow \: v_1-M_2'=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_2'=M_2''$ per ipotesi 
+						induttiva e quindi anche $M'=M''$;\\
+				\indent La derivazione risulta deterministica applicando questa regola.
+		\item Derivazione tramite l'uso della regola (MINUS): 
+		\begin{prooftree}
+					\AxiomC{con n'=$n_1-n_2$}
+					\LeftLabel{\textsc{(MINUS)}}
+					\UnaryInfC{$n_1-n_2 \:\rightarrow \: n'$}
+				\end{prooftree} 
+				\indent Il risultato della differenza è univoco e di conseguenza la derivazione è deterministica. 
+	\end{enumerate}
+	In tutti e 3 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
+	è dimostrata.\\
+	
+	
+	\item Tesi: $M=if\:M_1\:then\:M_2\:else\:M_3\:\rightarrow\: M',\:if\:M_1\:then\:M_2\:else\:M_3\:\rightarrow\: M''\:\implies$ M'=M''\\
+	\indent Per ipotesi induttiva: 
+	\begin{itemize}
+		\item Se $M_1 \:\rightarrow \: M_1'$ e $M_1 \:\rightarrow \: M_1''$ allora $M_1'=M_1''$.
+	\end{itemize}  
+	3 Casi possibili:
+	\begin{enumerate}[label=\alph*)]
+		\item Derivazione tramite l'uso della regola (IF): 
+		\begin{prooftree}
+					\AxiomC{$M_1\:\rightarrow\:M_1'$}
+					\LeftLabel{\textsc{(IF)}}
+					\UnaryInfC{$if\:M_1\:then\:M_2\:else\:M_3\:\rightarrow\:if\:M_1'\:then\:M_2\:else\:M_3=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_1'=M_1''$ per ipotesi 
+						induttiva e quindi anche $M'=M''$;\\
+				\indent La derivazione risulta deterministica applicando questa regola.
+		\item Derivazione tramite l'uso dell'assioma (IF-TRUE): 
+		\begin{prooftree}
+					\AxiomC{}
+					\LeftLabel{\textsc{(IF-TRUE)}}
+					\UnaryInfC{$if\:true\:then\:M_2\:else\:M_3\:\rightarrow\:M_2=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_2=M'=M''$ per applicazione dell'assioma e 
+				la derivazione risulta deterministica.  
+		\item Derivazione tramite l'uso della regola (IF-FALSE): 
+		\begin{prooftree}
+					\AxiomC{}
+					\LeftLabel{\textsc{(IF-FAlSE)}}
+					\UnaryInfC{$if\:false\:then\:M_2\:else\:M_3\:\rightarrow\:M_3=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_3=M'=M''$ per applicazione dell'assioma e 
+				la derivazione risulta deterministica.  
+	\end{enumerate} 
+	In tutti e 3 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
+	è dimostrata.\\	
+	
+	
+		\item Tesi: $M=M_1\:M_2 \:\rightarrow\: M', \:M_1\:M_2 \:\rightarrow$ M'' $\implies$ M'=M''\\
+	\indent Per ipotesi induttiva: 
+	\begin{itemize}
+		\item Se $M_1 \:\rightarrow \: M_1'$ e $M_1 \:\rightarrow \: M_1''$ allora $M_1'=M_1''$;
+		\item Se $M_2 \:\rightarrow \: M_2'$ e $M_2 \:\rightarrow \: M_2''$ allora $M_2'=M_2''$.
+	\end{itemize}  
+	2 Casi possibili:
+	\begin{enumerate}[label=\alph*)]
+		\item Derivazione tramite l'uso della regola (APP1): 
+		\begin{prooftree}
+					\AxiomC{$M_1\:\rightarrow\:M_1'$}
+					\LeftLabel{\textsc{(APP1)}}
+					\UnaryInfC{$M_1\:M_2 \:\rightarrow \: M_1'\:M_2=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_1'=M_1''$ per ipotesi 
+						induttiva e quindi anche $M'=M''$;\\
+				\indent La derivazione risulta deterministica applicando questa regola.
+		\item Derivazione tramite l'uso della regola (APP2): 
+		\begin{prooftree}
+					\AxiomC{$M_2\:\rightarrow\:M_2'$}
+					\LeftLabel{\textsc{(APP2)}}
+					\UnaryInfC{$v_1\:M_2 \:\rightarrow \: v_1\:M_2'=M'$}
+				\end{prooftree} 
+				\indent In questo caso $M_2'=M_2''$ per ipotesi 
+						induttiva e quindi anche $M'=M''$;\\
+				\indent La derivazione risulta deterministica applicando questa regola. 
+	\end{enumerate} 
+	In tutti e 2 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
+	è dimostrata.\\	
+	
+	
+		\item Tesi: $M=fn\:x.M\:v\:\rightarrow \:M{x:=v}=M'$, $fn\:x.M\:v\:\rightarrow \:M{x:=v}=M''\implies$ M'=M''\\  
+ 	Derivazione tramite l'uso dell'assioma (BETA): 
+		\begin{prooftree}
+					\AxiomC{}
+					\LeftLabel{\textsc{(BETA)}}
+					\UnaryInfC{$fn\:x.M\:v\:\rightarrow \:M{x:=v}=M'$}
+				\end{prooftree} 
+				\indent Tramite l'applicazione dell'assioma si ottiene M{x:=v}=M'=M''.\\
+				\indent La derivazione risulta quindi deterministica e la tesi risulta dimostrata.\\	
+\end{itemize}
+
+La derivazione è determinstica all'applicazione di tutte le regole e gli assiomi del linguaggio, di conseguenza è deterministica l'esecuzione del programma.\\ 
+\begin{flushright}
+$\Box$
+\end{flushright}
+
+
+\subsubsection*{Esercizio 1.5}
+Descrivere la valutazione del termine ((fn x.3) (fn y.y)) ((fn z.if z then 1 else 0) (false)).
+Modificare le regole di valutazione in modo tale che, mantenendo una strategia call-by-value, il termine precedente evolva in un termine stuck in meno passi di riduzione. Scrivere le regole di valutazione della strategia call-by-name e valutare il termine precedente secondo questa strategia.\\
+
+\subparagraph{Svolgimento}
+Valutazione tramite strategia call-by-value: 
+passo 1
+\begin{prooftree} 
+	\AxiomC{}
+	\LeftLabel{\textsc{(BETA)}}
+	\UnaryInfC{$(\fn x.3)(\fn y.y)\: \rightarrow \:3$}
+	\LeftLabel{\textsc{(APP1)}}
+	\UnaryInfC{$((\fn x.3)(\fn y.y))\:((\fn z.if\:z\:then\:1\:else\:0)(false))\: \rightarrow 
+	\:3\:((\fn z.if\:z\:then\:1\:else\:0)(false))$}
+\end{prooftree}
+passo 2
+\begin{prooftree} 
+	\AxiomC{}
+	\LeftLabel{\textsc{(BETA)}}
+	\UnaryInfC{$(\fn z.if\:z\:then\:1\:else\:0)(false)\: \rightarrow \:if\:false\:then\:1\:else\:0$}
+	\LeftLabel{\textsc{(APP2)}}
+	\UnaryInfC{$3\:((\fn z.if\:z\:then\:1\:else\:0)(false))\: \rightarrow 
+	\:3\:(if\:false\:then\:1\:else\:0)$}
+\end{prooftree}
+passo 3
+\begin{prooftree} 
+	\AxiomC{}
+	\LeftLabel{\textsc{(IF-FALSE)}}
+	\UnaryInfC{$if\:false\:then\:1\:else\:0\: \rightarrow \:0$}
+	\LeftLabel{\textsc{(APP2)}}
+	\UnaryInfC{$3\:(if\:false\:then\:1\:else\:0)\: \rightarrow 
+	\:3\:0$}
+\end{prooftree}
+
+3 0 costituisce uno stuck: non esistono regole o assiomi per continuare l'esecuzione di tale programma. Esecuzione terminata dopo 3 passi di derivazione. \\
+Si può mantenere la strategia CBV e terminare l'esecuzione in un numero minore di passi modificando (APP2):
+ 
+\begin{prooftree}
+	\AxiomC{$N\:\rightarrow\:N'$}
+	\LeftLabel{\textsc{(APP2)}}
+	\UnaryInfC{$(\fn x.M)\: N\:\rightarrow\:\fn x.M\:N'$} 
+\end{prooftree}
+
+In questo modo l'esecuzione del programma terminerebbe dopo un solo passo. Infatti, ci si ritroverebbe in una forma in cui non è possibile applicare alcuna regola o assioma (3 non è una funzione).\\
+
+Con una strategia CBN (Call-by-name) non ho (APP2) e la funzione (BETA) è la seguente:
+
+\begin{prooftree}
+	\AxiomC{$\checkmark$}
+	\LeftLabel{\textsc{(BETA)}} 
+	\UnaryInfC{$(\fn x.M)\: N\: \rightarrow \:M{x:=N}$}
+\end{prooftree}
+
+Con questa regola mostriamo l'esecuzione del programma:\\
+
+passo 1
+\begin{prooftree} 
+	\AxiomC{}
+	\LeftLabel{\textsc{(BETA)}}
+	\UnaryInfC{$(\fn x.3)(\fn y.y)\: \rightarrow \:3$}
+	\LeftLabel{\textsc{(APP1)}}
+	\UnaryInfC{$((\fn x.3)(\fn y.y))\:((\fn z.if\:z\:then\:1\:else\:0)(false))\: \rightarrow 
+	\:3\:((\fn z.if\:z\:then\:1\:else\:0)(false))$}
+\end{prooftree}
+
+Stuck! Non esistono regole o assiomi applicabili: APP1 non è applicabile in quanto 3 non è funzione.
+
+
+
+\subsubsection*{Esercizio 1.6}
+Consideriamo le seguenti definizioni in Scala:
+def square(x:Int):Int = x*x
+def sumOfSquare(x:Int,y:Int):Int = square(x)+square(y)
+ Descrivere i passi di riduzione dell’espressione sumOfSquare(3,4) secondo una strategia call-
+by-value analoga a quella definita nella sezione precedente. Descrivere inoltre la riduzione della
+stesa espressione secondo la strategia call-by-name.
+ Descrivere i passi di riduzione dell’espressione sumOfSquare(3,2+2) secondo le strategie call-
+by-value e call-by-name.\\
+
+\subparagraph{Svolgimento}
+
+
+\subsubsection*{Esercizio 1.7}
+Si consideri la seguente definizione in Scala:
+def test(x:Int, y:Int):Int = x*x
+confrontare la velocità (cioè il numero di passi) di riduzione delle seguenti espressioni secondo le strategie
+CBV e CBN, indicando quale delle due è piú veloce 
+\begin{enumerate}
+	\item test(2,3)
+	\item test(3+4,8)
+	\item test(7,2*4)
+	\item test(3+4,2*4)
+\end{enumerate}
+
+\subparagraph{Svolgimento}
+\begin{enumerate}
+	\item CBV=CBN: entrambi terminano l'esecuzione in 2 passi; 
+	\item CBV<CBN: CBV termina prima perchè valuta l'espressione 3+4 subito (una sola volta). CBN invece invocherà prima la funzione, sostituendo ad x l'espressione. Essendo x presente 2 volte nella funzione, la valutazione dovrà essere effettuata 2 volte. 
+	\item CBV>CBN: CBN termina prima perchè non valuta l'espressione 2*4 che non è utilizzata nella funzione test.
+	\item CBV=CBN: entrambi terminano l'esecuzione in 4 passi; la differenza sta nel fatto che con CBV si svolgeranno prima le due operazioni (somma e moltiplicazione) e poi si chiamerà la funzione. Con CBN invece, si eviterà di calcolare 2*4, tuttavia si calcolerà 3+4 due volte.
+\end{enumerate}
+
+
+
+\subsubsection*{Esercizio 1.8}
+Definire in Scala una funzione and che si comporta come il costrutto logico $x\&\&y$. 
+
+\subparagraph{Svolgimento}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{prooftree}
+	\AxiomC{$\checkmark$}
+	\LeftLabel{\textsc{(Sum)}}
+	\UnaryInfC{$2+1 \rightarrow 3$}
+	\LeftLabel{\textsc{(Minus-Right)}}
+	\UnaryInfC{$5-(2+1) \rightarrow 5 -3$}
+	\LeftLabel{\textsc{(App2)}}
+	\UnaryInfC{$(\fn x.x+x+x) \: \: 5-(2+1) \rightarrow (\fn x.x+x+x)\: (5-3)$}
+\end{prooftree}
