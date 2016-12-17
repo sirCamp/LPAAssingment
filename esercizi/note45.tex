@@ -1,0 +1,92 @@
+ 
+ 
+\subsubsection*{Esercizio 3.1}
+Provare che ogni sottotermine di un termine ben tipato e ben tipato.
+\subparagraph{Svolgimento}
+Per la risoluzione di questo esericizio e necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.
+
+\begin{description}
+
+ \item[Caso $0$] A questo livello il termine e congruo con il sottotermine di conseguenza se il termine e bentipato lo e anche il sottotermine
+
+ \item[Caso $n+1$ ] A questo livello il sottotermine e dato dai sottotermini dei passi $0$...$n$ e di conseguenza se questi sottotermini sono ben tipati allora lo sara anche questo.
+ Per induzione infatti sappiamo che se applico:
+ \begin{description}
+ \item[SUM] fdfdsf
+ \end{description}
+
+\end{description}
+ 
+\subsubsection*{Esercizio 3.2} 
+Dimostrare subject reduction per induzione sulla derivazione di $\Gamma\:\vdash$ M : T.
+
+\subsubsection*{Esercizio 3.4}
+
+Vale l'opposto di subject reduction, i.e. se $\Gamma\:\vdash$ $M'\: :  $T e $M\:\rightarrow\:$M', allora $\Gamma\:\vdash$ $M$ : $T$ (detto subject expansion)? Dimostrarlo oppure dare un controesempio.
+
+\subsubsection*{Esercizio 3.5}
+Se al posto della regola $(APP)\:$ si definisse la regola seguente:
+
+\begin{prooftree} 
+	\AxiomC{$\Gamma\:\vdash$ $M\: :  $T$\:\rightarrow\:$T}
+	\AxiomC{$\Gamma\:\vdash$ $N\ :$T}
+	
+	\LeftLabel{\textsc{(APP')}}
+	\BinaryInfC{$\Gamma\:\vdash$ $M$ $N$ : $T$  }
+\end{prooftree} 
+
+sarebbe ancora vero il teorema di safety?
+
+\subsubsection*{Esercizio 3.6}
+Se al posto delle regole $(APP)\:$ e $(FUN)\:$ si definissero le regole seguenti regole:
+\begin{prooftree} 
+	\AxiomC{$\Gamma\:\vdash$ $M\: :  $T$\:\rightarrow\:$T}
+	\AxiomC{$\Gamma\:\vdash$ $N\ :$T}
+	
+	\LeftLabel{\textsc{(APP')}}
+	\BinaryInfC{$\Gamma\:\vdash$ $M$ $N$ : $T$  }
+\end{prooftree} 
+
+e
+
+
+\begin{prooftree} 
+	\AxiomC{$\Gamma\:$, x : $T1\vdash$ $M\: : $T}
+	\AxiomC{}
+	\LeftLabel{\textsc{(FUN')}}
+	\BinaryInfC{$\Gamma\:\vdash$ $fn$ x : $T1.M:\rightarrow\:$T  } 
+\end{prooftree} 
+
+sarebbe ancora vero il teorema di safety?
+
+\subsubsection*{Esercizio 3.6}
+Se si aggiungessero al sistema di tipi i seguenti due assiomi
+
+\begin{prooftree} 
+	\AxiomC{}
+	\AxiomC{}
+	\LeftLabel{\textsc{(TRUE')}}
+	\BinaryInfC{$\Gamma\:\vdash$ true : $Nat$  } 
+\end{prooftree}
+
+e
+
+\begin{prooftree} 
+	\AxiomC{}
+	\AxiomC{}
+	\LeftLabel{\textsc{(FALSE')}}
+	\BinaryInfC{$\Gamma\:\vdash$ false : $Nat$  } 
+\end{prooftree}
+
+sarebbe ancora vero il teorema di safety?
+\subsubsection*{Esercizio 3.7}
+
+Dimostrare il seguente fatto: se $\Gamma\:\vdash$ $M\: :  $T e derivabile allora  \textit{fv($M$)}  $\subseteq$ \textit{Dom($\Gamma$)}
+\subsubsection*{Esercizio 3.8}
+Ricostruire il tipo dei seguenti termini:
+\begin{itemize}
+\item $fn$ $x$:$T1.fn$ $y$:$T2.if$ $y$ then $x$ else true
+\item $fn$ $x:Nat:\rightarrow\:$Bool.x
+\item $fn$ $f:T.fn$ $x:T'.f$(if true  then  $x$  else  $f$ $x$)
+\item $fn$ $f:T1.fn$ $g:T2.$if ($f$ ($g$ true))then $f$ ($fn$ $x:$T3.true) else $f$($fn$ $x:T4.x$)
+\end{itemize}
