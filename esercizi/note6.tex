@@ -1,0 +1,93 @@
+\section{Estensioni del linguaggio (note 6)}
+\subsection*{Esercizio 4.1}
+Discutere quali altri regole/strategie di riduzione sono possibili per i termini coppia. 
+
+\subsubsection*{Svolgimento}
+Si potrebbero modificare le regole PAIR 1 e PAIR 2 e mantenere le altre:  
+
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(PAIR-NOT-EVAL 1)}}
+	\UnaryInfC{(M$_1$, M$_2$).\_1 $\rightarrow$ M$_1$}
+\end{prooftree}
+
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(PAIR-NOT-EVAL 2)}}
+	\UnaryInfC{(M$_1$, M$_2$).\_2 $\rightarrow$ M$_2$}
+\end{prooftree}
+
+In questo modo non serve valutare i termini M$_1$ e M$_2$ prima di fare la proiezione. A seguito della proiezione, solo il termine estratto viene valutato. Le regole PROJECT 1 e PROJECT 2 vanno mantenute perche' il termine M potrebbe per esempio essere il risultato di una funzione ed e' necessario che ci siano delle regole di derivazione che portino ad uno stato in cui sono applicabili le due aggiunte. EVAL PAIR 1 ed EVAL PAIR 2, invece, vanno mantenute perche' la coppia, ammesso che contenga valori finali, e' un buon termine finale anch'essa. Di conseguenza, non e' necessario che venga estratto uno dei due valori perche' l'esecuzione si possa definire corretta e nel caso in cui ci si trovi come termine finale una coppia con valori non finali, e' necessaria una regola di valutazione che porti avanti l'esecuzione.
+
+\subsection*{Esercizio 4.2}
+Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1 e (fn x : Nat $\ast$ Nat.x.\_2) (4 $-$ 2, 3 $+$ 1).
+
+\subsubsection*{Svolgimento}
+
+\textbf{Termine 1: (4 $-$ 1, if true then false else false).\_1} 
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(MINUS)}}
+	\UnaryInfC{4 $-$ 1 $\rightarrow$ 3}
+	\LeftLabel{\textsc{(EVAL PAIR 1)}}
+	\UnaryInfC{(4 $-$ 1, if true then false else false) $\rightarrow$ (3, if true then false else false)}
+	\LeftLabel{\textsc{(PROJECT 1)}}
+	\UnaryInfC{(4 $-$ 1, if true then false else false).\_1 $\rightarrow$ (3, if true then false else false).\_1}
+\end{prooftree}
+
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(IF-TRUE)}}
+	\UnaryInfC{if true then false else false $\rightarrow$ false}
+	\LeftLabel{\textsc{(EVAL PAIR 2)}}
+	\UnaryInfC{(3, if true then false else false) $\rightarrow$ (3, false)}
+	\LeftLabel{\textsc{(PROJECT 2)}}
+	\UnaryInfC{(3, if true then false else false).\_1 $\rightarrow$ (3, false).\_1}
+\end{prooftree}
+
+\begin{prooftree}
+	\AxiomC{} 
+	\LeftLabel{\textsc{(PAIR 1)}}
+	\UnaryInfC{(3, false).\_1 $\rightarrow$ 3}
+\end{prooftree}
+
+
+\textbf{Termine 2: (fn x : Nat $\ast$ Nat.x.\_2) (4 $-$ 2, 3 $+$ 1)} 
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(MINUS)}}
+	\UnaryInfC{4 $-$ 2 $\rightarrow$ 2}
+	\LeftLabel{\textsc{(EVAL PAIR 1)}}
+	\UnaryInfC{(4 $-$ 2, 3 $+$ 1) $\rightarrow$ (2, 3 $+$ 1)}
+	\LeftLabel{\textsc{(APP2)}}
+	\UnaryInfC{(fn x : Nat $\ast$ Nat.x.$\_$2) (4 $-$ 2, 3 $+$ 1) $\rightarrow$ (fn x : Nat $\ast$ Nat.x.$\_$2) (2, 3 $+$ 1)}
+\end{prooftree}
+
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{\textsc{(SUM)}}
+	\UnaryInfC{3 $+$ 1 $\rightarrow$ 4}
+	\LeftLabel{\textsc{(EVAL PAIR 1)}}
+	\UnaryInfC{(2, 3 $+$ 1) $\rightarrow$ (2, 4)}
+	\LeftLabel{\textsc{(APP2)}}
+	\UnaryInfC{(fn x : Nat $\ast$ Nat.x.$\_$2) (2, 3 $+$ 1) $\rightarrow$ (fn x : Nat $\ast$ Nat.x.$\_$2) (2, 4)}
+\end{prooftree}
+	 
+\begin{prooftree}
+	\AxiomC{} 
+	\LeftLabel{\textsc{(BETA)}}
+	\UnaryInfC{(fn x : Nat $\ast$ Nat.x.$\_$2) (2, 4) $\rightarrow$ (2, 4).$\_$2}
+\end{prooftree}	 
+	 
+\begin{prooftree}
+	\AxiomC{} 
+	\LeftLabel{\textsc{(PAIR 2)}}
+	\UnaryInfC{(2, 4).$\_$2 $\rightarrow$ 4}
+\end{prooftree}	 
+	 
+	 
+\subsection*{Esercizio 4.3}
+Dimostrare il teorema di safety per il linguaggio contenente interi, booleani, funzioni e records.
+
+\textbf{{\color{red} DA FARE}}
+	

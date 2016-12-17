@@ -1,13 +1,13 @@
-\subsection{Il mini linguaggio funzionale (note 2)}
-\subsubsection*{Esercizio 1.1}
+\section{Il mini linguaggio funzionale (note 2)}
+\subsection*{Esercizio 1.1}
 La relazione di riduzione data definisce una strategia efficiente per la valutazione del ter-
 mine if-then-else, che permette cioè di valutare unicamente il ramo scelto dalla valutazione della guardia
 booleana. Ridefinire la semantica operazionale del linguaggio in modo che adotti una strategia non efficiente per il costrutto if-then-else, valutando entambi i rami del costrutto condizionale.
 
-\subparagraph{Svolgimento}
+\subsubsection*{Svolgimento}
 Per ottenere una semantica meno efficiente, si cambiano gli assiomi (IF-TRUE) e (IF-FALSE) e si aggiungono le regole (THEN) ed (ELSE). (IF) si mantiene tale.
 
-\subparagraph{Assiomi}
+\paragraph{Assiomi}
 \begin{prooftree}
 	\AxiomC{}
 	\LeftLabel{\textsc{(IF-TRUE)}}
@@ -20,7 +20,7 @@ Per ottenere una semantica meno efficiente, si cambiano gli assiomi (IF-TRUE) e 
 	\UnaryInfC{$if \: FALSE \: then \: v_1 \: else \: v_2 \rightarrow \: v_2$}
 \end{prooftree}
 
-\subparagraph{Regole}
+\paragraph{Regole}
 \begin{prooftree}
 	\AxiomC{$M_2 \rightarrow \: M_2'$}
 	\LeftLabel{\textsc{(THEN)}}
@@ -35,12 +35,12 @@ Per ottenere una semantica meno efficiente, si cambiano gli assiomi (IF-TRUE) e 
 	if \: v_1 \: then \: v_2 \: else \: M_3'$} 
 \end{prooftree} 
 
-\subsubsection*{Esercizio 1.4}
+\subsection*{Esercizio 1.4}
 La valutazione, cioè l’esecuzione del programma, è deterministica. Se $M \rightarrow$ M' e
 $M \rightarrow$ M'' allora M'=M''.\\
 Dimostrare la proposizione precedente per induzione sulla struttura del termine M.
 
-\subparagraph{Dimostrazione}
+\subsubsection*{Dimostrazione}
 Si dimostra per induzione sulla derivazione.
 
 Casi base:
@@ -223,12 +223,11 @@ La derivazione è determinstica all'applicazione di tutte le regole e gli assiom
 $\Box$
 \end{flushright}
 
-
-\subsubsection*{Esercizio 1.5}
+\subsection*{Esercizio 1.5}
 Descrivere la valutazione del termine ((fn x.3) (fn y.y)) ((fn z.if z then 1 else 0) (false)).
 Modificare le regole di valutazione in modo tale che, mantenendo una strategia call-by-value, il termine precedente evolva in un termine stuck in meno passi di riduzione. Scrivere le regole di valutazione della strategia call-by-name e valutare il termine precedente secondo questa strategia.\\
 
-\subparagraph{Svolgimento}
+\subsubsection*{Svolgimento}
 Valutazione tramite strategia call-by-value: \\
 \textbf{passo 1}
 \begin{prooftree} 
@@ -293,7 +292,7 @@ Stuck! Non esistono regole o assiomi applicabili: APP1 non è applicabile in qua
 
 
 
-\subsubsection*{Esercizio 1.6}
+\subsection*{Esercizio 1.6}
 Consideriamo le seguenti definizioni in Scala:
 def square(x:Int):Int = x*x
 def sumOfSquare(x:Int,y:Int):Int = square(x)+square(y)
@@ -302,7 +301,7 @@ by-value analoga a quella definita nella sezione precedente. Descrivere inoltre 
 stesa espressione secondo la strategia call-by-name.
  Descrivere i passi di riduzione dell’espressione sumOfSquare(3,2+2) secondo le strategie call-by-value e call-by-name.
 
-\subparagraph{Svolgimento}
+\subsubsection*{Svolgimento}
 Caso sumOfSquare(3,4).\\
 CBV si comporta come CBN.\\
 
@@ -444,7 +443,7 @@ CBN:\\
 
 I passi di esecuzione sono 8 in questo caso (CBN).
 
-\subsubsection*{Esercizio 1.7}
+\subsection*{Esercizio 1.7}
 Si consideri la seguente definizione in Scala:
 def test(x:Int, y:Int):Int = x*x
 confrontare la velocità (cioè il numero di passi) di riduzione delle seguenti espressioni secondo le strategie
@@ -456,7 +455,7 @@ CBV e CBN, indicando quale delle due è piú veloce
 	\item test(3+4,2*4)
 \end{enumerate}
 
-\subparagraph{Svolgimento}
+\subsubsection*{Svolgimento}
 \begin{enumerate}
 	\item CBV=CBN: entrambi terminano l'esecuzione in 2 passi; 
 	\item CBV<CBN: CBV termina prima perchè valuta l'espressione 3+4 subito (una sola volta). CBN invece invocherà prima la funzione, sostituendo ad x l'espressione. Essendo x presente 2 volte nella funzione, la valutazione dovrà essere effettuata 2 volte. 
@@ -466,10 +465,10 @@ CBV e CBN, indicando quale delle due è piú veloce
 
 
 
-\subsubsection*{Esercizio 1.8}
+\subsection*{Esercizio 1.8}
 Definire in Scala una funzione and che si comporta come il costrutto logico $x\&\&y$. 
 
-\subparagraph{Svolgimento}
+\subsubsection*{Svolgimento}
 
 \begin{lstlisting}
 // and logico. b1 e b2 passati by-name 
