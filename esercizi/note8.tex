@@ -1,8 +1,139 @@
 \section{Eccezioni (note 8)}
 \subsection*{Esercizio 6.1}
 Si dia la semantica operazionale dei termini indicati sopra, osservando come il sollevamento delle eccezioni comporti un salto non locale del flusso di controllo.
+Sia M = fn x.(if pari(x) then x/2 else throw x)
+\begin{itemize}
+	\item try (M 3) catch fn y.y + y
+	\item try (fn y.y - 2 (M 5)) catch fn z.print(z)
+	\item try (fn y.y - 2 (M throw 2)) catch fn z.print(z)
+	\item try (fn y.y - 2 (try (M 5) catch fn z.z+z)) catch fn z.print(z)
+	\item try (fn x.x throw 1) (try (M 5) catch fn z.z+z) catch fn z.print(z)
+\end{itemize}  
 
-\textbf{{\color{red} DA FARE}}
+\subsubsection*{Svolgimento} 
+
+\paragraph{a) try (M 3) catch fn y.y + y}\mbox{}
+
+\textbf{passo 1} 
+\begin{prooftree} 
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{M 3 = fn x.(if pari(x) then x/2 else throw x) 3 $\rightarrow$ if pari(3) then 3/2 else throw 3}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (M 3) catch fn y.y + y $\rightarrow$ try (if pari(3) then 3/2 else throw 3) catch fn y.y + y}
+\end{prooftree}
+
+\textbf{passo 2} \\		
+\scalebox{.9}{
+\parbox{1cm}{
+\begin{prooftree} 
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{pari(3) $\rightarrow$ false}
+	\LeftLabel{\textsc{(IF)}}
+	\UnaryInfC{if pari(3) then 3/2 else throw 3 $\rightarrow$ if false then 3/2 else throw 3}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (if pari(3) then 3/2 else throw 3) catch fn y.y + y $\rightarrow$ try (if false then 3/2 else throw 3) catch fn y.y + y}
+\end{prooftree}}
+}
+
+\textbf{passo 3} 
+\begin{prooftree}  
+	\AxiomC{\textsc{(IF-FALSE)}}
+	\UnaryInfC{if false then 3/2 else throw 3 $\rightarrow$ throw 3}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (if false then 3/2 else throw 3) catch fn y.y + y $\rightarrow$ try (throw 3) catch fn y.y + y}
+\end{prooftree}
+
+\textbf{passo 4} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(TRY HANDLE)}}
+	\UnaryInfC{try (throw 3) catch fn y.y + y $\rightarrow$ fn y.y + y 3}
+\end{prooftree}
+
+\textbf{passo 5} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{fn y.y + y 3 $\rightarrow$ 3 + 3}
+\end{prooftree}
+
+\textbf{passo 6} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(SUM)}}
+	\UnaryInfC{3 + 3 $\rightarrow$ 6}
+\end{prooftree}
+
+
+\paragraph{b) try (fn y.y - 2 (M 5)) catch fn z.print(z)}\mbox{}
+
+\textbf{passo 1} 
+\begin{prooftree} 
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{M 5 = fn x.(if pari(x) then x/2 else throw x) 5 $\rightarrow$ if pari(5) then 5/2 else throw 5}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{fn y.y - 2 (M 5) $\rightarrow$ fn y.y - 2 (M\{x=5\})}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (M 5)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (M\{x=5\})) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 2} 
+\begin{prooftree} 
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{pari(5) $\rightarrow$ false}
+	\LeftLabel{\textsc{(IF)}}
+	\UnaryInfC{(M\{x=5\}) = if pari(5) then 5/2 else throw 5 $\rightarrow$ if false then 5/2 else throw 5}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{fn y.y - 2 (M\{x=5\}) $\rightarrow$ fn y.y - 2 (M'\{x=5\})}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (M\{x=5\})) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (M'\{x=5\})) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 3} 
+\begin{prooftree} 
+	\AxiomC{\textsc{(IF-FALSE)}}
+	\UnaryInfC{(M'\{x=5\}) = if false then 5/2 else throw 5 $\rightarrow$ throw 5}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{fn y.y - 2 (M'\{x=5\}) $\rightarrow$ fn y.y - 2 (throw 5)}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (M'\{x=5\})) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (throw 5)) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 4} 
+\begin{prooftree}  
+	\AxiomC{\textsc{(RAISE APP 2)}}
+	\UnaryInfC{fn y.y - 2 (throw 5) $\rightarrow$ (throw 5)}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (throw 5)) catch fn z.print(z) $\rightarrow$ try (throw 5) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 5} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(TRY HANDLE)}}
+	\UnaryInfC{try (throw 5) catch fn z.print(z) $\rightarrow$ fn z.print(z) 5}
+\end{prooftree}
+
+\textbf{passo 6} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{fn z.print(z) 5 $\rightarrow$ print(5)}
+\end{prooftree}
+
+\textbf{passo 7} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{print(5) $\rightarrow$ "stampa 5"}
+\end{prooftree}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection*{Esercizio 6.2}
