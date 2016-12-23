@@ -7,7 +7,7 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\item try (fn y.y - 2 (M 5)) catch fn z.print(z)
 	\item try (fn y.y - 2 (M throw 2)) catch fn z.print(z)
 	\item try (fn y.y - 2 (try (M 5) catch fn z.z+z)) catch fn z.print(z)
-	\item try (fn x.x throw 1) (try (M 5) catch fn z.z+z) catch fn z.print(z)
+	\item try ((fn x.x throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z)
 \end{itemize}  
 
 \subsubsection*{Svolgimento} 
@@ -122,9 +122,174 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{print(5) $\rightarrow$ "stampa 5"}
 \end{prooftree}
 
+\paragraph{c) try (fn y.y - 2 (M throw 2)) catch fn z.print(z)}\mbox{}
+
+\textbf{passo 1} 
+\begin{prooftree} 
+	\AxiomC{\textsc{(RAISE APP 2)}}
+	\UnaryInfC{M throw 2 = fn x.(if pari(x) then x/2 else throw x) throw 2 $\rightarrow$ throw 2}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{fn y.y - 2 (M throw 2) $\rightarrow$ fn y.y - 2 (throw 2)}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (M throw 2)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (throw 2)) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 2} 
+\begin{prooftree}  
+	\AxiomC{\textsc{(RAISE APP 2)}}
+	\UnaryInfC{fn y.y - 2 (throw 2) $\rightarrow$ throw 2}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (throw 2)) catch fn z.print(z) $\rightarrow$ try (throw 2) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 3} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(TRY HANDLE)}}
+	\UnaryInfC{try (throw 2) catch fn z.print(z) $\rightarrow$ fn z.print(z) 2}
+\end{prooftree}
+
+\textbf{passo 4} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{fn z.print(z) 2 $\rightarrow$ print(2)}
+\end{prooftree}
+
+\textbf{passo 5} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{print(2) $\rightarrow$ "stampa 2"}
+\end{prooftree}
 
 
+\paragraph{d) try (fn y.y - 2 (try (M 5) catch fn z.z+z)) catch fn z.print(z)}\mbox{}
 
+\textbf{passo 1} \\		
+\scalebox{.75}{
+\parbox{1cm}{ 
+\begin{prooftree} 
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{M 5 = fn x.(if pari(x) then x/2 else throw x) 5 $\rightarrow$ if pari(5) then 5/2 else throw 5}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (M 5) catch fn z.z+z $\rightarrow$ try (M\{x=5\}) catch fn z.z+z}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{(fn y.y - 2 (try (M 5) catch fn z.z+z)) $\rightarrow$ (fn y.y - 2 (try (M\{x=5\}) catch fn z.z+z))}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (try (M 5) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (try (M\{x=5\}) catch fn z.z+z)) catch fn z.print(z)}
+\end{prooftree}}}
+
+\textbf{passo 2} \\		
+\scalebox{.70}{
+\parbox{1cm}{ 
+\begin{prooftree} 
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{pari(5) $\rightarrow$ false}
+	\LeftLabel{\textsc{(IF)}}
+	\UnaryInfC{M\{x=5\} = if pari(5) then 5/2 else throw x $\rightarrow$ if false then 5/2 else throw 5}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (M\{x=5\}) catch fn z.z+z $\rightarrow$ try (M'\{x=5\}) catch fn z.z+z}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{(fn y.y - 2 (try (M\{x=5\}) catch fn z.z+z)) $\rightarrow$ (fn y.y - 2 (try (M'\{x=5\}) catch fn z.z+z))}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (try (M\{x=5\}) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (try (M'\{x=5\}) catch fn z.z+z)) catch fn z.print(z)}
+\end{prooftree}}}
+
+\textbf{passo 3}  \\		
+\scalebox{.73}{
+\parbox{1cm}{
+\begin{prooftree}  
+	\AxiomC{\textsc{(IF-FALSE)}}
+	\UnaryInfC{M'\{x=5\} = if false then 5/2 else throw x $\rightarrow$ throw 5}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (M'\{x=5\}) catch fn z.z+z $\rightarrow$ try (throw 5) catch fn z.z+z}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{(fn y.y - 2 (try (M'\{x=5\})) $\rightarrow$ (fn y.y - 2 (try (throw 5) catch fn z.z+z))}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (try (M'\{x=5\}) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (try (throw 5) catch fn z.z+z)) catch fn z.print(z)}
+\end{prooftree}}}
+
+\textbf{passo 4}  \\		
+\scalebox{.9}{
+\parbox{1cm}{
+\begin{prooftree}   
+	\AxiomC{\textsc{(TRY HANDLE)}}
+	\UnaryInfC{try (throw 5) catch fn z.z+z $\rightarrow$ 5+5}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{(fn y.y - 2 (try (throw 5) catch fn z.z+z)) $\rightarrow$ fn y.y - 2 (5+5)}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (try (throw 5) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (5+5)) catch fn z.print(z)}
+\end{prooftree}}}
+
+\textbf{passo 5} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(SUM)}}
+	\UnaryInfC{5+5 $\rightarrow$ 10}
+	\LeftLabel{\textsc{(APP 2)}}
+	\UnaryInfC{fn y.y - 2 (5+5) $\rightarrow$ fn y.y - 2 (10)}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (5+5)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (10)) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 6} 
+\begin{prooftree}    
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{fn y.y - 2 (10) $\rightarrow$ 10-2}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (fn y.y - 2 (10)) catch fn z.print(z) $\rightarrow$ try (10-2) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 7} 
+\begin{prooftree}    
+	\AxiomC{\textsc{(MINUS)}}
+	\UnaryInfC{10-2 $\rightarrow$ 8}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try (10-2) catch fn z.print(z) $\rightarrow$ try (8) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 8} 
+\begin{prooftree}     
+	\AxiomC{\textsc{(TRY VAL)}}
+	\UnaryInfC{try (8) catch fn z.print(z) $\rightarrow$ 8}
+\end{prooftree}
+
+\paragraph{e) try ((fn x.x throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z)}\mbox{}
+
+\textbf{passo 1}  \\		
+\scalebox{.75}{
+\parbox{1cm}{
+\begin{prooftree}  
+	\AxiomC{\textsc{(RAISE APP 2)}}
+	\UnaryInfC{fn x.x throw 1 $\rightarrow$ throw 1}
+	\LeftLabel{\textsc{(APP 1)}}
+	\UnaryInfC{(fn x.x throw 1) (try (M 5) catch fn z.z+z) $\rightarrow$ (throw 1) (try (M 5) catch fn z.z+z)}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try ((fn x.x throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try ((throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z)}
+\end{prooftree}}}
+
+\textbf{passo 2} 
+\begin{prooftree}   
+	\AxiomC{\textsc{(RAISE APP 1)}}
+	\UnaryInfC{(throw 1) (try (M 5) catch fn z.z+z) $\rightarrow$ throw 1}
+	\LeftLabel{\textsc{(TRY)}}
+	\UnaryInfC{try ((throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try (throw 1) catch fn z.print(z)}
+\end{prooftree}
+
+\textbf{passo 3} 
+\begin{prooftree}    
+	\AxiomC{\textsc{(TRY HANDLE)}}
+	\UnaryInfC{try (throw 1) catch fn z.print(z) $\rightarrow$ fn z.print(z) 1}
+\end{prooftree}
+
+\textbf{passo 4} 
+\begin{prooftree}    
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{fn z.print(z) 1 $\rightarrow$ print(1)}
+\end{prooftree}
+
+\textbf{passo 5} 
+\begin{prooftree}    
+	\AxiomC{\textsc{(BETA)}}
+	\UnaryInfC{print(1) $\rightarrow$ "stampa 1"}
+\end{prooftree}
 
 
 
@@ -141,9 +306,8 @@ Si definisca la semantica operazionale per il liguaggio esteso con i costrutti v
 
 
 \textbf{{\color{red} DA FARE}}
-
+Si intende aggiungere le regole per unit, record e varianti considerando le varianti con TRY e catch?
 
 \subsection*{Esercizio 6.3}
-Si ridimostri il teorema di safety per il linguaggio contenente interi, booleani, funzioni, records, tipi varianti ed eccezioni.
 
-\textbf{{\color{red} DA FARE? Non lo so, non l'ho scritto negli appunti,credo di no}}
+\textbf{{\color{red} teorema di safety DA FARE? Non lo so, Giacomo mi ha detto che non gli sembra}}
