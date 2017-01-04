@@ -1,25 +1,128 @@
 \section{Subtyping (note 9)}
 \subsection*{Esercizio 7.1}
-Scrivere le derivazioni dei giudizi (indicarli) 
-\textbf{{\color{red} DA FARE}}
+Scrivere le derivazioni dei giudizi:
+\begin{itemize}
+	\item \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{\}\}
+	\item \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{m:Nat\}\}	
+	\item \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}\}
+\end{itemize} 
+
+\subsubsection*{Svolgimento}
+ 
+\textbf{A): \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{\}\}}
+	
+\begin{prooftree} 
+	\AxiomC{(SUB-WIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ l:\{a:Nat, b:Nat\}<: l:\{a:Nat\}}
+	\AxiomC{(SUB-WIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ l':\{m:Nat\}<: l':\{\}}
+	\LeftLabel{\textsc{(SUB-DEPTH)}}
+	\BinaryInfC{$\emptyset\:\vdash$ \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{\}\}}
+\end{prooftree}
+ 
+\textbf{B): \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{m:Nat\}\}}
+	
+\begin{prooftree} 
+	\AxiomC{(SUB-WIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ l:\{a:Nat, b:Nat\}<: l:\{a:Nat\}}
+	\AxiomC{(REFLEX)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ l':\{m:Nat\}<: l':\{m:Nat\}}
+	\LeftLabel{\textsc{(SUB-DEPTH)}}
+	\BinaryInfC{$\emptyset\:\vdash$ \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{m:Nat\}\}}
+\end{prooftree}
+
+\textbf{C): \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}\}}
+	
+\scalebox{.85}{
+\parbox{1cm}{
+\begin{prooftree} 	
+	\AxiomC{(SUB-WIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ l:\{a:Nat, b:Nat\} <: l:\{a:Nat\}}
+	\AxiomC{(SUB-WIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ l':\{m:Nat\}<: l':\{\}}
+	\LeftLabel{\textsc{(SUB-DEPTH)}}
+	\BinaryInfC{$\emptyset\:\vdash$ \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{\}\}}
+	\AxiomC{(SUB-WIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ \{l:\{a:Nat\}, l':\{\}\} <: \{l:\{a:Nat\}\}}
+	\LeftLabel{\textsc{(TRANS)}}
+	\BinaryInfC{$\emptyset\:\vdash$ \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}\}}
+\end{prooftree}}}
 
 \subsection*{Esercizio 7.2}
-Si scriva la derivazione di ${a:Nat, b:Bool, c:Nat} <: {b:Bool}$ 
-\textbf{{\color{red} DA FARE}}
+Si scriva la derivazione di \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool\} 
+
+\subsubsection*{Svolgimento}
+\scalebox{.85}{
+\parbox{1cm}{
+ \begin{prooftree} 
+	\AxiomC{\{a:Nat, b:Bool, c:Nat\} e' permutazione di \{b:Bool, a:Nat, c:Nat\}}
+	\LeftLabel{\textsc{PERMUTE}}
+	\UnaryInfC{$\emptyset\:\vdash$ \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool, a:Nat, c:Nat\}}
+	\AxiomC{(SUB-WIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ \{b:Bool, a:Nat, c:Nat\} <: \{b:Bool\}}
+	\LeftLabel{\textsc{(TRANS)}}
+	\BinaryInfC{$\emptyset\:\vdash$ \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool\}}
+\end{prooftree} }}
 
 \subsection*{Esercizio 7.3}
 
-Dare la derivazione del giudizio. Esiste
-una sola derivazione di questo giudizio? 
-\textbf{{\color{red} DA FARE}}
+Dare la derivazione del giudizio $\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat. Esiste una sola derivazione di questo giudizio? 
+
+\subsubsection*{Svolgimento}
+\scalebox{.75}{
+\parbox{1cm}{
+ \begin{prooftree} 
+	\AxiomC{r.l:Nat $\in\:\Gamma$}	
+	\LeftLabel{\textsc{(VAR)}}
+	\UnaryInfC{$\emptyset$, r:\{l:Nat\} $\vdash$ r.l:Nat}
+	\AxiomC{(NAT)}	
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset$, r:\{l:Nat\} $\vdash$ 2:Nat}
+	\LeftLabel{\textsc{(SUM)}}
+	\BinaryInfC{$\emptyset$, r:\{l:Nat\} $\vdash$ (r.l + 2):Nat}
+	\LeftLabel{\textsc{(FUN)}}
+	\UnaryInfC{$\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2):\{l:Nat\} $\rightarrow$ Nat}
+	\AxiomC{(NAT)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ 0:Nat}
+	\AxiomC{(NAT)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ 1:Nat}
+	\LeftLabel{\textsc{(TYPE-RECORD)}}
+	\BinaryInfC{$\emptyset\:\vdash$ \{l=0, l'=1\}:\{l:Nat, l':Nat\}}
+	\AxiomC{(SUBWIDTH)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{\{l:Nat, l':Nat\}<:\{l:Nat\}}
+	\LeftLabel{\textsc{(SUBSUMPTION)}}
+	\BinaryInfC{$\emptyset\:\vdash$ \{l=0, l'=1\}:\{l:Nat\}}
+	\LeftLabel{\textsc{(APP)}}
+	\BinaryInfC{$\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat}
+\end{prooftree} }}
 
 \subsection*{Esercizio 7.4}
 Quale potrebbbe essere la relazione di sottotipo dei variant types? 
-\textbf{{\color{red} DA FARE}}
+ 
+\subsubsection*{Svolgimento} 
+ \begin{prooftree} 
+	\AxiomC{$\Gamma$ $\vdash$ M : $T_j$}
+	\AxiomC{j $\in$ 1..n+k}	
+	\LeftLabel{\textsc{(SUBTYPE VARIANT)}}
+	\BinaryInfC{$\Gamma$ $\vdash$ <$l_j$ = M> : <$l_i$ : $T_i$\textsuperscript{i $\in$ 1..n}>} 
+\end{prooftree} 
+
+In questo modo, modificando TYPE VARIANT, si ottiene il subtyping in larghezza (WIDTH). Per ottenere il subtyping in profondita' (DEPTH) basta usare SUBSUMPTION.
 
 \subsection*{Esercizio 7.5}
 Quali proprieta' del sistema di tipi si perderebbero se avessimo definito la relazione di
-subtyping con una regola di troppo? E se l'avessimo definita con una regola in meno? ... 
+subtyping con una regola di troppo? E se l'avessimo definita con una regola in meno? E se l'avessimo definita con una regola in meno? Se avessimo definito le regole in modo tale che \{l : Nat\} <: \{l : Nat, l' : Nat\}, quale proprieta' del sistema non sarebbe piu' vera? Identificarla e darne un controesempio.
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 7.12}
@@ -28,5 +131,5 @@ di safety per il linguaggio con i record e il subtyping.
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 7.16}
-Torvare due termini M e N tali che ..
+Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Gamma\vdash$ N : S con S<::T e T<::S, cioe' esibire un caso in cui il tipo di un termine decresce durante la computazione. 
 \textbf{{\color{red} DA FARE}}

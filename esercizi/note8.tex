@@ -310,12 +310,14 @@ Si definisca la semantica operazionale per il liguaggio esteso con i costrutti v
 Non si aggiungono regole per gestire questo tipo.
 
 \textbf{Record:} 
+
 \begin{prooftree}    
 	\AxiomC{\textsc{(RAISE PROJECTION i)}}
-	\UnaryInfC{(throw v).\_i $\rightarrow$ throw v}
+	\UnaryInfC{{throw v}.i $\rightarrow$ throw v}
 \end{prooftree} 
 
 \textbf{Varianti:} 
+
 \begin{prooftree}    
 	\AxiomC{\textsc{(RAISE MATCH)}}
 	\UnaryInfC{$<l_j=v_j>$ match \{ throw v \} $\rightarrow$ throw v}
@@ -324,10 +326,9 @@ Non si aggiungono regole per gestire questo tipo.
 \begin{prooftree}    
 	\AxiomC{\textsc{(RAISE RED MATCH)}}
 	\UnaryInfC{throw v match \{ case $l_i=x_i=>M_i$\textsuperscript{i $\in$ 1..n} \} $\rightarrow$ throw v}
-\end{prooftree}
+\end{prooftree} 
 
-\textbf{{\color{red} DA FARE}}
-Si intende aggiungere le regole per unit, record e varianti considerando le varianti con TRY e catch?
+\textbf{{\color{red} DA FINIRE?}}
 
 \subsection*{Esercizio 6.3}
 
