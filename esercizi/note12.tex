@@ -1,9 +1,32 @@
 \section{Imperative Featherweight Java (note 12)}  
 \subsection*{Esercizio 9.2} 
+Scrivere una regola analoga per eliminare i riferimenti non piu' usati.
 \textbf{{\color{red} DA FARE}}
 
-\subsection*{Esercizio 9.3} 
+\subsection*{Esercizio 9.3}  
+Descrivere il comportamento del seguente programma:
+\begin{lstlisting}
+class D extends Object {
+	Object f;
+	D(Object f) { super(); this.f=f;}
+	Object m() { return this; }
+}
+ 
+class C extends D {
+	C(Object f) { super(f); }
+	Object m() {return this;}
+}
+
+Object z=new Object();
+C x=new C(z);
+C y=new D(x);
+x.m(); x=y; x.m()
+y.f=new Object();
+z=null; x.f=z; y.f.m();
+\end{lstlisting}
+
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 9.4} 
+Dare una derivazione di tipo per il termine C X=$O_1$; $O_1$.f=y; X=$O_2$
 \textbf{{\color{red} DA FARE}} 

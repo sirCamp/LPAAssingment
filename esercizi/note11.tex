@@ -1,18 +1,36 @@
 \section{Featherweight Java (note 11)}
 \subsection*{Esercizio 8.1} 
+Si noti che una class table puo' contenere definizioni di classi mutuamente ricorsive. Scrivere un esempio.
+
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 8.2} 
+Descrivere la semantica operazionale dei seguenti termini:
+\begin{itemize}
+	\item new Pair(new A(), new B()).snd
+	\item (Pair)new Pair(new A(), new B())
+	\item new Pair(new A(), new B()).setfst(new B())
+	\item ((Pair) (new Pair(new Pair(new A(), new B()), new A()).fst)).snd
+	\item  (B) ((A)new C())
+\end{itemize} 
+
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 8.3} 
+Scrivere un programma con override di un metodo e descriverne la valutazione, evidenziando il binding dinamico per la chiamata del metodo riscritto.
+
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 8.4} 
+Perche' c'e' una regola di tipo sia per l'upcast che per il downcast, mentre c'e' la sola regola di valutazione per upcast, nella semantica operazionale?
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 8.5} 
+Ha senso aggiungere a FJ la regola di subtyping per i tipi freccia A $\rightarrow$ B?
+
 \textbf{{\color{red} DA FARE}}
 
 \subsection*{Esercizio 8.12} 
+Aggiungere a FJ il termine ClassCastException: come cambia la semantica operazionale? Le regole di tipo? Il teorema di Safety e i teoremi di Preservazione e Progressione? Aggiungere in seguito anche la possibilita' di gestire le eccezioni.
+
 \textbf{{\color{red} DA FARE}}
