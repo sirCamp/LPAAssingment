@@ -7,22 +7,139 @@ Per la risoluzione di questo esericizio e necessario utilizzare il metodo dell'i
 
 \begin{description}
 
- \item[Caso $0$] A questo livello il termine e congruo con il sottotermine di conseguenza se il termine e bentipato lo e anche il sottotermine
+ \item[Caso Base $h=1$] A questo livello il termine e sottotermine coincidono. Quindi, il fatto che ogni sottotermine risulta essere ben tipato e' un assioma.
 
- \item[Caso $n+1$ ] A questo livello il sottotermine e dato dai sottotermini dei passi $0$...$n$ e di conseguenza se questi sottotermini sono ben tipati allora lo sara anche questo.
- Per induzione infatti sappiamo che se applico:
- \begin{description}
- \item[SUM] fdfdsf
+ \item[Caso Induttivo $h$ ] Questo caso e' composto dall'applicazione della regola e dai vari sottotermini che la riguardano. Quindi premesso che questa applicazione sia valida per $h = 0$ e che l'ipotesi sia vera anche per h allora per induzione vale anche su $h + 1$ e suoi sottotermini contenuti al passo $h$.
+ 
  \end{description}
-
-\end{description}
  
 \subsubsection*{Esercizio 3.2} 
 Dimostrare subject reduction per induzione sulla derivazione di $\Gamma\:\vdash$ M : T.
 
+\subparagraph*{Svolgimento}
+
+Si vuole quindi dimostrare che:
+
+\begin{center}
+	Se $\Gamma \vdash{} M : T$ e $M \to{} M'$, allora $\Gamma \vdash{} M' : T$.
+\end{center}
+%La dimostrazione per induzione va fatta sul numero di passi che $M$ portano a $M'$.
+%Dobbiamo ragionare su quella che e' la lunghezza dei cammini della derivazione:
+
+%Caso Base l = 0:\\
+%Otteniamo che $M$ = $M'$ e la tesi e' trivialmente vera.
+
+%Caso Induttivo l+1:\\
+%In questo passo ho che $M \rightarrow^{*}_l M_1 \rightarrow M'$, e per ipotesi induttiva ho che $\Gamma \vdash M_1 : T$.\\
+%A questo punto ho che $M_1 \rightarrow M'$ e quindi posso applicare subject-reduction per ottenere che $\Gamma \vdash M' : T$.
+
+%Ovviamente grazie ai teoremi di Sostituzione, Preservazione e Progressione so per certo che qualsiasi sia il contesto %il risultato non cambia
+
+\begin{description}
+
+
+ \item[TRUE] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \true{} :
+  \Bool$.
+  Il teorema \'e vacuamente vero per questa derivazione siccome
+  $\not \exists{M'}. M \to{} M'$.
+  
+ \item[False]
+  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \false{} : \Bool$.
+  Analogo a True.
+
+\item[Nat]
+  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} n : \Nat$. Analogo a True.
+
+\item[Var] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} x : T$.
+  Analogo a True.
+
+\item[Fun] $\Gamma \vdash{} M : T$ \'e
+  $\Gamma \vdash{} fn x\:T_1 C : T_1 \to{} T_2$. Analogo a True.
+  
+  \item[Sum]
+  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} A + B : \Nat$.
+ 
+  Per quanto assunto dalla regola di tipo \emph{Sum}, sappiamo per certo che
+  anche $A$ e $B$ hanno tipo $\Nat$ sotto contesto $\Gamma$.
+
+  Supponiamo che $A + B \to{} M'$ (sappiamo che $M'$ \'e unico poich\'e l'esecuzione
+   \'e  deterministica).Tale riduzione pu\'o essere:
+
+  \begin{itemize}
+    \item \emph{Sum}: $M' \equiv{} n$. Per la regola di tipo
+      \emph{Nat}, si ha che $T \equiv{} \Nat$ e che
+      $\Gamma{} \vdash{} M' : \Nat$;
+    \item \emph{Sum-Left}: $M' \equiv{} A' + B$. 
+    Per gli assunti della regola $\emph{Sum}$ ho che $\Gamma \vdash A : \Nat$ e per $\emph{Sum-Left}$ $A \to A'$.
+    Posso quindi applicare l'ipotesi induttiva\footnote{perch \'e  la derivazione $\Gamma \vdash A :\Nat$ richiede meno passaggi}
+    per ottenere il giudizio $ \Gamma \vdash A' : \Nat$.
+    Sono quindi soddisfatte le premesse della regola $\emph{Sum}$ per $M'$ e quindi  $\Gamma{} \vdash{} M' : \Nat \equiv T$;
+
+    \item \emph{Sum-Right}: $M' \equiv{} v + B'$. Il ragionamento  \'e  analogo al caso $\emph{Sum-Left}$.
+  \end{itemize}
+
+\item[Minus]
+  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} A - B : \Nat$. Analogo a
+  \emph{Sum}.
+
+\item[IfThenElse] $\Gamma \vdash{} M : T$ \'e 
+  $\Gamma \vdash{} \IF{M_1}{M_2}{M_3}$.
+  
+  Dal giudizio di tipo abbiamo che:
+
+  \begin{itemize}
+  	\item $\Gamma \vdash M_1 : \Bool$;
+    \item $\Gamma \vdash{} M_2 : T$;
+    \item $\Gamma \vdash{} M_3 : T$.
+  \end{itemize}
+
+  Supponiamo che $\IF{M_1}{M_2}{M_3} \to{} M'$ (sappiamo che $M'$ \'e unico poich\'e l'esecuzione
+  \'e deterministica). Tale riduzione pu\'o essere:
+
+  \begin{itemize}
+    \item \myrule{If}: $M' \equiv{} \Gamma \vdash{} \mbox{if } M'_1
+      \mbox{ then } M_2 \mbox{ else } M_3$. Dato che il giudizio $\Gamma \vdash M_1 : \Bool$ richiede una derivazione in meno e che $M_1 \to M_1'$, possiamo applicare l'ipotesi induttiva per ottenere il giudizio $\Gamma \vdash M_1' : \Bool$. Si ha quindi che la regola di tipo \myrule{IfThenElse} continua a valere per il termine $M'$ e dato che i termini $M_2$ e $M_3$ non sono cambiati, anche $M'$ ha tipo $T$;
+    \item \myrule{If-True}: $M' \equiv{} M_2$. $M_2$ ha tipo $T$ e quindi anche $M'$ ha tipo $T$;
+    \item \myrule{If-False}: $M' \equiv{} M_3$.  Analogo a \myrule{If-True}
+  \end{itemize}
+  
+  
+\item[App] $\Gamma \vdash{} M : T$ \'e  $\Gamma \vdash{} A \: B : T_2$.
+  Dal giudizio di tipo abbiamo che:
+
+  \begin{itemize}
+    \item $\Gamma \vdash{} A : T_1 \to{} T_2$;
+    \item $\Gamma \vdash{} B : T_1$.
+  \end{itemize}
+
+  Supponiamo che $A \: B \to{} M'$ (sappiamo che $M'$ \'e  unico poich\'e  l'esecuzione
+  \'e  deterministica). Tale riduzione pu\'o essere:
+
+  \begin{itemize}
+    \item \myrule{Beta}: $M' \equiv{} \Gamma \vdash{}
+      Z[x \coloneqq{} B]$\footnote{dato $A \equiv{} FN{x}{T_1}Z$}.
+      Per la regola di tipo $\myrule{Fun}$ ho che $Z : T_2$ e quindi, per
+       il Substitution Lemma, $\Gamma \vdash{} Z[x \coloneqq{} B] : T_2$. Per
+      questo motivo si ha che $\Gamma \vdash{} M' : T_2$ con $T_2 \equiv T$;
+    \item \myrule{App-1}: $M' \equiv{} A'\: B$. Dato che il giudizio $\Gamma \vdash A : T_1 \to T_2$ richiede una derivazione con meno passaggi e che $A \to A'$ posso applicare l'ipotesi induttiva per ottenere il giudizio $A' : T_1 \to T_2$. Il termine $M'$ soddisfa le premesse della regola di tipo \myrule{App} e quindi $M'$ ha tipo $T_2 \equiv T$.
+
+    \item \myrule{App-2}: $M' \equiv{} v\: B'$. Analogo ad \myrule{App-1}.
+  \end{itemize}
+
+ 
+\end{description}
+
+
+
+
 \subsubsection*{Esercizio 3.4}
 
 Vale l'opposto di subject reduction, i.e. se $\Gamma\:\vdash$ $M'\: :  $T e $M\:\rightarrow\:$M', allora $\Gamma\:\vdash$ $M$ : $T$ (detto subject expansion)? Dimostrarlo oppure dare un controesempio.
+\subparagraph*{Svolgimento}
+La risposta e' no:
+
+E sufficiente pensare a $M \rightarrow M_1$ con $\Gamma\vdash$ $M_1$ : $\sigma$ e che 
+$\Gamma\nvdash$ $M$: $\sigma$
 
 \subsubsection*{Esercizio 3.5}
 Se al posto della regola $(APP)\:$ si definisse la regola seguente:
@@ -36,6 +153,10 @@ Se al posto della regola $(APP)\:$ si definisse la regola seguente:
 \end{prooftree} 
 
 sarebbe ancora vero il teorema di safety?
+\subparagraph*{Svolgimento}
+Si, la dimostrazione si puo' pensando al fatto che APP' non e' altro che una specificazione di APP, ovvero se poniamo X uguale all'insieme dei tipi di APP, Y e' un sottoinsieme di X e corrisponde ai possibili tipi di APP'.
+
+Di con conseguenza il teorema di safety vale anche per APP'
 
 \subsubsection*{Esercizio 3.6}
 Se al posto delle regole $(APP)\:$ e $(FUN)\:$ si definissero le regole seguenti regole:
@@ -59,6 +180,11 @@ e
 
 sarebbe ancora vero il teorema di safety?
 
+\subparagraph*{Svolgimento}
+
+La risposta e' no:\\
+In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilita' di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso.
+
 \subsubsection*{Esercizio 3.6}
 Se si aggiungessero al sistema di tipi i seguenti due assiomi
 
@@ -79,14 +205,211 @@ e
 \end{prooftree}
 
 sarebbe ancora vero il teorema di safety?
+\subparagraph*{Svolgimento}
+La risposta e' no:\\
+Data la definizione di Teorema di Safety, e' evidente che viene meno la stessa ipotesi ovvero che M sia un valore o un che non evolva in un termine STUCK.
+
+Con queste regole sarebbe permessa anche l'operazione SUM che genererebbe un termine stuck, invalidando il teorema stesso.
+
 \subsubsection*{Esercizio 3.7}
 
 Dimostrare il seguente fatto: se $\Gamma\:\vdash$ $M\: :  $T e derivabile allora  \textit{fv($M$)}  $\subseteq$ \textit{Dom($\Gamma$)}
+\subparagraph*{Svolgimento}
+
+Si procede con la dimostrazione per induzione:
+
+\begin{description}
+
+\item[Caso Base]
+
+\item[TRUE] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \true{} :
+  \Bool$.
+  Il teorema \'e vacuamente vero per questa derivazione siccome
+  $\not \exists{M'}. M \to{} M'$.
+  
+ \item[False]
+  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \false{} : \Bool$.
+  Analogo a True.
+
+\item[Nat]
+  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} n : \Nat$. Analogo a True.
+
+\item[Var] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} x : T$.
+  Analogo a True.
+  
+ In questo passo il fatto e' un assioma, questo perche' non esistono variabili libere quindi $fv(M)$ e' $\emptyset$ e il vuoto e un sottoinsieme del $Dom(\Gamma)$
+
+\item[Caso Induttivo]
+
+Al passo h grazie al lemma di inversione e al caso base sappiamo per ipotesi che il fatto e' vero e quindi per induzione lo e' anche al passo h +1 
+
+\end{description}
+
 \subsubsection*{Esercizio 3.8}
 Ricostruire il tipo dei seguenti termini:
 \begin{itemize}
 \item $fn$ $x$:$T1.fn$ $y$:$T2.if$ $y$ then $x$ else true
 \item $fn$ $x:Nat:\rightarrow\:$Bool.x
-\item $fn$ $f:T.fn$ $x:T'.f$(if true  then  $x$  else  $f$ $x$)
-\item $fn$ $f:T1.fn$ $g:T2.$if ($f$ ($g$ true))then $f$ ($fn$ $x:$T3.true) else $f$($fn$ $x:T4.x$)
+\item $fn$ $f:T.fn$ $x:T'.f$( if true  then  $x$  else  $f$ $x$)
+\item $fn$ $f:T1.fn$ $g:T2.$ if ($f$ ($g$ true)) then $f$ ($fn$ $x:$T3.true) else $f$($fn$ $x:T4.x$)
 \end{itemize}
+
+\subparagraph*{Svolgimento}
+\begin{enumerate}[label=\alph*), leftmargin=*]
+
+
+\item $fn$ $x$:$T1.fn$ $y$:$T2.if$ $y$ then $x$ else true  \\
+		\scalebox{.75}{
+		\parbox{1cm}{
+		\begin{prooftree}
+			\AxiomC{y:Bool $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}} 
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $y$ : $Bool$}
+			\LeftLabel{\textsc{(VAR)}}
+			\AxiomC{x:B$x$:$Nat:\rightarrow Bool$ $\in$ $\Gamma$ool $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $x$ : $Bool$}
+			\LeftLabel{\textsc{(VAR)}}
+			\AxiomC{$\checkmark$}
+			\LeftLabel{\textsc{(TRUE)}}
+			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $true$ : $Bool$}
+			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
+			\TrinaryInfC{$x$:$T1$,$y$:$T2$ $\vdash$ $if$ $y$ then $x$ else true}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$x$:$T1$ $\vdash$  $fn$ $y$:$T2.if$ $y$ then $x$ else true}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x$:$T1.fn$ $y$:$T2.if$ $y$ then $x$ else true}
+		\end{prooftree}}
+		}
+		
+		Il risultato finale e' $Bool \rightarrow (Bool \rightarrow Bool)$
+		
+\item $fn$ $x:Nat:\rightarrow\:$Bool.x  \\
+		\scalebox{.75}{
+		\parbox{1cm}{
+		\begin{prooftree}
+		
+			\AxiomC{$x$:$Nat:\rightarrow Bool$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$x$:$Nat:\rightarrow Bool$ $\vdash$  $x$:$T$}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x:Nat:\rightarrow\:$Bool.x}
+		\end{prooftree}}
+		}
+		
+		Il risultato finale e' $(Nat \rightarrow Bool) \rightarrow (Nat \rightarrow Bool)$
+		
+		
+\item $fn$ $f:T.fn$ $x:T'.f$(if true  then  $x$  else  $f$ $x$)  \\
+		\scalebox{.75}{
+		\parbox{1cm}{
+		\begin{prooftree}
+			\AxiomC{$f$:$T$,$x$:$T_1$ $\vdash$ $f$:$T_3 \rightarrow T_2$}
+			
+			%%else
+			
+			\AxiomC{$f$:$T$,$x$:$T_1$ $\vdash$ $f:T_4 \rightarrow T$}
+			\AxiomC{$T_1 = T_4$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $x:T_4$}
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $f x$ : $T_3$}
+			
+			%%			
+					
+			%%then
+			
+			\AxiomC{$T_1 = T_3$}
+			\LeftLabel{\textsc{ }}
+			\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $x$ : $T_3$}
+						
+			%%			
+			%% if
+			\AxiomC{$\checkmark$}
+			\LeftLabel{\textsc{(TRUE)}}
+			\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $true$ : $Bool$}
+			%%
+			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
+			\TrinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $ if true$ then $x$ else $f$ $x$ : $T_3$}
+			
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $f$ $(if true$ then $x$ else $f$ $x$)}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T$ $\vdash$  $fn$ $x$:$T_1.f$ $(if true$ then $x$ else $f$ $x$)}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $f:T.fn$ $x:T_1.f$(if true  then  $x$  else  $f$ $x$)}
+		\end{prooftree}}
+		}
+		
+		Il risultato finale e' dato dal fatto che $T = T_1 = T_" = T_3 = T_4$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T \rightarrow T)$
+		
+	
+\item $fn$ $f:T1.fn$ $g:T2.$if ($f$ ($g$ true)) then $f$ ($fn$ $x:$T3.true) else $f$($fn$ $x:T4.x$)  \\
+		\scalebox{.35}{
+		\parbox{1cm}{
+		\begin{prooftree}
+			
+			%%else
+			\AxiomC{$x$:$T_4$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$,$x$:$T_4$ $\vdash$ x : $T_4$}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $fn$ $x$:$T_4$.x : $T_4 \rightarrow T_4$}
+			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $T_5 \rightarrow T_1 $}
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$($fn$ $x:T_4.x$)}
+			
+			%%			
+					
+			%%then
+			\AxiomC{$\checkmark$}
+			\LeftLabel{\textsc{(TRUE)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$,$x$:$T_3$ $\vdash$ true : $Bool$}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $fn$ $x$:$T_3$.true : $T_3 \rightarrow Bool$}
+			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $T_5 \rightarrow T_1 $}
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ ($fn$ $x$:$T_3$.true)}
+						
+			%%			
+			%% if
+			
+			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $g$:$ Bool \rightarrow T_2 $}
+			\AxiomC{$\checkmark$}
+			\LeftLabel{\textsc{(TRUE)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $true$:$ Bool $}
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $g true$:$ T_2$}
+			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$:$ T_2 \rightarrow Bool $}
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ ($g$ true)) : $Bool$}
+			%%
+						
+			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
+			\TrinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $if$ ($f$ ($g$ true)) then $f$ ($fn$ $x$:$T_3$.true) else $f$($fn$ $x:T_4.x$)}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T_1$ $\vdash$ $fn$ $g:T_2.$if ($f$ ($g$ true)) then $f$ ($fn$ $x$:$T_3$.true) else $f$($fn$ $x:T_4.x$)}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $f:T_1.fn$ $g:T_2.$if ($f$ ($g$ true)) then $f$ ($fn$ $x$:$T_3$.true) else $f$($fn$ $x:T_4.x$)}
+		\end{prooftree}}
+		}	
+		
+		Il risultato finale e' dato dal fatto che:
+		\begin{itemize}
+		
+	
+		\item $T_4 = Bool$
+		\item $T_1 = T_2 \rightarrow Bool$
+		\item $T_5 = T_3 \rightarrow Bool$
+		\item $T_4 = Bool$
+		\item $T_3 = T_4 = Bool$
+		\item $T_5 = Bool \rightarrow Bool$
+		\item $T_2 = (Bool \rightarrow Bool)$
+		\item $T_1 = (Bool\rightarrow Bool) \rightarrow Bool$
+		
+		\end{itemize}
+		e quindi il tipo del termine e' quindi $(Bool\rightarrow Bool) \rightarrow Bool$
+		
+
+\end{enumerate}
