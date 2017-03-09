@@ -89,5 +89,36 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 \subsection*{Esercizio 4.3}
 Dimostrare il teorema di safety per il linguaggio contenente interi, booleani, funzioni e records.
 
+\subsubsection*{Svolgimento}
+Per quanto visto a lezione il lemma di inversione (lemma 0.6) con i record e il \`e:
+\begin{description}
+
+\item[Lemmi di inversione]{
+	
+\begin{itemize}
+
+	\item 
+	\item TYPE-RECORD: se $\Gamma \vdash M....$ \`e derivabile $\rightarrow$ $\forall i \in 1,...,n$ $\Gamma \vdash M_i$ : $T_i$ 
+	
+	\item TYPE-SELECT: se $\Gamma \vdash M.l_j$ : $T_j$ \`e derivabile $\rightarrow$ $\forall i \in 1,...,n$ $\exists T_i$ $\Gamma \vdash M$ : $ \{ l_i$:$T_i^{i=1} \}$ 
+\end{itemize}
+
+}
+
+\item[Subject-Reduction]	{
+
+	Se $\Gamma \vdash M $: $T$ e $M \rightarrow M_1, allora  \Gamma \vdash M_1 $: $T$\\
+	Le regole da dimostrare sono $SELECT, EVAL-SELECT ed EVAL-RECORD$
+	
+	\begin{itemize}
+		\item $M \equiv N.l_j con N = \{ l_i = v_i ^{i \in 1,...,n} \}$ : $\{ l_i $:$ T_i ^{i \in 1,...,n} \}$
+	\end{itemize}
+
+
+}
+
+\end{description}
+
+
 \textbf{{\color{red} DA FARE}}
 	
