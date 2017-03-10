@@ -128,8 +128,484 @@ subtyping con una regola di troppo? E se l'avessimo definita con una regola in m
 \subsection*{Esercizio 7.12}
 Ridimostrare il teorema di progressione, preservazione, il substitution lemma e il teorema
 di safety per il linguaggio con i record e il subtyping. 
-\textbf{{\color{red} DA FARE}}
+
+\subsection*{Svolgimento}
+
+(Lemmi di inversione)
+\begin{itemize}
+	\item Se $\Gamma \vdash x : T$ allora $\exists S$ tale che $x : S \in \Gamma $e $S <: T$.
+	\item Se $\Gamma \vdash fn x:S1M : T$ \`e derivabile, allora $\exists T_1, T_2$ tali che $T = T_1 \rightarrow T_2$ , con $T_1 <: S_1$ e
+	$\Gamma, x : S_1 \vdash M : T_2$.
+	\item Se $\Gamma \vdash \{k_r = M_r\ ^{r \in 1\dots m}\} : T$ \`e derivabile allora
+	$\exists T_i, i = 1, \dots, n$ tali che $T = \{\ell_i : T_i\ ^{i \in 1\dots n}\}$,
+	con $\{\ell_i\ ^{i \in 1 \dots n}\} \subseteq \{k_r\ ^{r \in 1 \dots m} \}$
+	e $\Gamma \vdash M_r : T_i$ per ogni etichetta comune $k_r = \ell_i$.
+\end{itemize}
+
+Inoltre sempre a lezione \`e stato definito il lemma di inversione della relazione di subtyping:
+(Lemma di inversione della relazione di subtyping)
+	\begin{enumerate}
+	\item Se $S <: T_1 \rightarrow T_2$ allora $S$ \`e della forma $S_1 \rightarrow S_2$ con $T_1 <: S_1$ e $S_2 <: T_2$.
+	\item Se $S <: \{\ell_i : T_i\ ^{i \in 1 \dots n} \}$ allora $S$ \`e della forma
+	$\{k_j : S_j\ ^{j \in 1 \dots m} \}$ tale che $\{\ell_i\ ^{i \in 1 \dots n}\} \subseteq \{k_j\ ^{j \in 1 \dots m} \}$ e $S_j <: T_i$ per ogni etichetta comune
+	$\ell_i = k_j$
+	\end{enumerate}
+
+(Lemma delle Forme Canoniche)
+\begin{itemize}
+ \item Se $v$ \`e un valore di tipo $T_1 \rightarrow T_2$ allora $v$ \`e della forma $fn x:S1M$.
+ \item Se $v$ \`e un valore di tipo $\{\ell_i:T_i\ ^{i \in 1 \dots n}\}$, allora $v$ \`e della forma $\{k_j = v_j\ ^{j \in 1 \dots m} \}$
+ tale che $\{\ell_i\ ^{i \in 1 \dots n} \} \subseteq \{k_j\ ^{j \in 1 \dots m}\}$
+\end{itemize}
+
+\paragraph{Dimostrazione del substitution Lemma}
+Per provare il substitution Lemma devo estendere la definizione induttiva di $fv(M)$ e la definizione di sostituzione per i tipi 
+record e i tipi select.
+(Variabili libere)
+	Vengono riportati solo i casi che estendono la definizione fornita in Note $2$:
+	\begin{itemize}
+		\item $fv(\{\ell_i = M_i\ ^{i \in 1 \dots n} \}) = \bigcup_{i = 1 \dots n} fv(M_i)$
+		\item $fv(M.l) = fv(M)$
+	\end{itemize}
+
+
+(Sostituzione)
+	Vengono riportati solo i casi che estendono la definizione fornita in Note $2$:
+	\begin{itemize}
+		\item $\{\ell_i = M_i\ ^{i \in 1 \dots n} \} \{x := N\} = \{\ell_i = M_i \{x \coloneqq N\}\ ^{i \in 1 \dots n} \}$
+		\item $M.l\{x \coloneqq N \} = M\{x \coloneqq N \}.l$
+	\end{itemize}
+
+
+
+(Substitution Lemma)
+Se $\Gamma, x : S \vdash M : T$ e $\Gamma \vdash N : S$, allora $\Gamma \vdash M\{x := N\}:T.$	
+
+\begin{proof}
+Procedo per induzione sulla lunghezza della derivazione del giudizio
+$\Gamma, x : S \vdash M : T$. La dimostrazione procede distinguendo l'ultima
+regola di tipo che \`e stata applicata per derivare tale giudizio:
+\begin{itemize}
+	\item \textbf{Casi Base} (h = 1): Quelli in cui \`e stato applicato un assioma per le regole dei tipi.
+	\begin{itemize}
+		\item $\boxed{\myrule{True}}$. 
+		$\Gamma, x : S \vdash \true : T \equiv \Bool$. La tesi $\Gamma \vdash \true\{x \coloneqq N\} : \Bool$, visto
+		che $\true \{x \coloneqq N \} \equiv \true$, si ottiene che la tesi \`e:
+		$\Gamma \vdash \true: \Bool$ che \`e vera per l'assioma \myrule{True}.
+		\item $\boxed{\myrule{False}}$: analogo al caso \myrule{True}.
+		\item $\boxed{\myrule{True}}$: analogo al caso \myrule{True}.
+		\item $\boxed{\myrule{Var}}$. Questo caso differisce leggermente da quello visto a lezione, in quanto il lemma di inversione
+		per le variabili \`e stato modificato e asserisce che se $\Gamma \vdash x : T$, allora $x: S \in \Gamma$ con $S <: T$. 
+		Tuttavia, se il giudizio con il tipo preciso non \`e nel contesto (ovvero $S \neq T$), l'albero non pu\`o essere composto dal solo assioma \myrule{Var} ma
+		deve essere presente anche l'applicazione di \myrule{Subsumption}.
+		Quindi, per ricondurre questo caso a quello mostrato a lezione dimostro un lemma:
+		\vspace{10pt}
+		
+			Se il giudizio $\Gamma \vdash z : T$ \`e stato ottenuto dall'assioma \myrule{Var}, allora $z : T \in \Gamma$.
+			(Vale il lemma di inversione del capitolo $45$)
+			\begin{proof}
+			In generale dall'assunzione $\Gamma \vdash z : T$ segue per il lemma di inversione (di note 9) che $\exists S$ tale che $z: S \in \Gamma$ e  $S <:T$. 
+			Se $S <:T$ possono darsi solo due casi:
+			\begin{itemize}
+				\item $\boxed{S = T}$ la regola $\myrule{Var}$ pu\`o essere applicata perch\`e il giudizio $z : T \in \Gamma$
+				\item $\boxed{S \neq T}$ la regola \myrule{Var} non pu\`o essere applicata 
+				perch\`e il giudizio $z : T \notin \Gamma$. 
+			\end{itemize}
+			\end{proof}
+		
+		Quindi per questo caso vale il lemma di inversione (pi\`u forte) del capitolo $45$. E quindi la dimostrazione fornita a lezione
+		risulta essere ancora valida in questa estensione del linguaggio.
+		
+		Ovvero se $\Gamma , x : S \vdash y : T$ viene derivato con la regola \myrule{Var} possono verificarsi due casi:
+		\begin{enumerate}
+			\item $y = x$:  $\Gamma , x : S \vdash x : T$. Per il lemma di inversione (delle note 45), il giudizio deriva da un'asserzione presente nel contesto e quindi per forza $S = T$. Si ha quindi che considerando la sostituzione $\Gamma \vdash x\{x:=N\}:T $. Ma $N$ ha tipo $S$ e $S = T$, quindi la tesi continua a valere.
+			\item $y \neq x$: in questo caso la sostituzione $\Gamma \vdash y\{x:=N\}:T $ non altera il termine, in pi\`u per l'assioma \myrule{Var} $y : T \in \Gamma, x :S$ e quindi \`e derivabile il giudizio $\Gamma \vdash y :T$.
+		\end{enumerate}\vspace{.5em}
+
+		\noindent \textbf{Ipotesi induttiva}: Da $\Gamma, x : S \vdash_k M : T$ e $\Gamma \vdash N : S$ implica che 
+		$\Gamma \vdash M\{x \coloneqq N\} : T$.
+		
+		\item \textbf{Passo Induttivo}:  
+		I casi \myrule{Sum}, \myrule{Minus}, \myrule{Fun} sono analoghi a quelli visti a lezione. Visto che questo teorema
+		vuole dimostrare giudizi del tipo $\Delta \vdash M : T$ le regole di sottotipo non potranno essere mai l'ultima regola 
+		applicata (poich\`e dimostrano giudizi solo del tipo $\Delta \vdash M <: T$) e quindi non devono essere considerate. Queste hanno infatti un ruolo
+		indiretto nel caso \myrule{Subsumption}.
+		\begin{itemize}
+			\item $\boxed{\myrule{Sum}}$: Invariato rispetto a quanto visto a lezione.
+			\item $\boxed{\myrule{Minus}}$: Invariato rispetto a quanto visto a lezione.
+			\item $\boxed{\myrule{Fun}}$: Invariato rispetto a quanto visto a lezione.
+			\item $\boxed{\myrule{App}}$: Invariato rispetto a quanto visto a lezione
+			\item $\boxed{\myrule{Type-Record}}$
+			In questo caso $M \equiv \{\ell_i = M_i\ ^{i \in 1 \dots n} \}$. Assumo le due ipotesi per questo termine
+			quindi 
+			\begin{enumerate}
+				\item $\Gamma, x : S \vdash_{k+1} \{\ell_i = M_i\ ^{i \in 1 \dots n}\} : \{\ell_i : T_i\}$
+				\item $\Gamma \vdash N : S$
+			\end{enumerate}
+			Siccome l'ultima regola applicata \`e \myrule{Type-Record} le sue premesse (al passo precedente) devono essere verificate quindi
+			$\forall i \in 1 \dots n$ $ \Gamma, x : S \vdash_{k_i} M_i : T_i$. 
+			Siccome le derivazioni dei giudizi per i sottotermini sono strettamente inferiori (di almeno un'unit\`a) rispetto
+			a quella di partenza e vale $\Gamma \vdash N : S$, ottengo per ipotesi induttiva (applicata agli $n$ $M_i$) che
+			$\forall i \in 1 \dots n$ $\Gamma \vdash M_i \{x \coloneqq N\} : T_i$.
+			Applicando la regola $\myrule{Type-Record}$ ottengo
+			$\Gamma \vdash \{\ell_i : M_i\{x \coloneqq N\}\ ^{i \in 1 \dots n} \} : \{\ell_i : T_i\ ^{i \in 1 \dots n}\}$ che \`e proprio la tesi da dimostrare visto che per definizione:
+			
+			$$
+			\{\ell_i : M_i\ ^{i \in 1 \dots n}\}\{x \coloneqq N \} = \{\ell_i : M_i\{x \coloneqq N \}\ ^{i \in 1 \dots n}\}
+			$$
+			
+			\item $\boxed{\myrule{Type-Select}}$:
+			$M \equiv M.\ell_j$
+			Assumo che valgano le due ipotesi ovvero:
+			\begin{enumerate}
+				\item $\Gamma, x : S  \vdash_{k+1} M.\ell_j : T$, lo rinomino $T_j$ per comodit\`a.
+				\item $\Gamma \vdash N : S$ 
+			\end{enumerate}
+			Ora siccome vale la prima ipotesi e l'ultima regola applicata \`e \myrule{Type-Select} le premesse devono essere soddisfatte
+			quindi
+			$\Gamma, x : S \vdash M : \{\ell_i : T_i\ ^{i \in 1 \dots n}\}$ con $j \in 1 \dots n$.
+			Siccome questo giudizio ha una derivazione di lunghezza strettamente inferiore rispetto a quello di partenza  e vale
+			$\Gamma \vdash N : S$ posso applicare l'ipotesi induttiva e ottenere che
+			$\Gamma \vdash M\{x \coloneqq N \} : \{\ell_i : T_i\ ^{i \in 1 \dots n}\}$ quindi riapplicando \myrule{Type-Select} ottengo:
+			$$
+			\Gamma \vdash M\{x \coloneqq N \}.\ell_j : T_j
+			$$
+			che \`e proprio la definizione di $M.\ell_j \{x \coloneqq N \}$
+			
+			\item $\boxed{\myrule{Subsumption}}$: 
+			Assumo le due ipotesi per questa derivazione ovvero:
+			\begin{enumerate}
+				\item $\Gamma, x : S \vdash_{k+1} M : T$
+				\item $\Gamma \vdash N : S$
+			\end{enumerate}
+			Visto che l'utima regola applicata \`e stata $\myrule{Subsumption}$ posso dire che valgono le sue premesse:
+			$$
+			%\prftree[r]
+			{\myrule{Subsumption}}
+			{\Gamma, x : S \vdash_k M : U}
+			{U <: T}
+			{\Gamma, x : S \vdash_{k+1} M : T}
+			$$
+			Ora siccome vale $\Gamma, x : S \vdash_k M : U$ e $\Gamma \vdash N : S$ posso applicare l'ipotesi induttiva 
+			e ottenere che $\Gamma \vdash M\{ x \coloneqq N \} : U $. 
+			E visto che $U$ \`e un sottotipo di $T$ l'asserto \`e dimostrato per la regola \myrule{Subsumption}.
+			$$
+			%%\prftree[r]
+			{\myrule{Subsumption}}
+			{\Gamma \vdash M\{x \coloneqq N \} : U}
+			{U <: T}
+			{\Gamma \vdash M\{x \coloneqq N\} : T}
+			$$
+		\end{itemize}
+	\end{itemize} 
+\end{itemize}
+	
+	
+\end{proof}
+
+
+\paragraph{Dimostrazione del teorema di preservazione (per induzione su $M \to M'$)}
+
+	Se $\Gamma \vdash M : T$ e $M \longrightarrow M'$, allora
+	$\Gamma \vdash M':T$
+
+
+Procedo per induzione sull'altezza della derivazione di $M \longrightarrow M'$.
+Inizio dai casi base, che sono quelli in cui $M \longrightarrow M'$ viene da un assioma.
+%% TO DO controllare le regole di derivazione dei record %%
+\begin{itemize}
+	\item $\boxed{\text{\textbf{Caso Base}}}$
+	I casi base per le regole di derivazione \myrule{Sum}, \myrule{Minus}, \myrule{If-True}, \myrule{If-False} rimangono
+	invariati rispetto a quelli mostrati a lezione. Il caso \myrule{Beta} \`e leggermente diverso rispetto a quello 
+	mostrato a lezione per via del lemma di inversione modificato, e infine va aggiunto il nuovo assioma \myrule{Select}.
+	\begin{itemize}
+		
+		\item $\boxed{\myrule{Beta}}$
+		$M\equiv (fn x:S1 M_1\ v) : T \longrightarrow M_1 \{x \coloneqq v\}$  
+		Dall'ipotesi $\Gamma \vdash fn x:S1 M_1\ v : T$ segue per il lemma di inversione 
+		che esiste $T_A$ tale che $\Gamma \vdash v : T_A$ e $\Gamma \vdash fn x:S1M_1: T_A \rightarrow T$.
+		
+		Da $\Gamma \vdash fn x:S1M_1 : T_A \rightarrow T$ segue per il lemma di inversione di note 9:
+		\begin{enumerate}
+			\item $T_A <: S_1$
+			\item $\Gamma, x : S_1 \vdash M_1 : T$
+			\label{ex9-12:enum:SecondaIpotesiLemmaSostituzione}
+		\end{enumerate}
+			
+		Visto che
+		$$
+		%\prftree[l]
+		{\myrule{Subsumption}}
+		{\Gamma \vdash v : T_A}
+		{T_A <: S_1}
+		{\Gamma \vdash v : S_1}
+		$$
+		ho ricavato che $\Gamma \vdash v : S_1$. Considerato che vale \ref{ex9-12:enum:SecondaIpotesiLemmaSostituzione} posso applicare
+		il lemma di sostituzione e ottenere la tesi $\Gamma \vdash M_1 \{x \coloneqq v \} : T$.
+		
+		\item $\boxed{\myrule{Select}}$ $\{\ell_i = v_i^{i \in 1 \dots n}\}.\ell_j \longrightarrow v_j$, grazie all'assioma $\myrule{Select}$ (con $j \in 1 \dots n$). Per ipotesi
+		$\Gamma \vdash \{\ell_i = v_i^{i \in 1 \dots n}\}.\ell_j$ ha tipo $T$. Per comodit\`a e in linea 
+		con la regola $\myrule{Type-Select}$
+		rinomino $T$ in $T_j$. Quindi per il lemma di inversione della regola $\myrule{Type-Select}$ ottengo che:
+		$\Gamma \vdash M : \{\ell_i : T_i\ 	^{i\in 1 \dots n}\}$ con $j \in 1 \dots n$. Ora, siccome per la regola \myrule{Select} $v_j$ \`e stato ottenuto dalla
+		selezione del valore della label $\ell_j$ che ha tipo $T_j$, deduco che $v_j$
+		ha il tipo $T_j$ cercato. Visto che $T_j$ non \`e altro che un alias per $T$
+		la tesi \`e dimostrata.
+	\end{itemize}
+	\item $\boxed{\text{\textbf{Passo Induttivo}}}$
+	Procedo ora con i casi induttivi, quelli cio\`e che in cui $M \longrightarrow M'$ \`e stato derivato
+	con una derivazione di altezza $k+1$. Distinguendo
+	i vari casi a seconda dell'ultima regola usata:
+	i casi \myrule{Sum-Left}, \myrule{Sum-Right}, \myrule{Minus-Left}, \myrule{Minus-Right}, \myrule{If}
+	sono invariati visto che vale il lemma di inversione di note 2.
+	\begin{itemize}
+	
+		\item $\boxed{\myrule{Eval-Select}}$ $M \equiv N.\ell_j \longrightarrow N'.\ell_j \equiv M'$.
+		Assumo le due ipotesi per questo termine:
+		\begin{enumerate}
+			\item $	N.\ell_j \longrightarrow N'.\ell_j$:
+			Visto che ho assunto che $N.\ell_j \longrightarrow N'.\ell_j$ \`e stato derivato con un albero di derivazione alto
+			$k+1$ e l'ultima regola applicata \`e stata \myrule{Eval-Select} la premessa della regola $N \longrightarrow N'$ deve
+			essere verificata. Graficamente:
+			$$
+			%\prftree[r]
+			{\myrule{Eval-Select}}
+			{N \longrightarrow N'}
+			{N.\ell_j \longrightarrow N'.\ell_j}
+			$$
+			
+			\item $\Gamma \vdash N.\ell_j : T$ rinomino $T$ in $T_j$. Quindi per il lemma di inversione della regola \myrule{Type-Select}
+			$\Gamma \vdash N : \{\ell_i : T_i \ ^{i \in 1 \dots n}\}$ con $j \in 1 \dots n$.
+		\end{enumerate}
+		Quindi applicando l'ipotesi induttiva sulla derivazione $N \longrightarrow N'$ (che \`e alta $k$), si ottiene che:
+		$$
+		\Gamma \vdash N' : \{\ell_i : T_i\ ^{i \in 1 \dots n } \}
+		$$
+		Applicando la regola \myrule{Type-Select} ottengo $N'.\ell_j : T_j$ che \`e la tesi visto che $T_j$ \`e un altro nome per $T$.
+		
+		\item $\boxed{\myrule{Eval-Record}}$ 
+		Assumo come di consueto le due ipotesi:
+		\begin{enumerate}
+			\item 
+			$$
+			%\prftree[r]
+			{\myrule{Eval-Record}}
+			{M_x \longrightarrow M_x'}
+			{
+				\{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\} \longrightarrow
+				\{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M'_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\}
+			}
+			$$
+			Con $M_x \to M'_x$ che viene derivato con un albero di derivazione di altezza inferiore rispetto a quello per $M \to M'$.
+			Si pu\`o quindi applicare l'ipotesi induttiva ad $M'_x$, ottenendo che \`e derivabile il giudizio $\Gamma \vdash M'_x : T_x$.
+			\item $\{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\} : T$ \`e derivabile.
+			Quindi per il lemma di inversione $\exists T_i, \: i = 1 \dots n$ tale che 
+			$T = \{\ell_i : T_i\ ^{i \in 1 \dots n} \}$ con $\{\ell_i\ ^{i \in 1 \dots n} \} \subseteq \{k_r\ ^{r \in 1 \dots m} \}$ 
+			e per ogni etichetta in comune $k_r = \ell_i$. $\Gamma \vdash M_r : T_i$.
+			Sostanzialmente stiamo dicendo che $M$ pu\`o essere un'istanza di un sottotipo $S$ di $T$ e non necessariamente il tipo $T$.
+		\end{enumerate}
+	% Quindi se sai che M ha fatto un passo ed \`e andato in M' perch\`e M_x \to M'_x puoi applicare l'ipotesi induttiva (perch\`e M_x \to M'_x \`e pi\`u corta)per dire che \Gamma M'_x : T_x \`e ancora valido. (Che poi M'_x sia un T_x o un S_x con S_x <: T_x te ne puoi fregare IMHO)
+	
+	Dal momento che $M' = \{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M'_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\}$ posso applicare la regola di tipo \myrule{Type-Record} per derivare il giudizio $\Gamma \vdash M' : T$ con $T = \{ \ell_i : T_i \:^{i \in 1 \ldots n} \}$.
+	Sono infatti soddisfatte le premesse della regola perch\`e i termini $M_i$ associati alle $\ell_i$ con $i \in 1 \ldots n,\: i \neq x$ non sono cambiati e quindi anche il loro tipo non \`e cambiato, mentre per ipotesi induttiva $\Gamma \vdash M'_j : T_j$.
+	La tesi \`e quindi provata.
+	\end{itemize}
+\end{itemize}
+
+\paragraph{Dimostrazione del teorema di preservazione (per induzione su $\Gamma \vdash M : T$)}
+
+	Se $\Gamma \vdash M : T$ e $M \longrightarrow M'$, allora
+	$\Gamma \vdash M':T$
+
+\begin{proof}
+Procedo in analogia all'esercizio 3.12, che dimostra $\Gamma \vdash M : T$ per
+induzione sull'altezza dell'albero della prova.
+\begin{itemize}
+	\item $\boxed{\text{\textbf{Casi Base}}} (h = 1)$: Casi in cui \`e stato applicato uno degli assiomi. Si veda
+	l'esercizio 3.12.
+	\item $\boxed{\text{\textbf{Passo Induttivo}}}$ Ora siccome l'ipotesi \`e verificata
+	per i casi base dimostro che vale anche per i casi induttivi a seconda dell'ultima regola usata. 
+	Rispetto all'esercizio 3.12 sono state aggiunte solo
+	3 regole di tipo:
+	\begin{itemize}
+		\item $\boxed{\myrule{Type-Record}}$ assumendo le due ipotesi, ovvero:
+		\begin{enumerate}
+			\item $\Gamma \vdash M : T$ visto che l'ultima regola applicata \`e
+			 \myrule{Type-Record}, allora
+			 $M \equiv \{\ell_i = M_i\ ^{i \in 1 \dots n} \}$ e
+			 $T = \{\ell_i : T_i\ ^{i \in 1 \dots n}\}$. Dal momento che la sua
+			 premessa deve essere verificata si ha quindi
+			 $\forall i \in 1 \dots n$. $\Gamma \vdash M_i : T_i$.
+			
+			\item $M \longrightarrow M'$
+		\end{enumerate}
+		
+		Per il lemma delle forme canoniche dalla premessa 1 segue che $M$ potrebbe essere un valore, ma in questo caso
+		la seconda ipotesi non verrebbe verificata.
+		
+		Visto che $M$ non \`e un valore, l'unica regola che fa ridurre un $M$ di tipo
+		$ \{\ell_i : M_i\ ^{i \in 1 \dots n} \}$ \`e:
+		$$
+		%\prftree[l]
+		{\myrule{Eval-Record}}
+		{M_j \longrightarrow M_j'}
+		{
+			\{\ell_i = v_i\ ^{i \in 1 \dots j-1}, \ell_j = M_j, \ell_p = M_p\ ^{p \in j+1 \dots n}\}
+			\longrightarrow 
+			\{\ell_i = v_i\ ^{i \in 1 \dots j-1}, \ell_j = M_j', \ell_p = M_p\ ^{p \in j+1 \dots n}\}
+		}
+		$$
+		Siccome il giudizio $\Gamma \vdash M_j : T_j$ \`e pi\`u corto di un passo rispetto
+		a $\Gamma \vdash M_j : T_j$ e $M_j \longrightarrow M_j'$,
+		allora per ipotesi induttiva concludo che $\Gamma \vdash M_j' : T_j$.
+		Ora devo dimostrare che
+		$\{\ell_i = v_i\ ^{i \in 1 \dots j-1}, \ell_j = M_j', \ell_p = M_p\ ^{p \in j+1 \dots n}\}$ ha tipo $T$.
+		%Basta applicare al fatto $\forall i \in 1 \dots n.\ $ $\Gamma \vdash M_i : T_i$ e $\Gamma \vdash M_j':T$ la regola di 
+		%\myrule{Type-Record} per concludere la tesi.
+		Dal momento che $M' = \{\ell_i : v_i\ ^{i \in 1 \dots j-1}, \ell_j : M'_j, \ell_p : M_p\ ^{p \in j+1 \dots m}\}$ posso applicare la regola di tipo \myrule{Type-Record} per derivare il giudizio $\Gamma \vdash M' : T$ con $T = \{ \ell_i : T_i \:^{i \in 1 \ldots n} \}$.
+		Sono infatti soddisfatte le premesse della regola perch\`e i termini $M_i$ associati alle $\ell_i$ con $i \in 1 \ldots n,\: i \neq j$ non sono cambiati e quindi anche il loro tipo non \`e cambiato, mentre per ipotesi induttiva $\Gamma \vdash M'_j : T_j$.
+		La tesi \`e quindi provata.
+
+		\item $\boxed{\myrule{Type-Select}}$ $M = N.\ell_j$
+		\begin{enumerate}
+			\item $\Gamma \vdash N.\ell_j : T_j$. Visto che l'ultima regola applicata \`e stata \myrule{Type-Select} le sue premesse devono essere
+			verificate quindi $\Gamma \vdash N : \{\ell_i : T_i\ ^{i \in 1 \dots n} \}$ con $j \in 1 \dots n$.
+			\item $M \longrightarrow M'$. Per questi tipi possono valere due opzioni:
+				\begin{enumerate}[label=\alph*)]
+					\item $N = \{\ell_i = v_i\ ^{i \in 1 \dots n} \}$ \`e un valore. Ma questo
+					caso \`e immediato (non ha bisogno dell'ipotesi induttiva) perch\`e per
+					l'assioma $\myrule{Select}$ si conclude che $N.\ell_j \longrightarrow v_j$,
+					per quanto mostrato dall'ipotesi 1, ha tipo $T_j$.
+					\item $N$ non \`e un valore valutato e quindi $M'= N'.\ell_j$.
+				\end{enumerate} 
+		\end{enumerate}
+		Considero dunque solo il caso in cui $N$ non \`e un valore.
+		
+		Visto che la lunghezza della derivazione del giudizio di tipo per $N$ \`e strettamente inferiore di quella 
+		per $N.\ell_j$ e vale $ N.\ell_j \longrightarrow N'.\ell_j$ (perch\`e $N$ non \`e un valore) vale anche la premessa
+		alla regola $\myrule{Eval-Select}$ e quindi $N \longrightarrow N'$.
+		Quindi posso applicare l'ipotesi induttiva e concludere che $N'$ ha lo stesso
+		tipo di $N$, ovvero $\{\ell_i : T_i\ ^{i \in 1 \dots n} \}$.
+		Applicando la regola $\myrule{Type-Select}$ ed usando
+		$N' : \{\ell_i : T_i\ ^{i \in 1 \dots n} \}$ come premessa ottengo il risultato
+		cercato, ovvero $N'.\ell_j : T_j$.
+	
+		\item $\boxed{\myrule{Subsumption}}$ $M = \{\ell_i = M_i\ ^{i \in 1 \dots n} \}$ Assumo le due ipotesi:
+		\begin{enumerate}
+			\item $\Gamma \vdash M : T$
+			\item $M \longrightarrow M'$
+		\end{enumerate} 
+		Visto che l'ultima regola applicata \`e stata \myrule{Subsumption} posso assumere che le sue premesse siano verificate:
+		$$
+		%\prftree[l]
+		{\myrule{Subsumption}}
+		{\Gamma \vdash M : S}
+		{S <: T}
+		{\Gamma \vdash M : T}
+		$$
+		Visto che il giudizio $\Gamma \vdash M : S$ \`e pi\`u corto di almeno un'unit\`a rispetto a $\Gamma \vdash M : T$ e $M \longrightarrow M'$
+		allora per ipotesi induttiva concludo che $\Gamma \vdash M' : S$. 
+		Quindi ho ottenuto le premesse per poter applicare la regola $\myrule{Subsumption}$ a $M'$:
+		$$
+		%\prftree[l]
+		{\myrule{Subsumption}}
+		{\Gamma \vdash M' : S}
+		{S <: T (\text{vero per quanto mostrato prima})}
+		{\Gamma \vdash M' : T}
+		$$
+		$\Gamma \vdash M' : T$ era la tesi da dimostrare, perci\`o la dimostrazione del
+		teorema di preservazione \`e conclusa.
+	
+	\end{itemize}
+\end{itemize}
+\end{proof}
+
+
+\paragraph{Dimostrazione del teorema di progressione}
+(Progressione).
+	 Sia $M$ un termine chiuso e ben tipato, i.e. $\emptyset \vdash M : T $, allora o $M$ \`e un
+	valore, oppure esiste un termine $M'$ tale che $M \longrightarrow M'$.
+
+\begin{proof}
+Procedo per induzione sull'altezza dell'albero di prova che dimostra
+$\varnothing \vdash M : T$.
+\begin{itemize}
+	\item $\boxed{\text{\textbf{Casi Base}} (h = 1)}$: I casi base rimangono
+	quelli mostrati a lezione, visto che gli assiomi per i giudizi di tipo non
+	sono stati estesi. \vspace{.5em}
+
+	\noindent \textbf{Ipotesi induttiva} (h = k): Se $\varnothing \vdash_{k} \bar{M} : T$ allora $\bar{M}$ \`e un valore oppure $\exists
+	\bar{M'}: \bar{M} \longrightarrow \bar{M'}$
+	\item $\boxed{\text{\textbf{Passo induttivo}} (h = k+1)}$ I casi che rimangono invariati rispetto a lezione vengono omessi. Per via
+	del lemma di inversione delle forme canoniche per il subtyping, la
+	dimostrazione per $\myrule{Type-Select}$ e $\myrule{Type-Record}$
+	\`e leggermente differente a quella mostrata nell'esercizio 6.3. Mentre la regola \myrule{Subsumption} \`e ``inedita":
+	
+
+	\begin{itemize}
+		\item \myrule{Type-Record} Se $M = \{ \ell_i = M_i \:^{i = 1 \ldots n} \}$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Record} valgono i giudizi di tipo
+		$\emptyset \vdash M_i : T_i \:\ \forall \: i = 1\ldots n$ e che gli alberi di derivazione relativi ai vari giudizi sono di altezza inferiore all'albero del giudizio principale.
+		\`e quindi possibile applicare l'ipotesi induttiva sui sotto-termini $M_i$, i quali o sono un valore $v_i$ di tipo $T_i$ oppure possono avanzare in un termine $M_i'$:
+		\begin{itemize}
+			\item Se sono tutti dei valori si ha $M = \{ \ell_i = v_i \:^{i = 1 \ldots n} \}$, ovvero $M$ \`e un valore record di tipo $\{ \ell_i : T_i \:^{i = 1 \ldots n} \}$ e quindi il teorema di Progressione continua a valere banalmente.
+			\item Se c'\`e almeno un $M_i$ che non \`e un valore, \`e possibile identificare il termine $M_j$ di indice minimo che non \`e un valore e per il quale continua a valere il giudizio di tipo $\emptyset \vdash M_j : T_j$. Vale quindi l'ipotesi induttiva, ovvero $\exists M_j'$ tale che $M_j \to M_j'$. Posso quindi applicare la regola \myrule{Eval-Record} per far avanzare il termine $M$ al termine $M'$, dove al posto di $M_j$ compare $M_j'$. Anche in questo caso il teorema di Progressione continua a valere.
+		\end{itemize}
+	
+		\item \myrule{Type-Select} Se $M = N.\ell_j$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Select} vale il giudizio di tipo $\emptyset \vdash N : \{ \ell_i : T_i \:^{i = 1 \ldots n}\}$ (con un albero di derivazione pi\`u piccolo) e che $j \in \{1 \ldots n\}$.
+		Si ha quindi che $N$ o \`e un buon valore finale oppure $\exists N' : N \longrightarrow N'$.
+		\begin{itemize}
+			\item Se $N$ \`e un valore $v$ per il lemma delle forme canoniche di note 9 ottengo che
+			$v$ \`e della forma $\{k_q = v_q \:^{q \in 1 \dots m} \}$ tale che $\{\ell_i\ ^{i \in 1 \dots n} \} \subseteq \{k_q\ ^{q \in 1 \dots m}\}$.
+			Siccome l'etichetta $\ell_j \in \{k_q\ ^ {q \in 1 \dots m}\}$ allora $\exists$ un indice $p \in 1 \dots m : \ell_j = k_p$ e quindi $M = N.\ell_j$ si riscrive grazie alla regola \myrule{Select} nel valore $v_p$.
+			
+			\item Un record non ancora completamente valutato, ovvero $N = \{ \ell_i = v_i \:^{i = 1 \ldots x-1}$, $ l_x = M_x, l_k = M_k \:^{k = x+1\ldots n}\}, \exists M_x'| M_x \to M_x'$ e quindi per \myrule{Eval-Record} $N \to N'$ e pertanto anche $M \to M' = N'.\ell_j$.
+			
+			\item Un termine generico di tipo record, ovvero $N = \IF{M_1}{M_2}{M_3}$ oppure $N = A \: B$. In entrambi i casi vale il giudizio $\emptyset \vdash N : \{ \ell_i : T_i \:^{i = 1 \ldots n}\}$, cio\`e $N$ \`e un termine chiuso, ben tipato e non \`e un valore. 
+			Quindi per ipotesi induttiva ho che $\exists N'$ tale che $N \to N'$ e quindi per \myrule{Eval-Select} $\exists M' = N'.\ell_j$ tale che $M \to M'$.
+			Pertanto il teorema di Progressione continua a valere.
+			
+		\end{itemize}
+		
+		
+		
+		
+		\item \myrule{Subsumption}
+		$$
+		%\prftree[r]
+		{\myrule{Subsumption}}
+		{
+			%\prftree[r]
+			{}
+			{\vdots}
+			{\varnothing \vdash_{k} M : S}
+		}
+		{
+			%\prftree[r]
+			{}
+			{\vdots}
+			{S <: T}
+		}
+		{\varnothing \vdash_{k+1} M : T}
+		$$
+		Ora, siccome la derivazione del giudizio $\varnothing \vdash M  : S$ \`e pi\`u
+		corta di (almeno) un passo di derivazione rispetto a quella di partenza,
+		posso concludere per ipotesi induttiva che $M$ o \`e un buon valore finale o
+		che $\exists M': M \longrightarrow M'$. Siccome questo $M$ corrisponde a
+		quello di partenza, la tesi \`e dimostrata.
+
+	\end{itemize}
+
+\end{itemize}
+\end{proof}
+
+\paragraph{Teorema di Safety}
+\begin{centering}
+	Se $\emptyset \vdash M :T$ e $M \to^* M'$ con $M'$ tale che $M' \not\to$, allora $M'$ \`e un valore.
+\end{centering}
+
+\noindent La dimostrazione \`e una diretta conseguenza dei due teoremi precedenti: per il teorema di Progressione anche $\emptyset \vdash M': T$ \`e derivabile e, per il teorema di Subject-Reduction $M'$ deve essere un valore, perch\`e altrimenti esisterebbe un $M''$ al quale pu\`o ridursi.
+
 
 \subsection*{Esercizio 7.16}
 Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Gamma\vdash$ N : S con S<::T e T$\nless$::S, cioe' esibire un caso in cui il tipo di un termine decresce durante la computazione. 
-\textbf{{\color{red} DA FARE}}
+\textbf{{\color{red} DA FARE OPZIONALE}}

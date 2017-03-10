@@ -27,7 +27,7 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 \textbf{Termine 1: (4 $-$ 1, if true then false else false).\_1} 
 \begin{prooftree}
 	\AxiomC{}
-	\LeftLabel{\textsc{(MINUS)}}
+	\LeftLabel{\textsc{(MINuS)}}
 	\UnaryInfC{4 $-$ 1 $\rightarrow$ 3}
 	\LeftLabel{\textsc{(EVAL PAIR 1)}}
 	\UnaryInfC{(4 $-$ 1, if true then false else false) $\rightarrow$ (3, if true then false else false)}
@@ -37,7 +37,7 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 
 \begin{prooftree}
 	\AxiomC{}
-	\LeftLabel{\textsc{(IF-TRUE)}}
+	\LeftLabel{\textsc{(IF-TRuE)}}
 	\UnaryInfC{if true then false else false $\rightarrow$ false}
 	\LeftLabel{\textsc{(EVAL PAIR 2)}}
 	\UnaryInfC{(3, if true then false else false) $\rightarrow$ (3, false)}
@@ -55,7 +55,7 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 \textbf{Termine 2: (fn x : Nat $\ast$ Nat.x.\_2) (4 $-$ 2, 3 $+$ 1)} 
 \begin{prooftree}
 	\AxiomC{}
-	\LeftLabel{\textsc{(MINUS)}}
+	\LeftLabel{\textsc{(MINuS)}}
 	\UnaryInfC{4 $-$ 2 $\rightarrow$ 2}
 	\LeftLabel{\textsc{(EVAL PAIR 1)}}
 	\UnaryInfC{(4 $-$ 2, 3 $+$ 1) $\rightarrow$ (2, 3 $+$ 1)}
@@ -65,7 +65,7 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 
 \begin{prooftree}
 	\AxiomC{}
-	\LeftLabel{\textsc{(SUM)}}
+	\LeftLabel{\textsc{(SuM)}}
 	\UnaryInfC{3 $+$ 1 $\rightarrow$ 4}
 	\LeftLabel{\textsc{(EVAL PAIR 1)}}
 	\UnaryInfC{(2, 3 $+$ 1) $\rightarrow$ (2, 4)}
@@ -90,36 +90,83 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 Dimostrare il teorema di safety per il linguaggio contenente interi, booleani, funzioni e records.
 
 \subsubsection*{Svolgimento}
-Per quanto visto a lezione il lemma di inversione (lemma 0.6) con i record e il \`e:
-\begin{description}
+Per dimostrare che il teorema di Safety continua a valere anche per l'estensione del linguaggio con i records \`e necessario andare ad estendere i teoremi di Progressione e di Subject-Reduction.\\
+Per rendere pi\`u semplice la dimostrazione, inoltre, \'e necessario anche aggiornare il Lemma di Inversione.
 
-\item[Lemmi di inversione]{
-	
+\subparagraph{Teorema di Progressione}
+
+\begin{centering}
+	Se $M$ \`e un termine chiuso e ben tipato ($\emptyset \vdash  M : T$), allora o $M$ \`e un valore oppure esiste $M'$ tale che $M \to M'$.
+\end{centering}
+
+\noindent Per poter procedere con la dimostrazione del teorema di Progressione \`e necessario aggiungere alla dimostrazione due nuovi casi induttivi, mentre i casi per le altre regole di tipo restano invariati e continuano a valere.
+
 \begin{itemize}
-
-	\item 
-	\item TYPE-RECORD: se $\Gamma \vdash M....$ \`e derivabile $\rightarrow$ $\forall i \in 1,...,n$ $\Gamma \vdash M_i$ : $T_i$ 
-	
-	\item TYPE-SELECT: se $\Gamma \vdash M.l_j$ : $T_j$ \`e derivabile $\rightarrow$ $\forall i \in 1,...,n$ $\exists T_i$ $\Gamma \vdash M$ : $ \{ l_i$:$T_i^{i=1} \}$ 
+	\item \myrule{Type-Record} Se $M = \{ l_i = M_i \:^{i = 1 \ldots n} \}$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Record} valgono i giudizi di tipo $\emptyset \vdash M_i : T_i \: \forall \: i = 1\ldots n$ e che gli alberi di derivazione relativi ai vari giudizi sono di altezza inferiore all'albero del giudizio principale.
+	\`e quindi possibile applicare l'ipotesi induttiva sui sotto-termini $M_i$, i quali o sono un valore $v_i$ di tipo $T_i$ oppure possono avanzare in un termine $M_i'$:
+	\begin{itemize}
+		\item Se sono tutti dei valori si ha $M = \{ l_i = v_i \:^{i = 1 \ldots n} \}$, ovvero $M$ \`e un valore record di tipo $\{ l_i : T_i \:^{i = 1 \ldots n} \}$ e quindi il teorema di Progressione continua a valere banalmente.
+		\item Se c'\`e almeno un $M_i$ che non \`e un valore, \`e possibile identificare il termine $M_j$ di indice minimo che non \`e un valore e per il quale continua a valere il giudizio di tipo $\emptyset \vdash M_j : T_j$. Vale quindi l'ipotesi induttiva, ovvero $\exists M_j'$ tale che $M_j \to M_j'$. Posso quindi applicare la regola \myrule{Eval-Record} per far avanzare il termine $M$ al termine $M'$, dove al posto di $M_j$ compare $M_j'$. Anche in questo caso il teorema di Progressione continua a valere.
+	\end{itemize}
+	\item \myrule{Type-Select} Se $M = N.l_j$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Select} vale il giudizio di tipo $\emptyset \vdash N : \{ l_i : T_i \:^{i = 1 \ldots n}\}$ (con un albero di derivazione pi\`u piccolo, ovvero il passo precendete) e che $j \in \{1 \ldots n\}$.
+	Si ha quindi che $N$ pu\`o essere:
+	\begin{itemize}
+		\item un valore di tipo record, ovvero $N = \{ l_i = v_i \:^{i = 1 \ldots n} \}$ e quindi $M = \{ l_i = v_i \:^{i = 1 \ldots n} \}.l_j$ con $j \in 1 \ldots n$. In questo caso il termine $M$ pu\`o avanzare nel termine $M' = v_j$ perch\`e sono soddisfatte le premesse della regola \myrule{Select} e quindi il teorema di Progressione continua a valere.
+		
+		\item un record non ancora completamente valutato, ovvero $N = \{ l_i = v_i \:^{i = 1 \ldots x-1}, l_x = M_x, l_k = M_k \:^{k = x+1\ldots n}\}, \exists M_x': M_x \to M_x'$ e quindi per \myrule{Eval-Record} $N \to N'$ e pertanto anche $M \to M' = N'.l_j$.
+		
+		\item $N = \IF{M_1}{M_2}{M_3}$ oppure $N = A \: B$. In entrambi i casi vale il giudizio $\emptyset \vdash N : \{ l_i : T_i \:^{i = 1 \ldots n}\}$, ovvero $N$ \`e un termine chiuso, ben tipato e non \`e un valore. 
+		Quindi per ipotesi induttiva ho che $\exists N'$ tale che $N \to N'$ e quindi per \myrule{Eval-Select} $\exists M' = N'.l_j$ tale che $M \to M'$.
+		Pertanto il teorema di Progressione continua a valere.
+	\end{itemize}
 \end{itemize}
 
-}
 
-\item[Subject-Reduction]	{
+\subparagraph{Lemma di Inversione}
 
-	Se $\Gamma \vdash M $: $T$ e $M \rightarrow M_1, allora  \Gamma \vdash M_1 $: $T$\\
-	Le regole da dimostrare sono $SELECT, EVAL-SELECT ed EVAL-RECORD$
-	
-	\begin{itemize}
-		\item $M \equiv N.l_j con N = \{ l_i = v_i ^{i \in 1,...,n} \}$ %: $\{ l_i $:$ T_i ^{i \in 1,...,n} \}$
-		Per la regola di tipo (TYPE-SELCT) sappiamo che $M$ ha tipo $T \equival T_j con j \in 1,...,n $
-	\end{itemize}
+\begin{itemize}
+	\item \myrule{Type-Record}: Se $\Gamma \vdash M = \{ l_i = M_i \:^{i = 1 \ldots n} \} : \{ l_i : T_i \:^{i = 1 \ldots n} \}$ \`e derivabile, allora $\forall i \in 1 \ldots n. \Gamma \vdash M_i : T_i$ \`e derivabile.
+	\item \myrule{Type-Select}: Se $\Gamma \vdash M.l_j : T_j$ \`e derivabile, allora $\forall i \in 1\ldots n.\exists T_i. \Gamma \vdash M :  \{ l_i : T_i \:^{i = 1 \ldots n} \}$ \`e derivabile e $j \in 1 \ldots n$.
+\end{itemize}
+
+\noindent La dimostrazione di questi casi \`e banale perch\`e derivano dall'applicazione delle regole di tipo.
 
 
-}
+\subparagraph{Teorema di Subject-Reduction (Preservazione)}
 
-\end{description}
+\begin{centering}
+	Se $\Gamma \vdash M : T$ e $M \to M'$, allora $\Gamma \vdash M':T$.
+\end{centering}
+
+\noindent Anche per questo teorema \`e necessario aggiungere un nuovo caso base per l'assioma \myrule{Select} e due nuovi casi induttivi per \myrule{Eval-Select} e \myrule{Eval-Record}.
+
+\vspace{10px}
+
+\myrule{Select}: $M \equiv N.l_j$ con $N = \{ l_i = v_i \:^{i = 1 \ldots n} \} : \{ l_i : T_i \:^{i = 1 \ldots n} \}$.
+Per la regola di tipo \myrule{Type-Select} $M$ ha tipo $T \equiv T_j$ per $j \in 1\ldots n$.
+Oltre a ci\`o $M' = v_j$ per $j \in 1\ldots n$ e, per la regola \myrule{Select}, $v_j$ \`e il valore associato all'etichetta $l_j$ di $N$. Quindi, per il Lemma di Inversione esteso, dato che $\Gamma \vdash N : \{ l_i : T_i \:^{i = 1 \ldots n} \}$ \`e derivabile, sono anche derivabili i giudizi $\Gamma \vdash M_i :T_i \: \forall i \in 1 \ldots n$.
+In particolare, \`e derivabile il giudizio $\Gamma \vdash v_j : T_j$ e quindi $M' : T_j$, con $T_j \equiv T$.
+
+\vspace{10px}
+
+\myrule{Eval-Select}: $M \equiv N.l$ ed \`e derivabile il giudizio $\Gamma \vdash M \equiv N.l : T $. Inoltre, $ N \to N'$ e $M' \equiv N'.l$ con $l$ appartenente all'insieme delle etichette del record. 
+Per il Lemma di Inversione esteso, ho che $\Gamma \vdash N : \{ l_i : T_i \:^{i = 1 \ldots n} \}$ \`e derivabile con un albero di derivazione di altezza inferiore.
+Posso quindi applicare l'ipotesi induttiva per dire che anche $\Gamma \vdash N' : \{ l_i : T_i \:^{i = 1 \ldots n} \}$ \`e derivabile, per poi concludere applicando la regola \myrule{Type-Select} a $M' \equiv N'.l$, ottenendo che $\Gamma \vdash N'.l : T$ \`e derivabile e quindi anche $\Gamma \vdash M':T$ \`e derivabile.
+
+\vspace{10px}
+
+\myrule{Eval-Record}: Essendo $M \equiv \{ l_i = v_i \:^{i = 1 \ldots j-1}, l_j = M_j, l_k = M_k \:^{k = j+1\ldots n}\}$, \`e derivabile il giudizio $\Gamma \vdash M : T \equiv \{ l_i : T_i \:^{i = 1 \ldots n} \}$ e $M_j \to M'_j$.
+Per il primo caso del Lemma di Inversione esteso, ho che tutti i giudizi $\Gamma \vdash M_i : T_i$ sono derivabili ed in particolare \`e derivabile $\Gamma \vdash M_j : T_j$.
+Per ipotesi induttiva sull'altezza dell'albero $M_j \to M'_j$, ottengo che \`e derivabile anche il giudizio $\Gamma \vdash M'_j : T_j$.
+Infine, dato che $M' \equiv \{ l_i = v_i \:^{i = 1 \ldots j-1}, l_j = M'_j, l_k = M_k \:^{k = j+1\ldots n}\}$, posso applicare la regola \myrule{Type-Record} per dire che  $\Gamma \vdash M' : \{ l_i : T_i \:^{i = 1 \ldots n} \} \equiv T$ \`e derivabile e quindi anche $\Gamma \vdash M' : T$ \`e derivabile.
+
+\subparagraph{Teorema di Safety}
+
+\begin{centering}
+	Se $\emptyset \vdash M :T$ e $M \to^* M'$ con $M'$ tale che $M' \not\to$, allora $M'$ \`e un valore.
+\end{centering}
+
+\noindent La dimostrazione \`e una diretta conseguenza dei due teoremi precedenti: per il teorema di Preservazione anche $\emptyset \vdash M': T$ \`e derivabile e, per il teorema di Progressione $M'$ deve essere un valore, perch\'e altrimenti esisterebbe un $M''$ al quale pu\`o ridursi.
 
 
-\textbf{{\color{red} DA FARE}}
 	
