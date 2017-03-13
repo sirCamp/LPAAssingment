@@ -1,0 +1,366 @@
+\section{Featherweight Java (note 11)} 
+\subsection*{\fbox{Esercizio 1.1}}\
+\\ 
+Si noti che una class table puo' contenere definizioni di classi mutuamente ricorsive.
+\linebreak Scrivere un esempio:
+
+
+\vspace{0,5cm}
+\noindent
+\textbf{Svolgimento}:\linebreak
+Definiamo le due seguenti Classi
+
+\vspace{0,3cm}
+\textit{Class A extends B \{A() \{super()\}\}}
+
+\vspace{0,3cm}
+\textit{Class B extends A \{B() \{super()\}\}}
+
+\vspace{0,5cm}
+
+\noindent
+A e B sono muatamente ricorsive. La relativa Class Table non e' pero' ben fatta, in quanto contiene una relazione di sottotipo indotta con cicli.
+
+\vspace{1cm}
+\subsection*{\fbox{Esercizio 1.2}}\
+\\ 
+Dato il seguente codice:
+
+\vspace{0,3cm}
+\textit{class A extends Object \{ A()\{ super(); \} \}}
+
+\textit{class B extends Object \{ B()\{ super(); \} \}}
+
+\textit{class Pair extends Object \{ \{Object fst; Object snd;}
+
+\hspace{0,3cm}\textit{Pair(Object fst, Object snd)\{} 
+
+\hspace{0,6cm} \textit{super(); this.fst=fst; this.snd=snd \} }
+
+\textit{Pair setfst(Object newfst) \{ return new Pair(newfst, this.snd); \}\}}
+
+\vspace{0,5cm}
+Descrivere la semantica operazionale dei seguenti termini:
+
+\begin{itemize}
+\item new Pair(new A(), new B()).snd
+\item (Pair) new Pair(new A(), new B())
+\item new Pair(new A(),new B()).setfst(new B())
+\item (Pair) (new Pair(new Pair(new A(), new B()), new A()).fst)).snd
+\item (B) ((A)new C())
+\end{itemize}
+
+\vspace{0,5cm}
+\textbf{Svolgimento}:
+
+Per motivi di spazio i seguenti termini saranno abbreviati con delle lettere
+\begin{itemize}
+\item[$\ast$] new Pair(new A(),new B()) $\equiv$ K
+\item[$\ast$] Pair setfst(Object newfst) \{ return new Pair(newfst, this.snd) $\equiv$ H 
+\end{itemize}
+
+\vspace{0,5cm}
+
+\begin{itemize}
+\item \fbox{new Pair(new A(), new B()).snd}
+
+\begin{prooftree}
+	\AxiomC{CT(Pair)= class Pair extends Object...}
+	\AxiomC{fields(Object) = $\emptyset$}	
+	\BinaryInfC{fields(Pair) = (fst : Object, snd : Object)}
+	\LeftLabel{(PROJNEW)}	
+	\AxiomC{snd $\in$ \{fst , snd\} }
+	\BinaryInfC{new Pair(new A(), new B()).snd $\rightarrow$ new B()}
+	\end{prooftree}
+	
+\vspace{1,5cm}
+
+\item \fbox{(Pair) new Pair(new A(), new B())}
+
+
+\begin{prooftree}
+	\AxiomC{}	
+	\RightLabel{(REFLEX)}	
+	\UnaryInfC{Pair <: Pair}
+	\LeftLabel{(CASTNEW)}
+	\UnaryInfC{(Pair) new Pair(new A(), new B()) $\rightarrow$ new Pair(new A(), new B())}
+	\end{prooftree}
+\vspace{1,5cm}
+
+\item \fbox{new Pair(new A(),new B()).setfst(new B())}
+
+
+
+\begin{prooftree}
+	\AxiomC{CT(Pair)= class Pair extends Object...}
+	\AxiomC{H}	
+	\BinaryInfC{mbody(fst, K)}
+	\LeftLabel{(INVKNEW)}	
+	\AxiomC{|fst|=|newB()|}
+	\BinaryInfC{K.setfst(new B()) $\rightarrow$ new Pair(newfst,this.snd)\{fst=new B(),this=K\}}
+\end{prooftree}
+
+\vspace{1,5cm}
+
+	
+\item \fbox{((Pair) (new Pair(new Pair(new A(), new B()), new A()).fst)).snd}
+
+\vspace{0,5cm}
+Passo 1
+
+\begin{prooftree}
+	\AxiomC{LOOKUP DI CAMPI...}
+	\UnaryInfC{fields (Pair) = \{\} }
+	\AxiomC{LOOKUP DI CAMPI...}
+	\LeftLabel{(PROJNEW)}	
+	\BinaryInfC{(new Pair(K, new A()).fst) $\rightarrow$  }
+	\LeftLabel{(CAST)}	
+	\UnaryInfC{((Pair) (new Pair(K, new A()).fst)) $\rightarrow$ }
+	\LeftLabel{(FIELD)}
+	\UnaryInfC{((Pair) (new Pair(K, new A()).fst)).snd $\rightarrow$ ((Pair) K).snd}
+\end{prooftree}
+
+\vspace{0,5cm}
+Passo 2
+
+\begin{prooftree}
+	\AxiomC{}
+	\LeftLabel{(REFLEX)}	
+	\UnaryInfC{Pair <: Pair}
+	\RightLabel{(CASTNEW)}	
+	\UnaryInfC{((Pair) K $\rightarrow$ K }
+	\LeftLabel{(FIELD)}
+	\UnaryInfC{((Pair) K).snd $\rightarrow$ K.snd}
+\end{prooftree}
+
+\vspace{0,5cm}
+Passo 3
+
+\begin{prooftree}
+	\AxiomC{LOOKUP DI CAMPI}
+	\UnaryInfC{fields (Pair) = \{Object fst,Object snd\} }
+	\AxiomC{snd $\in$ $\widetilde{f}$}	
+	\LeftLabel{((PROJNEW))}
+	\BinaryInfC{(new Pair(new A(), new B()).snd $\rightarrow$ new B()}
+\end{prooftree}
+
+\vspace{0,5cm}
+
+\item \fbox{(B) ((A)new C())}
+\vspace{0,5cm}
+
+Possiamo fare due ipotesi di subtyping: 
+\vspace{0,5cm}	
+	\begin{itemize}
+	\item[-] C <: A <: B
+			
+Passo 1
+\vspace{0,3cm}
+	\begin{prooftree}
+		\AxiomC{CT(C)=class C extends A\{...\}}	
+		\UnaryInfC{C <: A}
+		\RightLabel{(CASTNEW)}	
+		\UnaryInfC{(A)new C() $\rightarrow$ new C() }
+		\LeftLabel{(CAST)}
+		\UnaryInfC{(B) ((A)new C()) $\rightarrow$ (B) new C() }
+	\end{prooftree}				
+\vspace{1cm}
+
+Passo 2
+\vspace{0,5cm}
+	\begin{prooftree}
+		
+		\AxiomC{CT(A)=class A extends B\{...\}}
+		\UnaryInfC{A <: B}
+		\AxiomC{CT(C)=class C extends A\{...\}}
+		\UnaryInfC{C <: A}	
+		\BinaryInfC{C <: B}
+		\LeftLabel{(CASTNEW)}
+		\UnaryInfC{(B) new C() $\rightarrow$ new C() }
+	\end{prooftree}	
+\vspace{1,5cm}
+
+	\item[-] C <: B <: A
+	
+	Passo 1
+\vspace{0,5cm}
+	\begin{prooftree}
+		\AxiomC{CT(B)=class B extends A\{...\}}
+		\UnaryInfC{B <: A}
+		\AxiomC{CT(C)=class C extends B\{...\}}
+		\UnaryInfC{C <: B}	
+		\BinaryInfC{C <: A}
+		\RightLabel{(CASTNEW)}	
+		\UnaryInfC{(A)new C() $\rightarrow$ new C() }
+		\LeftLabel{(CAST)}
+		\UnaryInfC{(B) ((A)new C()) $\rightarrow$ (B) new C() }
+	\end{prooftree}				
+\vspace{1cm}
+
+Passo 2
+\vspace{0,3cm}
+	\begin{prooftree}
+		\AxiomC{CT(C)=class C extends B\{...\}}	
+		\UnaryInfC{C <: B}
+		\LeftLabel{(CASTNEW)}
+		\UnaryInfC{(B) new C() $\rightarrow$ new C() }
+	\end{prooftree}	
+		\end{itemize}
+\end{itemize}
+
+\vspace{1cm}
+\subsection*{\fbox{Esercizio 1.3}}\
+\\
+\
+Scrivere un programma con override di un metodo e descriverne la valutazione, evidenziando il binding dinamico
+per la chiamata del metodo riscritto.
+
+\vspace{0,5cm}
+\textbf{Svolgimento}:
+
+\framebox[10cm]{\begin{minipage}{9,5cm}
+\textit{class A extends Object \{ }
+
+\hspace{0,3cm}\textit{Nat fst; Nat snd;}
+ 
+\hspace{0,3cm}\textit{A (Nat fst; Nat snd)\{} 
+
+\hspace{0,6cm}\textit{super(); this.fst=fst; this.snd=snd \}} 
+
+\hspace{0,3cm}\textit{Nat print() \{ return fst \}\}}
+
+\vspace{0,3cm}
+
+\textit{class B extends A \{ }
+
+\hspace{0,3cm}\textit{B (Nat fst; Nat snd)\{} 
+
+\hspace{0,6cm}\textit{super(); this.fst=fst; this.snd=snd \}} 
+
+\hspace{0,3cm}\textit{Nat print() \{ return snd \}\}}
+
+    \end{minipage}
+    }
+    
+\vspace{0,6cm}
+
+consideriamo ora il seguente termine:
+
+\vspace{0,3cm}
+\hspace{0,3cm}\textit{((A) new B(10,4)).print()}
+
+\vspace{1cm}
+Passo 1
+\vspace{0,3cm}
+	\begin{prooftree}
+		\AxiomC{CT(B)=class B extends A\{...\}}	
+		\UnaryInfC{B <: A}
+		\RightLabel{(CASTNEW)}
+		\UnaryInfC{(A) new B(10,4) $\rightarrow$ new B(10,4)}
+		\LeftLabel{(INVKRECV)}
+		\UnaryInfC{((A) new B(10,4)).print() $\rightarrow$ new B(10,4).print()}
+	\end{prooftree}	
+		
+
+
+\vspace{0,5cm}
+Passo 2
+\vspace{0,3cm}
+	\begin{prooftree}
+		\AxiomC{CT(B)= class B extends A...}
+		\AxiomC{Nat print() \{ return snd \} $\in$ $\widetilde{M}$}	
+		\BinaryInfC{mbody($\emptyset$,B)=(snd, return snd)}
+		\AxiomC{$\emptyset$ = $\emptyset$}
+		\LeftLabel{(INVKNEW)}
+		\BinaryInfC{ new B(10,4).print() $\rightarrow$ 4}
+	\end{prooftree}	
+
+\vspace{1cm}
+\subsection*{\fbox{Esercizio 1.4}}\
+\\
+\
+Perche' c'e' una regola di tipo sia per l'Up-cast che per il Downcast, mentre c'e' la sola regola di valutazione per
+Up-cast, nella semantica operazionale?
+
+\vspace{0,5cm}
+\textbf{Svolgimento}:
+
+\vspace{0,3cm}
+L'operazione di Upcast, applicata su termini non stuck, non produrra' mai termini stuck in quanto effettua una conversione da un tipo piu' informativo(sottoclasse) ad un tipo meno informativo(superclasse).
+Cio' non e' sempre valido con l'operazione di Down-cast, la quale effettua invece una conversione da un tipo meno informativo(superclasse) ad uno che richiede piu' informazione (sottoclasse), con conseguente mancanza di valori da assegnare ai campi dati della sottoclasse stessa.
+    
+La regola di typing di Down-cast, e' inserita per permettere la valutazioni di termini, che il compilatore non considerebbe ben tipati anche se a run-time non evolvono in un termine stuck.
+
+\vspace{0,5cm}
+Consideriamo ad esempio il seguente termine: 
+
+	- (B)((C) new A())
+	
+	con la seguente relazione di sottotipo (A<:B<:C)
+
+\vspace{0,5cm}	
+Valutazione di tipo:
+
+\vspace{0,3cm}
+\begin{prooftree}
+		\AxiomC{..........}
+		\LeftLabel{(NEW)}
+		\UnaryInfC{$\emptyset \vdash $ new A(): A }
+		\AxiomC{A <: C}
+		\LeftLabel{(UP-CAST)}
+		\BinaryInfC{$\emptyset \vdash $ (C)new A(): C }		
+		\AxiomC{B <: C}	
+		\AxiomC{C $\neq$ B }
+		\RightLabel{(DOWN-CAST)}
+		\TrinaryInfC{$\emptyset \vdash $ (B) ((C)new A()): B }
+	\end{prooftree}
+	
+\vspace{1cm}	
+Applicazione regole di semantica operazionale:
+
+\vspace{0,3cm}
+Passo 1
+\begin{prooftree}
+		\AxiomC{CT(A)=class A extends B\{...\}}
+		\UnaryInfC{A <: B}
+		\AxiomC{CT(B)=class B extends C\{...\}}
+		\UnaryInfC{B <: C}	
+		\BinaryInfC{A <: C }
+		\RightLabel{(CASTNEW)}	
+		\UnaryInfC{(C)new A() $\rightarrow$ new A() }
+		\LeftLabel{(CAST)}
+		\UnaryInfC{(B) ((C)new A()) $\rightarrow$ (B) (new A()) }
+	\end{prooftree}	
+
+\vspace{0,3cm}
+Passo 2
+
+	\begin{prooftree}
+		\AxiomC{CT(A)=class A extends B\{...\}}	
+		\UnaryInfC{A <: B}
+		\LeftLabel{(CASTNEW)}
+		\UnaryInfC{(B) new A() $\rightarrow$ new A() }
+	\end{prooftree}	
+
+\vspace{0,5cm}
+Risulta essere ben tipato grazie anche all'utilizzo della regola di tipo DOWN-CAST, ed a Run-time effettivamente non evolve in un termine stuck.
+
+
+
+
+\vspace{1cm}			 
+\subsection*{\fbox{Esercizio 1.5}}\
+\\
+\
+Ha senso aggiungere a FJ la regola di sub-typing per i tipi freccia A$\rightarrow$B?
+
+
+\vspace{0,5cm}
+\noindent
+\textbf{Svolgimento}:
+
+\vspace{0,3cm}
+In FJ le funzioni non appartengono all'insieme Termini t della sintassi del linguaggio.
+
+I tipi freccia li troviamo solamente all'interno di metodi, i quali hanno gia' una regola di typing (INVK) che, essendo il sistema di  regole sintax-direct (o algoritmico), integra direttamente la regola di sub-typing.
+ 

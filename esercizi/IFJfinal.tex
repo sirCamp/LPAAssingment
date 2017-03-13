@@ -1,0 +1,319 @@
+\section{Imperative Featherweight Java (note 12)}
+\vspace{1cm}
+
+\subsection*{\fbox{Esercizio 1.1}}
+Scrivere una regola per eliminare i riferimenti non piu' utilizzati.
+
+
+Svolgimento:
+
+
+I riferimenti agli oggetti che non vengono piu' utilizzati all'interno di un termine e, possono essere eliminati.
+
+consideriamo la seguente regola:
+
+\begin{prooftree}
+	\AxiomC{o $\notin$ fref($e$)}
+	\AxiomC{o $\notin$ Codom($\sigma$)}	
+	\BinaryInfC{$\langle\sigma\:[o\mapsto(C,f\widetilde{:}v)]\:,\:e\rangle$ $\rightarrow$ $\langle\sigma\:,\:e\rangle$}
+	\end{prooftree}
+
+\vspace{0,5cm}
+
+\begin{itemize}
+\item fref($e$) = Insieme dei riferimenti a tutti gli oggetti utilizzati nel termine $e$
+\item Codom($\sigma$) = Insieme degli oggetti che sono riferiti da altri oggetti presenti nella memoria.
+\end{itemize}
+
+\vspace{1,5cm}
+
+
+
+\subsection*{\fbox{Esercizio 1.2}}
+Descrivere il comportamento del seguente programma:
+
+\vspace{0,5cm}
+\framebox[10cm]{\begin{minipage}{9,5cm}
+\textit{class D extends Object \{}
+
+\hspace{0,3cm}\textit{Object f;}
+ 
+\hspace{0,3cm}\textit{D(Object f) \{super(); this.f=f;\}} 
+ 
+\hspace{0,3cm}\textit{Object m() \{return this;\}\}} 
+
+\vspace{0,5cm}
+
+\textit{class C extends D \{}
+
+\hspace{0,3cm}\textit{C(Object f) \{super();\}}
+ 
+\hspace{0,3cm}\textit{Object m() \{return this;\}\}}
+
+\vspace{1cm}
+
+\textit{Object z=new Object();}
+
+\textit{C x=new C(z);}
+
+\textit{C y=new D(x);}
+
+\textit{x.m(); x=y; x.m()}
+
+\textit{y.f=new Object();}
+
+\textit{z=null; x.f=z; y.f.m();}
+
+
+    \end{minipage}
+    }
+    
+\vspace{0,5cm}
+Risoluzione:
+
+Definiamo la configurazione iniziale sostituendo allo store $\sigma$ l'insieme vuoto($\emptyset$) ed all'espressione $e$ l'insieme delle istruzioni del programma. Otteniamo dunque la seguente configurazione iniziale:
+
+
+$\langle\emptyset\:,\:Object\:z=new\:Object();\:C\:x=new\:C(z);\:.....\rangle$
+
+\begin{itemize}
+
+\vspace{0,5cm}
+\item Creazione oggetto $o_1$ da memorizzare nella variabile z
+
+$\rightarrow$ $\langle\emptyset\:,\:Object\:z=o_1;\:C\:x=new\:C(z);\:.....\rangle$
+
+\vspace{0,5cm}
+
+\begin{prooftree}
+	\AxiomC{$o_1 \notin Dom(\emptyset)$}
+	\AxiomC{field(Object)= $\emptyset$}
+	\AxiomC{$|\emptyset| = |\emptyset|$ }
+	\RightLabel{(NEW)}
+	\TrinaryInfC{$\langle\emptyset,\:new Object()\rangle$ $\rightarrow$ $\langle\emptyset\:[o_1\mapsto (Object)]\:,\:o_1\rangle$}
+	\LeftLabel{(CONG)}
+	\UnaryInfC{$\langle\emptyset\:,E[t]\rangle$ $\rightarrow$ $\langle\emptyset\:[o_1\mapsto (Object)]\:,\:E[o_1]\rangle$}
+	\end{prooftree}
+\vspace{1cm}
+
+		\begin{itemize}
+		\item[-] E[] $\equiv$ Object z = []
+		\item[-] $t$ $\equiv$ new Object() 
+		\end{itemize}
+
+\vspace{0,5cm}
+\item Associazione dell'oggetto $o_1$ a z
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:(Object)]\:\:,\:C\:x=new\:C(z);\:.....\rangle$
+
+\begin{prooftree}
+	\AxiomC{$z\:\notin Dom(\sigma)$ }
+	\RightLabel{(NEW)}
+	\UnaryInfC{$\langle\sigma\:,\:Object\:z=\:o_1\:;\:e\rangle$ $\rightarrow$ $\langle\sigma\:[z\mapsto o_1]\:,\:e\rangle$}
+	\LeftLabel{(CONG)}
+	\UnaryInfC{$\langle\sigma\:,E[t]\rangle$ $\rightarrow$ $\langle\sigma\:[z\:\mapsto\:o_1]\:,\:E[o_1]\rangle$}
+	\end{prooftree}
+\vspace{1cm}
+
+		\begin{itemize}
+		\item[-] E[] $\equiv$ []
+		\item[-] $t$ $\equiv$ Object z=$o_1$ 
+		\item[-] $\sigma\:\equiv\:\emptyset\:\:[o_1\:\mapsto\:(Object)]$
+		\end{itemize}
+
+
+\vspace{0,5cm}
+\item Dereferenzazione della varibile z per creare l'oggetto $o_2$
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto:o_1]\:,\:C\:x=new\:C(o_1);\:.....\rangle$
+
+\vspace{0,5cm}
+\item Creazione dell'oggetto $o_2$ da associare nella variabile x
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:,\:C\:x=new\:C(z);\:.....\rangle$
+
+\vspace{0,5cm}
+\item Associazione dell'oggetto $o_2$ ad x
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:,\:C\:y=new\:D(x);\:.....\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione della variabile x per creare l'oggetto $o_2$
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:,\:C\:y=new\:D(o_2);\:.....\rangle$
+
+\vspace{0,5cm}
+\item Creazione dell'oggetto $o_3$ di tipo D da associare nella variabile y di tipo C. La classe C e' un sottotipo della classe D, pero' non aggiunge nessun nuovo campo dati e nessun nuovo metodo, effettua solamente l'override del metodo m().
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:,\:C\:y=o_3;\:.....\rangle$
+
+\vspace{0,5cm}
+\item Associazione dell'oggetto $o_3$ ad y
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x.m();.....\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione di x per effettuare l'invocazione del metodo m().
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:o_2.m();.....\rangle$
+
+\vspace{0,5cm}
+\item Invocazione del metodo m() della classe C perche' la funzione mbody effettua la scelta di tale metodo in base alla class-table dell'oggetto di invocazione, il metodo restituisce l'oggetto stesso quindi $o_2$.
+
+Lo store rimane inalterato e si ha solo il passaggio all'istruzione successiva.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x=y;.....\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione della variabile y.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x=o_3;.....\rangle$
+
+\vspace{0,5cm}
+\item Associazione dell'oggetto $o_3$ di tipo D alla variabile x. Si effetua una modifica allo store in quanto la variabile x gia' esisteva ed era associata all'oggetto $o_2$.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:\underline{[x\:\mapsto\:o_3]}\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x.m();.....\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione di x per effettuare l'invocazione del metodo m().
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:o_3.m();.....\rangle$
+
+\vspace{0,5cm}
+\item Invocazione del metodo m() della classe D perche' la funzione mbody effettua la scelta di tale metodo in base alla class-table dell'oggetto di invocazione, il metodo restituisce l'oggetto stesso quindi $o_3$.
+
+Lo store rimane inalterato e si ha solo il passaggio all'istruzione successiva.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:y.f=new\:Object();.....\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione di y
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:o_3.f=new\:Object();.....\rangle$
+
+\vspace{0,5cm}
+\item Creazione dell'oggetto $o_4$ di tipo Object da associare alla struttura dati f dell'oggetto $o_3$, associato alla variabile y, che referenziava l'oggetto $o_2$.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:\underline{[o_3\:\mapsto\:(D,f:o_4)]}\:[y\:\mapsto\:o_3]\:[o_4\:\mapsto\:Object]\:,\:o_3.f=o_4;.....\rangle$
+
+\vspace{0,5cm}
+\item Associazione alla struttura dati dell'oggetto $o_3$ associato alla variabile y.
+
+Lo store rimane inalterato e si ha solo il passaggio all'istruzione successiva.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_4)]\:[y\:\mapsto\:o_3]\:[o_4\:\mapsto\:Object]\:,\:z=null;.....\rangle$
+
+\vspace{0,5cm}
+\item Associazione di \textbf{null} alla variabile z. 
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:\underline{[z\mapsto\:null]}\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_4)]\:[y\:\mapsto\:o_3]\:[o_4\:\mapsto\:Object]\:,\:x.f=z;.....\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione di z.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:\underline{[z\mapsto\:null]}\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_4)]\:[y\:\mapsto\:o_3]\:[o_4\:\mapsto\:Object]\:,\:x.f=null;.....\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione di x.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:\underline{[z\mapsto\:null]}\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_4)]\:[y\:\mapsto\:o_3]\:[o_4\:\mapsto\:Object]\:,\:o_3.f=null;.....\rangle$
+
+\vspace{0,5cm}
+\item Assegnazione di $null$ ad $o_3.f$. Considerando che la variabile y si riferisce all'oggetto $o_3$, abbiamo che anche y.f = $null$
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\mapsto\:null]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:null)]\:[y\:\mapsto\:o_3]\:[o_4\:\mapsto\:Object]\:,\:y.f.m();\rangle$
+
+\vspace{0,5cm}
+\item Dereferenzazione di y.
+
+$\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\mapsto\:null]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:null)]\:[y\:\mapsto\:o_3]\:[o_4\:\mapsto\:Object]\:,\:o_3.f.m();\rangle$
+
+\vspace{0,5cm}
+\item Il programma termina restituendo NPE, in quanto si tenta di invocare il metodo m() su $null$.
+
+\end{itemize}
+
+
+\vspace{1,5cm}
+\subsection*{\fbox{Esercizio 1.3}}
+\
+\\
+\
+\vspace{0,6cm}
+Dare una derivazione di tipo per il termine C x=$o_1$; $o_1$.f=y; x=$o_2$.
+\vspace{0,6cm}
+
+\begin{prooftree}
+	\AxiomC{$o_1\::\:F\:\in\:\Gamma$}
+	\RightLabel{(OID)}
+	\UnaryInfC{$\Gamma\:\vdash\:o_1:F$}
+	\AxiomC{(A)}
+	\RightLabel{(CLASS)}
+	\UnaryInfC{$F\:<:\:C $}
+	\AxiomC{(B)}
+	\AxiomC{(C)}
+	\UnaryInfC{$\Gamma\:,\:x=o_2\::T$}
+	\RightLabel{(SEQ)}
+	\BinaryInfC{$\Gamma\:,\:x:C\:\vdash\:o_1.f=y,\:x=o_2\::\:T$}
+	\LeftLabel{(DICHIAR)}
+	\TrinaryInfC{$C\:x=o_1;\:o_1.f=y;\:x=o_2\::\:T$}
+	\end{prooftree}
+	
+\vspace{2,5cm}
+
+\begin{itemize}
+
+\item[(A)]
+\
+\
+($CT(F)\:=\:class\:F\:extends\:C\:\{..\}$)
+\vspace{1cm}
+
+\item[(B)]
+\
+\\
+\
+\vspace{0,3cm}
+\begin{bprooftree}
+	\AxiomC{$o_1\::\:F\:\in\:\Gamma$}
+	\RightLabel{(Oid)}
+	\UnaryInfC{$\Gamma\:,\:x:C\:\vdash\:o_1\::\:F$}
+	\AxiomC{$f\:\in\:field(N)$}
+	\RightLabel{(Fld)}
+	\BinaryInfC{$\Gamma\:,\:x:C\:\vdash\:o_1.f\::\:N$}
+	\AxiomC{$CT(N)..$}
+	\RightLabel{(CL)}
+	\UnaryInfC{$N\:<:\:M $}
+	\AxiomC{$y\::\:M\:\in\:\Gamma$}
+	\RightLabel{(Var)}
+	\UnaryInfC{$\Gamma\:,\:x:C\:\vdash\:y\::\:M$}
+	\LeftLabel{(Fld Ass)}
+	\TrinaryInfC{$\Gamma\:,\:x:C\:\vdash\:o_1.f=y\::\:M$}
+	\end{bprooftree}
+
+\vspace{1cm}
+
+\item[(C)]
+\
+\\
+\\
+\\
+\
+\vspace{0,8cm}
+\begin{bprooftree}
+	\AxiomC{$o_2\::\:T\:\in\:\Gamma$}
+	\RightLabel{(OID)}
+	\UnaryInfC{$\Gamma\:,\:x:C\:\vdash\:o_2\::\:T$}
+	\AxiomC{$CT(T)= class T\:extends\:C\{..\}$}
+	\RightLabel{(CL)}
+	\UnaryInfC{$T\:<:\:C $}
+	\AxiomC{$x\::\:C\:\in\:\Gamma$}
+	\RightLabel{(Var)}
+	\UnaryInfC{$\Gamma\:\vdash\:x\::\:C$}
+	\LeftLabel{(Ass)}
+	\TrinaryInfC{$\Gamma\:,\:x:C\:\vdash\:x=o_2\::\:T$}
+	\end{bprooftree}
+
+\end{itemize}
+
+
