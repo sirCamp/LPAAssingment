@@ -123,7 +123,25 @@ In questo modo, modificando TYPE VARIANT, si ottiene il subtyping in larghezza (
 \subsection*{Esercizio 7.5}
 Quali proprieta' del sistema di tipi si perderebbero se avessimo definito la relazione di
 subtyping con una regola di troppo? E se l'avessimo definita con una regola in meno? E se l'avessimo definita con una regola in meno? Se avessimo definito le regole in modo tale che \{l : Nat\} <: \{l : Nat, l' : Nat\}, quale proprieta' del sistema non sarebbe piu' vera? Identificarla e darne un controesempio.
-\textbf{{\color{red} DA FARE}}
+\subsection*{Svolgimento}
+
+\subparagraph*{Regola di troppo}
+\subparagraph*{Regola in meno}
+
+Gli effetti che si otterrebbero con una regola in meno sono diversi e dipendono dalla regola che viene tolta.
+\begin{itemize}
+\item (REFLEX): la rimozione di questa regola comporterebbe degli assurdi, in quanto un tipo $T$ generico non sarebbe pi\`u sotto-tipo di se stesso in sostanza avremo una situazione di questo tipo: $T \not <$: $T$.
+\item (TRANS):  la rimozione di questa regola comporterebbe la rimozione della possibilit\`a di rendere transitiva la propriet\`a e la relazione di subtyping impedendo di avere realazioni di subtyping a pi\`u livelli. Poniamo $U$ e $S$ sottotipi di un tipo generico $T$, se mancasse tale regola non si riuscirebbe a derivare un giudizio del tipo $S <$:$U$ sulla base di $U<$:$T$ e $S<$:$T$.
+\item (SUB-WIDTH):
+la rimozione di questa regola renderebbe limiterebbe la relazione di subtyping per quanto riguarda i record. Questa regola infatti permette di una relazione di subtyping tra il record $\{l$:$Nat,l_1$:$Nat\}$ e il record $\{l$:$Nat\}$ permettendo di utilizzare il primo (specifico) al posto del secondo (generale). La mancanza di tale regola, come detto, limita fortemente il subtyoing per i record perch\`e obbliga ad usare sempre record della stessa \emph{larghezza}, tuttavia la relazione di subtyping tra record, continua ad esistere in altre forme, come quelle garantite dall SUB-DEPTH.
+\item (SUB-DEPTH): 
+la rimozione di questa regola, come nel caso precedente, limita la relazione di subtyping dei record, anche se pi\`u debolmente rispetto alla precedente. Senza questa regola, la relazione di subtyoing tra record non potrebbe pi\`u appoggiarsi sulla relazione di tipo esistente tra i corrispettivi tipi dei valori dei record. Supponendo di avere $S <$: $T$, un record   $\{l$:$S\}$ e un record $\{l$:$T\}$, nonstante il primo record possa potenzialmente essere utilizzato ovunque venga utilizzato il secondo, la mancanza di questa regola ne impedisce di derivare il giudizio che ne garantirebbe il funzionamento.
+\item (PERMUTE):
+la rimozione di questa regola, elimina la possibilit\`a di avere giudizi come ad esmepio $\{a$:$Nat,b$:$Nat\}$ <: $\{b$:$Nat}$, questo perch\`e senza questa regolaz la relazione di suptyping risulta essere posizionale e non gestirebbe il sottotipo con permutazione degli elementi del record.
+\item (ARROW):
+la rimozione di questa regola le funzioni accetterebbero solo il tipo $T$ scritto nella signatura della funzione stessa senza accettare un tipo $S$
+\end{itemize}
+\subparagraph*{Regola regola invertita}
 
 \subsection*{Esercizio 7.12}
 Ridimostrare il teorema di progressione, preservazione, il substitution lemma e il teorema
