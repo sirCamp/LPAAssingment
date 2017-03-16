@@ -659,4 +659,14 @@ $\varnothing \vdash M : T$.
 
 \subsection*{Esercizio 7.16}
 Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Gamma\vdash$ N : S con S<::T e T$\nless$::S, cioe' esibire un caso in cui il tipo di un termine decresce durante la computazione. 
-\textbf{{\color{red} DA FARE OPZIONALE}}
+\subsubsection*{Svolgimento}
+Una possibile soluione potrebbe essere la seguente:
+
+$ (fn$ $x$:$\{l$:$Nat\}.\{l_i = x.l_i^{i \in 1,...,x.length},l_j^{j=x.lenght+1} = 0\})$ $({l=4})$
+
+Questa funzione, in sostanza non fa altro che ritornare un record con gli stessi campi del primo pi\`u un ulteriore campo.
+Cos\`i facendo il tipo del paramentro della funzione \`e $T$  ma accetta qualsiasi tipo $S$ tale che $S$ <: $T$, tuttavia il tipo di ritorno \`e sempre pi\`u specifico ( a causa della nuova etichetta aggiunta) e di conseguenza, per come abbiamo definito la regola di subtyping, il tipo di ritorno $U$ non sar\`a mai sopra-tipo di $T$.
+
+Quindi abbiamo trovato due termini, $M$:$T$ e $N$:$S$ tali che $M \rightarrow N$ con le caratteristiche richieste.
+
+Inoltre, per come definita, questa funzione rispetta quanto richiesto anche nel subtyping non algoritmico.
