@@ -107,6 +107,22 @@ Dare la derivazione del giudizio $\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{
 	\BinaryInfC{$\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat}
 \end{prooftree} }}
 
+Esistono altre derivazioni di questo giudizio; infatti, in ogni momento posso applicare la regola SUBSUMPTION.
+Esempio di alternativa:
+ 
+ \begin{prooftree} 
+	\AxiomC{(A)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{$\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat}
+	\AxiomC{(REFLEX)}
+	\LeftLabel{\textsc{}}
+	\UnaryInfC{Nat<:Nat}
+	\LeftLabel{\textsc{(SUBSUMPTION)}} 
+	\BinaryInfC{$\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat}
+\end{prooftree}   
+
+Dove A e' la derivazione vista precedentemente. Potendo applicare SUBSUMPTION in qualsiasi punto della derivazione, anche piu' volte, ne consegue che il numero di derivazioni possibili e' infinito. 
+
 \subsection*{Esercizio 6.4}
 Quale potrebbbe essere la relazione di sottotipo dei variant types? 
  

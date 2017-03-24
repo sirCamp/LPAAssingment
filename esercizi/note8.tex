@@ -21,7 +21,7 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\LeftLabel{\textsc{(TRY)}}
 	\UnaryInfC{try (M 3) catch fn y.y + y $\rightarrow$ try (if pari(3) then 3/2 else throw 3) catch fn y.y + y}
 \end{prooftree}
-
+  
 \textbf{passo 2} \\		
 \scalebox{.9}{
 \parbox{1cm}{
@@ -33,7 +33,7 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\LeftLabel{\textsc{(TRY)}}
 	\UnaryInfC{try (if pari(3) then 3/2 else throw 3) catch fn y.y + y $\rightarrow$ try (if false then 3/2 else throw 3) catch fn y.y + y}
 \end{prooftree}}
-}
+} 
 
 \textbf{passo 3} 
 \begin{prooftree}  
@@ -49,6 +49,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{try (throw 3) catch fn y.y + y $\rightarrow$ fn y.y + y 3}
 \end{prooftree}
 
+Al passo 4 si effettua un salto non locale del flusso di controllo a causa dell'eccezione.
+
 \textbf{passo 5} 
 \begin{prooftree}   
 	\AxiomC{\textsc{(BETA)}}
@@ -61,6 +63,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{3 + 3 $\rightarrow$ 6}
 \end{prooftree}
 
+
+L'eccezione lanciata dal throw x in M viene raccolta dall'unico catch presente.
 
 \paragraph{b) try (fn y.y - 2 (M 5)) catch fn z.print(z)}\mbox{}
 
@@ -104,6 +108,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{try (fn y.y - 2 (throw 5)) catch fn z.print(z) $\rightarrow$ try (throw 5) catch fn z.print(z)}
 \end{prooftree}
 
+Al passo 4 si effettua un salto non locale del flusso di controllo a causa dell'eccezione.
+
 \textbf{passo 5} 
 \begin{prooftree}   
 	\AxiomC{\textsc{(TRY HANDLE)}}
@@ -121,6 +127,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\AxiomC{\textsc{(BETA)}}
 	\UnaryInfC{print(5) $\rightarrow$ "stampa 5"}
 \end{prooftree}
+
+L'eccezione lanciata dal throw x in M viene raccolta dall'unico catch presente.
 
 \paragraph{c) try (fn y.y - 2 (M throw 2)) catch fn z.print(z)}\mbox{}
 
@@ -142,6 +150,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{try (fn y.y - 2 (throw 2)) catch fn z.print(z) $\rightarrow$ try (throw 2) catch fn z.print(z)}
 \end{prooftree}
 
+Ai passi 1 e 2 si effettuano dei salti non locali del flusso di controllo a causa dell'eccezione.
+
 \textbf{passo 3} 
 \begin{prooftree}   
 	\AxiomC{\textsc{(TRY HANDLE)}}
@@ -160,6 +170,7 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{print(2) $\rightarrow$ "stampa 2"}
 \end{prooftree}
 
+L'eccezione lanciata da throw 2 viene raccolta dall'unico catch presente.
 
 \paragraph{d) try (fn y.y - 2 (try (M 5) catch fn z.z+z)) catch fn z.print(z)}\mbox{}
 
@@ -219,6 +230,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{try (fn y.y - 2 (try (throw 5) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try (fn y.y - 2 (5+5)) catch fn z.print(z)}
 \end{prooftree}}}
 
+Al passo 4 si effettua un salto non locale del flusso di controllo a causa dell'eccezione.
+
 \textbf{passo 5} 
 \begin{prooftree}   
 	\AxiomC{\textsc{(SUM)}}
@@ -251,6 +264,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{try (8) catch fn z.print(z) $\rightarrow$ 8}
 \end{prooftree}
 
+L'eccezione lanciata da throw x in M viene raccolta dal primo catch (quello piu' vicino).
+
 \paragraph{e) try ((fn x.x throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z)}\mbox{}
 
 \textbf{passo 1}  \\		
@@ -273,6 +288,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{try ((throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z) $\rightarrow$ try (throw 1) catch fn z.print(z)}
 \end{prooftree}
 
+Ai passi 1 e 2 si effettuano dei salti non locali del flusso di controllo a causa dell'eccezione.
+
 \textbf{passo 3} 
 \begin{prooftree}    
 	\AxiomC{\textsc{(TRY HANDLE)}}
@@ -290,8 +307,8 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\AxiomC{\textsc{(BETA)}}
 	\UnaryInfC{print(1) $\rightarrow$ "stampa 1"}
 \end{prooftree}
-
  
+L'eccezione lanciata da throw 1 viene raccolta dall'ultimo catch (in ordine di lettura).
 
 \subsection*{Esercizio 5.2}
 Si definisca la semantica operazionale per il liguaggio esteso con i costrutti visti in precedenza: unit, records e varianti.
@@ -299,24 +316,35 @@ Si definisca la semantica operazionale per il liguaggio esteso con i costrutti v
 \subsubsection*{Svolgimento}
 
 \textbf{Unit:} 
-Non si aggiungono regole per gestire questo tipo.
+Non si aggiungono regole per gestire questo tipo, visto che sono state aggiunti solo un valore e un termine.
 
 \textbf{Record:} 
 
 \begin{prooftree}    
-	\AxiomC{\textsc{(RAISE PROJECTION i)}}
+	\AxiomC{\textsc{(RAISE EVAL SELECT)}}
 	\UnaryInfC{{throw v}.i $\rightarrow$ throw v}
 \end{prooftree} 
 
-\textbf{Varianti:} 
+La regola SELECT va bene cosi' e basta per tirare fuori i lanci di eccezione che comunque vengono valutati in seguito tramite altre regole.
 
 \begin{prooftree}    
-	\AxiomC{\textsc{(RAISE MATCH)}}
-	\UnaryInfC{$<l_j=v_j>$ match \{ throw v \} $\rightarrow$ throw v}
-\end{prooftree}
+	\AxiomC{\textsc{(RAISE EVAL RECORD)}}
+	\UnaryInfC{{\{ $l_i=x_i$\textsuperscript{i $\in$ 1..j-1}, $l_j$=throw v, $l_k=x_k$\textsuperscript{k $\in$ j+1..n}  \} } $\rightarrow$ throw v}
+\end{prooftree} 
+
+
+\textbf{Varianti:} 
+
+La regola RAISE MATCH non e' necessaria, in quanto si valuta il valore del variante. Se contiene un lancio di un'eccezione si valuta con RAISE RED MATCH. Se il lancio e' all'interno del match, allora dev'essere necessariamente all'interno di $M_i$ e viene valutato solo quando si esegue il contenuto di $M_i$.
 
 \begin{prooftree}    
 	\AxiomC{\textsc{(RAISE RED MATCH)}}
 	\UnaryInfC{throw v match \{ case $l_i=x_i=>M_i$\textsuperscript{i $\in$ 1..n} \} $\rightarrow$ throw v}
 \end{prooftree}  
+
+
+\begin{prooftree}    
+	\AxiomC{\textsc{(RAISE VARIANT)}}
+	\UnaryInfC{<l=throw v> $\rightarrow$ throw v}
+\end{prooftree}
 
