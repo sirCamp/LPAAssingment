@@ -1,5 +1,5 @@
 \section{Featherweight Java (note 11)} 
-\subsection*{\fbox{Esercizio 1.1}}\
+\subsection*{\fbox{Esercizio 7.1}}\
 \\ 
 Si noti che una class table puo' contenere definizioni di classi mutuamente ricorsive.
 \linebreak Scrivere un esempio:
@@ -10,34 +10,36 @@ Si noti che una class table puo' contenere definizioni di classi mutuamente rico
 \textbf{Svolgimento}:\linebreak
 Definiamo le due seguenti Classi
 
-\vspace{0,3cm}
-\textit{Class A extends B \{A() \{super()\}\}}
+\begin{lstlisting}
+Class A extends B {A(){super();} }
 
-\vspace{0,3cm}
-\textit{Class B extends A \{B() \{super()\}\}}
+Class B extends A {B(){super();} }
 
-\vspace{0,5cm}
+\end{lstlisting}
 
 \noindent
 A e B sono muatamente ricorsive. La relativa Class Table non e' pero' ben fatta, in quanto contiene una relazione di sottotipo indotta con cicli.
 
 \vspace{1cm}
-\subsection*{\fbox{Esercizio 1.2}}\
+\subsection*{\fbox{Esercizio 7.2}}\
 \\ 
 Dato il seguente codice:
+\begin{lstlisting}
+class A extends Object { A(){ super(); } }
 
-\vspace{0,3cm}
-\textit{class A extends Object \{ A()\{ super(); \} \}}
+class B extends Object { B(){ super(); } }
 
-\textit{class B extends Object \{ B()\{ super(); \} \}}
+class Pair extends Object { 
+	Object fst; Object snd;
+	
+	Pair(Object fst, Object snd){
+		super(); this.fst=fst; this.snd=snd; 
+	} 
+	
+	Pair setfst(Object newfst){ return new Pair(newfst, this.snd); }
+}
 
-\textit{class Pair extends Object \{ \{Object fst; Object snd;}
-
-\hspace{0,3cm}\textit{Pair(Object fst, Object snd)\{} 
-
-\hspace{0,6cm} \textit{super(); this.fst=fst; this.snd=snd \} }
-
-\textit{Pair setfst(Object newfst) \{ return new Pair(newfst, this.snd); \}\}}
+\end{lstlisting}
 
 \vspace{0,5cm}
 Descrivere la semantica operazionale dei seguenti termini:
@@ -209,7 +211,7 @@ Passo 2
 \end{itemize}
 
 \vspace{1cm}
-\subsection*{\fbox{Esercizio 1.3}}\
+\subsection*{\fbox{Esercizio 7.3}}\
 \\
 \
 Scrivere un programma con override di un metodo e descriverne la valutazione, evidenziando il binding dinamico
@@ -218,30 +220,30 @@ per la chiamata del metodo riscritto.
 \vspace{0,5cm}
 \textbf{Svolgimento}:
 
-\framebox[10cm]{\begin{minipage}{9,5cm}
-\textit{class A extends Object \{ }
+\begin{lstlisting}
+class A extends Object{ 
 
-\hspace{0,3cm}\textit{Nat fst; Nat snd;}
+	Nat fst; Nat snd;
  
-\hspace{0,3cm}\textit{A (Nat fst; Nat snd)\{} 
+	A (Nat fst, Nat snd){ 
+		super(); this.fst=fst; this.snd=snd; 
+	}
 
-\hspace{0,6cm}\textit{super(); this.fst=fst; this.snd=snd \}} 
+	Nat print() { return fst; } 
+}
 
-\hspace{0,3cm}\textit{Nat print() \{ return fst \}\}}
+class B extends A{  
+	B (Nat fst, Nat snd){ 
 
-\vspace{0,3cm}
+	super(); this.fst=fst; this.snd=snd; 
+	}
+} 
 
-\textit{class B extends A \{ }
+Nat print() { return snd; }
+ 
 
-\hspace{0,3cm}\textit{B (Nat fst; Nat snd)\{} 
+\end{lstlisting}    
 
-\hspace{0,6cm}\textit{super(); this.fst=fst; this.snd=snd \}} 
-
-\hspace{0,3cm}\textit{Nat print() \{ return snd \}\}}
-
-    \end{minipage}
-    }
-    
 \vspace{0,6cm}
 
 consideriamo ora il seguente termine:
@@ -276,7 +278,7 @@ Passo 2
 	\end{prooftree}	
 
 \vspace{1cm}
-\subsection*{\fbox{Esercizio 1.4}}\
+\subsection*{\fbox{Esercizio 7.4}}\
 \\
 \
 Perche' c'e' una regola di tipo sia per l'Up-cast che per il Downcast, mentre c'e' la sola regola di valutazione per
@@ -349,7 +351,7 @@ Risulta essere ben tipato grazie anche all'utilizzo della regola di tipo DOWN-CA
 
 
 \vspace{1cm}			 
-\subsection*{\fbox{Esercizio 1.5}}\
+\subsection*{\fbox{Esercizio 7.5}}\
 \\
 \
 Ha senso aggiungere a FJ la regola di sub-typing per i tipi freccia A$\rightarrow$B?
@@ -363,4 +365,15 @@ Ha senso aggiungere a FJ la regola di sub-typing per i tipi freccia A$\rightarro
 In FJ le funzioni non appartengono all'insieme Termini t della sintassi del linguaggio.
 
 I tipi freccia li troviamo solamente all'interno di metodi, i quali hanno gia' una regola di typing (INVK) che, essendo il sistema di  regole sintax-direct (o algoritmico), integra direttamente la regola di sub-typing.
+
+\vspace{1cm}			 
+\subsection*{\fbox{Esercizio 7.12}}\
+\\
+\
+Aggiungere a FJ il termine ClassCastException: come cambia la semantica operazionale? Le regole di tipo? Il teorema di Safety e i teoremi di Preservazione e Progressione? Aggiungere
+in seguito anche la possibilita' di gestire le eccezioni.
+
+\vspace{0,5cm}
+\noindent
+\textbf{Svolgimento}:
  

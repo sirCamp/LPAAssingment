@@ -1,5 +1,5 @@
 \section{Subtyping (note 9)}
-\subsection*{Esercizio 7.1}
+\subsection*{Esercizio 6.1}
 Scrivere le derivazioni dei giudizi:
 \begin{itemize}
 	\item \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}, l':\{\}\}
@@ -55,7 +55,7 @@ Scrivere le derivazioni dei giudizi:
 	\BinaryInfC{$\emptyset\:\vdash$ \{l:\{a:Nat, b:Nat\}, l':\{m:Nat\}\} <: \{l:\{a:Nat\}\}}
 \end{prooftree}}}
 
-\subsection*{Esercizio 7.2}
+\subsection*{Esercizio 6.2}
 Si scriva la derivazione di \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool\} 
 
 \subsubsection*{Svolgimento}
@@ -72,7 +72,7 @@ Si scriva la derivazione di \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool\}
 	\BinaryInfC{$\emptyset\:\vdash$ \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool\}}
 \end{prooftree} }}
 
-\subsection*{Esercizio 7.3}
+\subsection*{Esercizio 6.3}
 
 Dare la derivazione del giudizio $\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat. Esiste una sola derivazione di questo giudizio? 
 
@@ -107,7 +107,7 @@ Dare la derivazione del giudizio $\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{
 	\BinaryInfC{$\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat}
 \end{prooftree} }}
 
-\subsection*{Esercizio 7.4}
+\subsection*{Esercizio 6.4}
 Quale potrebbbe essere la relazione di sottotipo dei variant types? 
  
 \subsubsection*{Svolgimento} 
@@ -120,9 +120,9 @@ Quale potrebbbe essere la relazione di sottotipo dei variant types?
 
 In questo modo, modificando TYPE VARIANT, si ottiene il subtyping in larghezza (WIDTH). Per ottenere il subtyping in profondita' (DEPTH) basta usare SUBSUMPTION.
 
-\subsection*{Esercizio 7.5}
+\subsection*{Esercizio 6.5}
 Quali proprieta' del sistema di tipi si perderebbero se avessimo definito la relazione di
-subtyping con una regola di troppo? E se l'avessimo definita con una regola in meno? E se l'avessimo definita con una regola in meno? Se avessimo definito le regole in modo tale che \{l : Nat\} <: \{l : Nat, l' : Nat\}, quale proprieta' del sistema non sarebbe piu' vera? Identificarla e darne un controesempio.
+subtyping con una regola di troppo? E se l'avessimo definita con una regola in meno? Se avessimo definito le regole in modo tale che \{l : Nat\} <: \{l : Nat, l' : Nat\}, quale proprieta' del sistema non sarebbe piu' vera? Identificarla e darne un controesempio.
 \subsection*{Svolgimento}
 
 \subparagraph*{Regola di troppo}
@@ -147,7 +147,7 @@ Gli effetti che si otterrebbero con una regola in meno sono diversi e dipendono 
 \begin{itemize}
 \item (SUBSUMPTION): la rimozione di questa regola comporta la perdita della possibilit\`a di usare un sottotipo dove viene utilizzato il sopra-tipo.
 \item (REFLEX): la rimozione di questa regola comporterebbe degli assurdi, come ad esempio l'impossibilit\`a di poter derivare la regola SUB-DEPTH per record i cui tipi dei valori siano uguali, in quanto un tipo $T$ generico non sarebbe pi\`u sotto-tipo di se stesso.In sostanza avremo una situazione di questo tipo: $T \not <$: $T$.
-\item (TRANS):  la rimozione di questa regola comporterebbe la rimozione della possibilit\`a di rendere transitiva la propriet\`a e la relazione di subtyping impedendo di avere realazioni di subtyping a pi\`u livelli. Poniamo $U$ e $S$ sottotipi di un tipo generico $T$, se mancasse tale regola non si riuscirebbe a derivare un giudizio del tipo $S <$:$U$ sulla base di $U<$:$T$ e $S<$:$T$. In sostanza la derivazione tramite l'utilizzo di tipi intermedi non sarebbe pi\`u sopportata e quindi la gerarchia di tipo verrebbe meno.
+\item (TRANS):  la rimozione di questa regola comporterebbe la rimozione della possibilit\`a di rendere transitiva la propriet\`a e la relazione di subtyping impedendo di avere realazioni di subtyping a pi\`u livelli. Poniamo $U$ e $S$ sottotipi di un tipo generico $T$, se mancasse tale regola non si riuscirebbe a derivare un giudizio del tipo $S<$:$T$ sulla base di $S <$:$U$ e $U<$:$T$. In sostanza la derivazione tramite l'utilizzo di tipi intermedi non sarebbe pi\`u sopportata e quindi la gerarchia di tipo verrebbe meno.
 \item (SUB-WIDTH):
 la rimozione di questa regola renderebbe limiterebbe la relazione di subtyping per quanto riguarda i record. Questa regola infatti permette di una relazione di subtyping tra il record $\{l$:$Nat,l_1$:$Nat\}$ e il record $\{l$:$Nat\}$ permettendo di utilizzare il primo (specifico) al posto del secondo (generale). La mancanza di tale regola, come detto, limita fortemente il subtyping per i record perch\`e obbliga sempre l'utilizzo di record della stessa \emph{larghezza}, tuttavia la relazione di subtyping tra record, continua ad esistere in altre forme, come quelle garantite dall SUB-DEPTH.
 \item (SUB-DEPTH): 
@@ -176,7 +176,7 @@ Questa funzione andrebbe a generare un termine STUCK invalidando di fatto il teo
 \emph{Sia $M$ un termine chiuso e ben tipato. Allora $M$ non evolve ad un termine stuck, ma $\exists v$ tale che $M \rightarrow \ast$ $v$ oppure $M \rightarrow \ast$  throw v.}
 
 
-\subsection*{Esercizio 7.12}
+\subsection*{Esercizio 6.12}
 Ridimostrare il teorema di progressione, preservazione, il substitution lemma e il teorema
 di safety per il linguaggio con i record e il subtyping. 
 
@@ -657,7 +657,7 @@ $\varnothing \vdash M : T$.
 \noindent La dimostrazione \`e una diretta conseguenza dei due teoremi precedenti: per il teorema di Progressione anche $\emptyset \vdash M': T$ \`e derivabile e, per il teorema di Subject-Reduction $M'$ deve essere un valore, perch\`e altrimenti esisterebbe un $M''$ al quale pu\`o ridursi.
 
 
-\subsection*{Esercizio 7.16}
+\subsection*{Esercizio 6.16}
 Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Gamma\vdash$ N : S con S<::T e T$\nless$::S, cioe' esibire un caso in cui il tipo di un termine decresce durante la computazione. 
 \subsubsection*{Svolgimento}
 Una possibile soluione potrebbe essere la seguente:

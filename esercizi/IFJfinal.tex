@@ -1,7 +1,7 @@
 \section{Imperative Featherweight Java (note 12)}
 \vspace{1cm}
 
-\subsection*{\fbox{Esercizio 1.1}}
+\subsection*{\fbox{Esercizio 8.1}}
 Scrivere una regola per eliminare i riferimenti non piu' utilizzati.
 
 
@@ -29,46 +29,43 @@ consideriamo la seguente regola:
 
 
 
-\subsection*{\fbox{Esercizio 1.2}}
+\subsection*{\fbox{Esercizio 8.2}}
 Descrivere il comportamento del seguente programma:
-
-\vspace{0,5cm}
-\framebox[10cm]{\begin{minipage}{9,5cm}
-\textit{class D extends Object \{}
-
-\hspace{0,3cm}\textit{Object f;}
  
-\hspace{0,3cm}\textit{D(Object f) \{super(); this.f=f;\}} 
+\begin{lstlisting}
+class D extends Object {
+
+	Object f; 
+	
+	D(Object f) {super(); this.f=f;}
  
-\hspace{0,3cm}\textit{Object m() \{return this;\}\}} 
+	Object m() {return this;}
+	
+}
 
-\vspace{0,5cm}
 
-\textit{class C extends D \{}
+class C extends D {
 
-\hspace{0,3cm}\textit{C(Object f) \{super();\}}
+	C(Object f) {super();}
  
-\hspace{0,3cm}\textit{Object m() \{return this;\}\}}
+	Object m() {return this;}
 
-\vspace{1cm}
+}
 
-\textit{Object z=new Object();}
+Object z=new Object();
 
-\textit{C x=new C(z);}
+C x=new C(z);
 
-\textit{C y=new D(x);}
+C y=new D(x);
 
-\textit{x.m(); x=y; x.m()}
+x.m(); x=y; x.m()
 
-\textit{y.f=new Object();}
+y.f=new Object();
 
-\textit{z=null; x.f=z; y.f.m();}
+z=null; x.f=z; y.f.m();
 
+\end{lstlisting}
 
-    \end{minipage}
-    }
-    
-\vspace{0,5cm}
 Risoluzione:
 
 Definiamo la configurazione iniziale sostituendo allo store $\sigma$ l'insieme vuoto($\emptyset$) ed all'espressione $e$ l'insieme delle istruzioni del programma. Otteniamo dunque la seguente configurazione iniziale:
@@ -235,7 +232,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\mapsto\:null]\:[o_
 
 
 \vspace{1,5cm}
-\subsection*{\fbox{Esercizio 1.3}}
+\subsection*{\fbox{Esercizio 8.3}}
 \
 \\
 \

@@ -1,19 +1,19 @@
 \section{I Tipi Semplici (note 45)}
  
-\subsubsection*{Esercizio 3.1}
-Provare che ogni sottotermine di un termine ben tipato e ben tipato.
+\subsubsection*{Esercizio 3.2}
+Provare che ogni sottotermine di un termine ben tipato e' ben tipato.
 \subparagraph{Svolgimento}
-Per la risoluzione di questo esericizio e necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.
+Per la risoluzione di questo esericizio e' necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.
 
 \begin{description}
 
- \item[Caso Base $h=1$] A questo livello il termine e sottotermine coincidono. Quindi, il fatto che ogni sottotermine risulta essere ben tipato e' un assioma.
+ \item[Caso Base $h=1$] A questo livello il termine e il sottotermine coincidono. Quindi, il fatto che ogni sottotermine risulta essere ben tipato e' un assioma.
 
  \item[Caso Induttivo $h$ ] Questo caso e' composto dall'applicazione della regola e dai vari sottotermini che la riguardano. Quindi premesso che questa applicazione sia valida per $h = 0$ e che l'ipotesi sia vera anche per h allora per induzione vale anche su $h + 1$ e suoi sottotermini contenuti al passo $h$.
  
  \end{description}
  
-\subsubsection*{Esercizio 3.2} 
+\subsubsection*{Esercizio 3.12} 
 Dimostrare subject reduction per induzione sulla derivazione di $\Gamma\:\vdash$ M : T.
 
 \subparagraph*{Svolgimento}
@@ -132,7 +132,7 @@ Si vuole quindi dimostrare che:
 
 
 
-\subsubsection*{Esercizio 3.4}
+\subsubsection*{Esercizio 3.13}
 
 Vale l'opposto di subject reduction, i.e. se $\Gamma\:\vdash$ $M'\: :  $T e $M\:\rightarrow\:$M', allora $\Gamma\:\vdash$ $M$ : $T$ (detto subject expansion)? Dimostrarlo oppure dare un controesempio.
 \subparagraph*{Svolgimento}
@@ -141,8 +141,8 @@ La risposta e' no:
 E sufficiente pensare a $M \rightarrow M_1$ con $\Gamma\vdash$ $M_1$ : $\sigma$ e che 
 $\Gamma\nvdash$ $M$: $\sigma$
 
-\subsubsection*{Esercizio 3.5}
-Se al posto della regola $(APP)\:$ si definisse la regola seguente:
+\subsubsection*{Esercizio 3.14}
+Se al posto della regola $(APP)\:$ si definisce la regola seguente:
 
 \begin{prooftree} 
 	\AxiomC{$\Gamma\:\vdash$ $M\: :  $T$\:\rightarrow\:$T}
@@ -154,12 +154,12 @@ Se al posto della regola $(APP)\:$ si definisse la regola seguente:
 
 sarebbe ancora vero il teorema di safety?
 \subparagraph*{Svolgimento}
-Si, la dimostrazione si puo' pensando al fatto che APP' non e' altro che una specificazione di APP, ovvero se poniamo X uguale all'insieme dei tipi di APP, Y e' un sottoinsieme di X e corrisponde ai possibili tipi di APP'.
+Si, lo si puo' dimostrare considerando che APP' non e' altro che una specificazione di APP: se poniamo X uguale all'insieme dei tipi di APP, Y e' un sottoinsieme di X corrispondente ai possibili tipi di APP'.
 
-Di con conseguenza il teorema di safety vale anche per APP'
+Di conseguenza il teorema di safety vale anche per APP'
 
-\subsubsection*{Esercizio 3.6}
-Se al posto delle regole $(APP)\:$ e $(FUN)\:$ si definissero le regole seguenti regole:
+\subsubsection*{Esercizio 3.15}
+Se al posto delle regole $(APP)\:$ e $(FUN)\:$ si definissero le seguenti regole:
 \begin{prooftree} 
 	\AxiomC{$\Gamma\:\vdash$ $M\: :  $T$\:\rightarrow\:$T}
 	\AxiomC{$\Gamma\:\vdash$ $N\ :$T}
@@ -185,7 +185,7 @@ sarebbe ancora vero il teorema di safety?
 La risposta e' no:\\
 In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilita' di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso.
 
-\subsubsection*{Esercizio 3.6}
+\subsubsection*{Esercizio 3.16}
 Se si aggiungessero al sistema di tipi i seguenti due assiomi
 
 \begin{prooftree} 
@@ -211,7 +211,7 @@ Data la definizione di Teorema di Safety, e' evidente che viene meno la stessa i
 
 Con queste regole sarebbe permessa anche l'operazione SUM che genererebbe un termine stuck, invalidando il teorema stesso.
 
-\subsubsection*{Esercizio 3.7}
+\subsubsection*{Esercizio 3.17}
 
 Dimostrare il seguente fatto: se $\Gamma\:\vdash$ $M\: :  $T e derivabile allora  \textit{fv($M$)}  $\subseteq$ \textit{Dom($\Gamma$)}
 \subparagraph*{Svolgimento}
@@ -245,7 +245,7 @@ Al passo h grazie al lemma di inversione e al caso base sappiamo per ipotesi che
 
 \end{description}
 
-\subsubsection*{Esercizio 3.8}
+\subsubsection*{Esercizio 3.18}
 Ricostruire il tipo dei seguenti termini:
 \begin{itemize}
 \item $fn$ $x$:$T1.fn$ $y$:$T2.if$ $y$ then $x$ else true
@@ -267,7 +267,7 @@ Ricostruire il tipo dei seguenti termini:
 			\LeftLabel{\textsc{(VAR)}}
 			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $y$ : $Bool$}
 			\LeftLabel{\textsc{(VAR)}}
-			\AxiomC{x:B$x$:$Nat:\rightarrow Bool$ $\in$ $\Gamma$ool $\in$ $\Gamma$}
+			\AxiomC{x:B$x$:$Nat:\rightarrow Bool$ $\in$ $\Gamma$}
 			\LeftLabel{\textsc{(VAR)}}
 			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $x$ : $Bool$}
 			\LeftLabel{\textsc{(VAR)}}

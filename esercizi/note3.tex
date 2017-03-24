@@ -1,9 +1,9 @@
-\section{Il mini linguaggio funzionale (note 3)}
+\section{I tipi semplici (note 3)}
 \subsection*{Esempi di derivazione svolti}
  
 \begin{enumerate}[label=\alph*)]
 	\item $\emptyset\:\vdash$  if true then 5 + 7 else 2 :Nat
-	\item $\emptyset\:\vdash$  ($\fn$ x:T.x) x :T$\rightarrow$T
+	\item $\emptyset\:\vdash$  $\fn$ x:T.x :T$\rightarrow$T
 	\item $\emptyset\:\vdash$  ($\fn$ x:Bool.x) true :Bool
 	\item f:Bool$\rightarrow$ Bool $\vdash$ f (if false then true else false) :Bool
 	\item f:Bool$\rightarrow$ Bool $\vdash\:\fn$ x:Bool.f(if x then false else x) :Bool$\rightarrow$Bool
@@ -36,7 +36,7 @@
 
     \vspace*{1 cm}
 
-	\item $\emptyset\:\vdash$  ($\fn$ x:T.x) x :T$\rightarrow$T  \\
+	\item $\emptyset\:\vdash$  $\fn$ x:T.x :T$\rightarrow$T  \\
 		\scalebox{.75}{
 		\parbox{1cm}{
 		\begin{prooftree} 
@@ -44,7 +44,7 @@
 			\LeftLabel{\textsc{(VAR)}}
 			\UnaryInfC{x:T $\vdash$  x :T}
 			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$\emptyset\:\vdash$  ($\fn$ x:T.x) x :T$\rightarrow$T}
+			\UnaryInfC{$\emptyset\:\vdash$  $\fn$ x:T.x :T$\rightarrow$T}
 		\end{prooftree}}
 		}
 	 
@@ -58,7 +58,7 @@
 			\LeftLabel{\textsc{(VAR)}}
 			\UnaryInfC{x:Bool $\vdash$  x :Bool}
 			\LeftLabel{\textsc{(FUN)}}
-		    \UnaryInfC{$\emptyset\:\vdash\:\fn$ x:Bool.x :Bool$/rightarrow					$Bool}
+		    \UnaryInfC{$\emptyset\:\vdash\:\fn$ x:Bool.x :Bool$\rightarrow					$Bool}
 			\AxiomC{$\checkmark$}
 			\LeftLabel{\textsc{(TRUE)}}
 			\UnaryInfC{$\emptyset\:\vdash$ true :Bool}
@@ -130,7 +130,7 @@
     \vspace*{1 cm}
 
 \subsection*{Esercizio 2.1}
-Trovare un contesto $\Gamma$ tale che $\Gamma$' f x y : Bool sia derivabile.
+Trovare un contesto $\Gamma$ tale che $\Gamma\:\vdash$' f x y : Bool sia derivabile.
 
 \subsubsection*{Svolgimento}
  	\begin{prooftree} 
@@ -186,7 +186,7 @@ Caso f (x y):\\
 
 
 \subsection*{Esercizio 2.2}
-Il giudizio $\Gamma$' x x : T e' derivabile? Se si', trovare una derivazione per qualche $\Gamma$, T, altrimenti provare che non e' derivabile.
+Il giudizio $\Gamma\:\vdash$' x x : T e' derivabile? Se si', trovare una derivazione per qualche $\Gamma$, T, altrimenti provare che non e' derivabile.
 
 \subsubsection*{Svolgimento}
  	\begin{prooftree} 

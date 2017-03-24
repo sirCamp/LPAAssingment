@@ -1,5 +1,5 @@
 \section{Eccezioni (note 8)}
-\subsection*{Esercizio 6.1}
+\subsection*{Esercizio 5.1}
 Si dia la semantica operazionale dei termini indicati sopra, osservando come il sollevamento delle eccezioni comporti un salto non locale del flusso di controllo.
 Sia M = fn x.(if pari(x) then x/2 else throw x)
 \begin{itemize}
@@ -291,17 +291,9 @@ Sia M = fn x.(if pari(x) then x/2 else throw x)
 	\UnaryInfC{print(1) $\rightarrow$ "stampa 1"}
 \end{prooftree}
 
+ 
 
-
-
-
-
-
-
-
-
-
-\subsection*{Esercizio 6.2}
+\subsection*{Esercizio 5.2}
 Si definisca la semantica operazionale per il liguaggio esteso con i costrutti visti in precedenza: unit, records e varianti.
 
 \subsubsection*{Svolgimento}
@@ -326,7 +318,5 @@ Non si aggiungono regole per gestire questo tipo.
 \begin{prooftree}    
 	\AxiomC{\textsc{(RAISE RED MATCH)}}
 	\UnaryInfC{throw v match \{ case $l_i=x_i=>M_i$\textsuperscript{i $\in$ 1..n} \} $\rightarrow$ throw v}
-\end{prooftree} 
-
-\textbf{{\color{red} DA FINIRE?}}
+\end{prooftree}  
 

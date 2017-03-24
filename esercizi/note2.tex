@@ -207,12 +207,12 @@ Passo induttivo:
 	è dimostrata.\\	
 	
 	
-		\item Tesi: $M=fn\:x.M\:v\:\rightarrow \:M{x:=v}=M'$, $fn\:x.M\:v\:\rightarrow \:M{x:=v}=M''\implies$ M'=M''\\  
+		\item Tesi: $M=fn\:x.M\:v\:\rightarrow \:M\{x:=v\}=M'$, $fn\:x.M\:v\:\rightarrow \:M\{x:=v\}=M''\implies$ M'=M''\\  
  	Derivazione tramite l'uso dell'assioma (BETA): 
 		\begin{prooftree}
 					\AxiomC{}
 					\LeftLabel{\textsc{(BETA)}}
-					\UnaryInfC{$fn\:x.M\:v\:\rightarrow \:M{x:=v}=M'$}
+					\UnaryInfC{$fn\:x.M\:v\:\rightarrow \:M\{x:=v\}=M'$}
 				\end{prooftree} 
 				\indent Tramite l'applicazione dell'assioma si ottiene M{x:=v}=M'=M''.\\
 				\indent La derivazione risulta quindi deterministica e la tesi risulta dimostrata.\\	
@@ -273,7 +273,7 @@ Con una strategia CBN (Call-by-name) non ho (APP2) e la funzione (BETA) è la se
 \begin{prooftree}
 	\AxiomC{$\checkmark$}
 	\LeftLabel{\textsc{(BETA)}} 
-	\UnaryInfC{$(\fn x.M)\: N\: \rightarrow \:M{x:=N}$}
+	\UnaryInfC{$(\fn x.M)\: N\: \rightarrow \:M\{x:=N\}$}
 \end{prooftree}
 
 Con questa regola mostriamo l'esecuzione del programma:\\
@@ -293,16 +293,17 @@ Stuck! Non esistono regole o assiomi applicabili: APP1 non è applicabile in qua
 
 
 \subsection*{Esercizio 1.6}
-Consideriamo le seguenti definizioni in Scala:
-def square(x:Int):Int = x*x
+Consideriamo le seguenti definizioni in Scala:\\
+\begin{lstlisting}
+def square(x:Int):Int = x*x  
 def sumOfSquare(x:Int,y:Int):Int = square(x)+square(y)
- Descrivere i passi di riduzione dell’espressione sumOfSquare(3,4) secondo una strategia call-
-by-value analoga a quella definita nella sezione precedente. Descrivere inoltre la riduzione della
-stesa espressione secondo la strategia call-by-name.
- Descrivere i passi di riduzione dell’espressione sumOfSquare(3,2+2) secondo le strategie call-by-value e call-by-name.
+\end{lstlisting}
+Descrivere i passi di riduzione dell'espressione \textbf{sumOfSquare(3,4)} secondo una strategia call-by-value analoga a quella definita nella sezione precedente.\\ 
+Descrivere inoltre la riduzione della stesa espressione secondo la strategia call-by-name. \\
+Descrivere i passi di riduzione dell'espressione \textbf{sumOfSquare(3,2+2)} secondo le strategie call-by-value e call-by-name.
 
 \subsubsection*{Svolgimento}
-Caso sumOfSquare(3,4).\\
+Caso \textbf{sumOfSquare(3,4)}.\\
 CBV si comporta come CBN.\\
 
 \textbf{passo 1}
@@ -355,7 +356,7 @@ CBV si comporta come CBN.\\
 	\UnaryInfC{9 + 16 $\rightarrow$ 25} 
 \end{prooftree}
 
-Caso sumOfSquare(3,2+2)\\
+Caso \textbf{sumOfSquare(3,2+2)}\\
 CBV:\\
 \textbf{passo 1}
 \begin{prooftree} 
@@ -445,9 +446,11 @@ I passi di esecuzione sono 8 in questo caso (CBN).
 
 \subsection*{Esercizio 1.7}
 Si consideri la seguente definizione in Scala:
+
+\begin{lstlisting}
 def test(x:Int, y:Int):Int = x*x
-confrontare la velocità (cioè il numero di passi) di riduzione delle seguenti espressioni secondo le strategie
-CBV e CBN, indicando quale delle due è piú veloce 
+\end{lstlisting}
+confrontare la velocita' (cioe' il numero di passi) di riduzione delle seguenti espressioni secondo le strategie CBV e CBN, indicando quale delle due e' piu' veloce. 
 \begin{enumerate}
 	\item test(2,3)
 	\item test(3+4,8)
@@ -458,9 +461,9 @@ CBV e CBN, indicando quale delle due è piú veloce
 \subsubsection*{Svolgimento}
 \begin{enumerate}
 	\item CBV=CBN: entrambi terminano l'esecuzione in 2 passi; 
-	\item CBV<CBN: CBV termina prima perchè valuta l'espressione 3+4 subito (una sola volta). CBN invece invocherà prima la funzione, sostituendo ad x l'espressione. Essendo x presente 2 volte nella funzione, la valutazione dovrà essere effettuata 2 volte. 
-	\item CBV>CBN: CBN termina prima perchè non valuta l'espressione 2*4 che non è utilizzata nella funzione test.
-	\item CBV=CBN: entrambi terminano l'esecuzione in 4 passi; la differenza sta nel fatto che con CBV si svolgeranno prima le due operazioni (somma e moltiplicazione) e poi si chiamerà la funzione. Con CBN invece, si eviterà di calcolare 2*4, tuttavia si calcolerà 3+4 due volte.
+	\item CBV<CBN: CBV termina prima perche' valuta l'espressione 3+4 subito (una sola volta). CBN invece invoca prima la funzione, sostituendo ad x l'espressione. Essendo x presente 2 volte nella funzione, la valutazione viene effettuata 2 volte. 
+	\item CBV>CBN: CBN termina prima perche' non valuta l'espressione 2*4 che non e' utilizzata nella funzione test.
+	\item CBV=CBN: entrambi terminano l'esecuzione in 4 passi; la differenza sta nel fatto che con CBV si svolgono prima le due operazioni (somma e moltiplicazione) e poi si chiama la funzione. Con CBN invece, si evita di calcolare 2*4, tuttavia si calcola 3+4 due volte.
 \end{enumerate}
 
 
@@ -478,7 +481,7 @@ def and(b1:=> Boolean, b2:=> Boolean): Boolean =
 		 else false; 
 \end{lstlisting}
 
-
+Il parametro b1 viene passato by-name nella nostra soluzione. Tuttavia, esso puo' essere passato anche by-value visto che in ogni caso viene valutato. 
 
 
 
