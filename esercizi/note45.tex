@@ -139,7 +139,24 @@ Vale l'opposto di subject reduction, i.e. se $\Gamma\:\vdash$ $M'\: :  $T e $M\:
 La risposta e' no:
 
 E sufficiente pensare a $M \rightarrow M_1$ con $\Gamma\vdash$ $M_1$ : $\sigma$ e che 
-$\Gamma\nvdash$ $M$: $\sigma$
+$\Gamma\nvdash$ $M$: $\sigma$\\
+Quanto ripostato sopra pu\`o essere semplificato tramite questo esempio:\\
+Supponimao di avere $M_1$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if true then A else B$, ovvero il caso in cui $M$ $\rightarrow$ $M_1$ per la regola (If-True).\\
+In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ ri riesce ad ottenere usando la regaola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+\begin{itemize}
+\item $\Gamma$ $\vdash$ $true$:$Bool$ che \`e un assioma
+\item $\Gamma$ $\vdash$ $A$:$T$ soddisfatto per l'ipotesi 
+\item  $\Gamma$ $\vdash$ $B$:$T$ putroppo questa informazione non si riesce a repire dall'ipotesi ne dal contesto e pertatnto non c'\`e garanzia sull'uguaglianza di tipi di $A$ e $B$\\
+Pertanto possiamo creare un termine $N$ come $if$ $true$ $then$ $4$ $else$ $false$, da cui si riesce ad attenere $M'$ $\equiv$ $A$ $\equiv$ $4$. Questo termine nonostante esegua risulta essere non non ben-tipato.
+
+
+\end{itemize}
+
+
+
+
+
+
 
 \subsubsection*{Esercizio 3.14}
 Se al posto della regola $(APP)\:$ si definisce la regola seguente:
@@ -175,7 +192,7 @@ e
 	\AxiomC{$\Gamma\:$, x : $T1\vdash$ $M\: : $T}
 	\AxiomC{}
 	\LeftLabel{\textsc{(FUN')}}
-	\BinaryInfC{$\Gamma\:\vdash$ $fn$ x : $T1.M:\rightarrow\:$T  } 
+	\BinaryInfC{$\Gamma\:\vdash$ $fn$ x : $T1.M:T\rightarrow\:$T  } 
 \end{prooftree} 
 
 sarebbe ancora vero il teorema di safety?
@@ -183,7 +200,43 @@ sarebbe ancora vero il teorema di safety?
 \subparagraph*{Svolgimento}
 
 La risposta e' no:\\
-In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilita' di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso.
+In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilita' di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso.\\
+Supponiamo di avere il termine:\\
+$M$ $=$ $(fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$ 
+
+e creiamo il suo albero di derivazione:
+
+
+
+
+\begin{prooftree} 
+	\AxiomC{$ \checkmark $}
+	\UnaryInfC{$x$:$Bool$ $\in$  $\Gamma$ }
+	\RightLabel{\textsc{($Var$)}}
+	\UnaryInfC{$\Gamma$ $\vdash$ $x$:$Bool$ }
+	\AxiomC{$ \checkmark $}
+	\LeftLabel{\textsc{($Nat$)}}
+	\UnaryInfC{$\Gamma$ $\vdash$ $1$:$Nat$}
+	\AxiomC{$ \checkmark $}
+	\LeftLabel{\textsc{($Nat$)}}
+	\UnaryInfC{$\Gamma$ $\vdash$ $0$:$Nat$}
+	\LeftLabel{\textsc{($IfThenElse$)}}
+	\TrinaryInfC{$x$:$Bool$ $\vdash$ $if$ $x$ $then$ $1$ $else$ $0$ :$Nat$}
+	\LeftLabel{\textsc{($FUN_1$)}}
+	\UnaryInfC{$\empty \vdash fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0$ :$Nat \rightarrow$ :$Nat$}
+	\AxiomC{$ \checkmark $}
+	\LeftLabel{\textsc{($Nat$)}}
+	\UnaryInfC{$\empty \vdash 1$:$Nat$}
+	\LeftLabel{\textsc{($APP_1$)}}
+	\BinaryInfC{$\empty \vdash (fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$  } 
+\end{prooftree}
+
+
+In questo caso possiamo osservare che il termine $M$ risulta essere ben-tipato secondo le nuove regole di tipo.\\
+Tuttavia, \`e evidente che l'invocazione della funzione in questione porta $M$ ad un termine stuck, questo perch\`e il sottotermine $N$ $=$ $if$ $x$ $then$ $1$ $else$ $0$ si aspetta un $Bool$, infatti le regole della semantica operazionale che gestiscono l'$if$, permettono di avanzare nella computazione.\\
+Nel caso in cui la guardia non sia un valore, la computazione procede con la valutazione della guardia, altrimenti procede il ramo $TRUE$ o con il ramo $FALSE$.\\
+In questo caso, poich\`e il valore passato alla funzione \`e un intero, e quindi gi\`a un valore le uniche regole applicabili sarebbero $(IF-TRUE)$ e $(IF-FALSE)$ ma poich\`e la guardia \'e 1 non sono applicabili e quindi si otterrebbe un termine STUCK.
+
 
 \subsubsection*{Esercizio 3.16}
 Se si aggiungessero al sistema di tipi i seguenti due assiomi
@@ -209,7 +262,23 @@ sarebbe ancora vero il teorema di safety?
 La risposta e' no:\\
 Data la definizione di Teorema di Safety, e' evidente che viene meno la stessa ipotesi ovvero che M sia un valore o un che non evolva in un termine STUCK.
 
-Con queste regole sarebbe permessa anche l'operazione SUM che genererebbe un termine stuck, invalidando il teorema stesso.
+Con queste regole di tipo, infatti, sarebbe permessa anche l'operazione SUM che genererebbe un termine STUCK, invalidando il teorema stesso.\
+Supponiamo di avere il termine: $M$ $=$ $true+4$
+
+
+\begin{prooftree} 
+	\AxiomC{$ \checkmark $}
+	\LeftLabel{\textsc{($Nat$)}}
+	\UnaryInfC{$\empty \vdash 4$:$Nat$}
+	\AxiomC{$ \checkmark $}
+	\LeftLabel{\textsc{($Nat$)}}
+	\UnaryInfC{$\empty \vdash true$:$Nat$}
+	\LeftLabel{\textsc{($SUM$)}}
+	\BinaryInfC{$\empty \vdash$ $true$ $+$ $4$  } 
+\end{prooftree}
+
+Anche in questo caso, come nel precendete, notiamo che le regole di tipo permettono la derivazione dell'albero.\\
+Tuttavia, se applicassimo le regole della semantica operazionale non potremo avanzare perch\`e entrambi gli addendi sono gi\'a dei valori e quindi non posso applicare $SUM-LEFT$ o $SUM-RIGHT$ ma non posso neppure applicare $SUM$ perch\'e genero un termine STUCK in quanto $true$ non pu\'o essere sommato a $4$.
 
 \subsubsection*{Esercizio 3.17}
 
