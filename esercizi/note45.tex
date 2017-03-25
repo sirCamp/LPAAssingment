@@ -282,37 +282,51 @@ Tuttavia, se applicassimo le regole della semantica operazionale non potremo ava
 
 \subsubsection*{Esercizio 3.17}
 
-Dimostrare il seguente fatto: se $\Gamma\:\vdash$ $M\: :  $T e derivabile allora  \textit{fv($M$)}  $\subseteq$ \textit{Dom($\Gamma$)}
+Dimostrare il seguente fatto: se $\Gamma\:\vdash$ $M$ : $T$ \`e derivabile, allora  \textit{fv($M$)}  $\subseteq$ \textit{Dom($\Gamma$)}
 \subparagraph*{Svolgimento}
 
 Si procede con la dimostrazione per induzione:
 
-\begin{description}
+\begin{itemize}
 
-\item[Caso Base]
 
-\item[TRUE] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \true{} :
-  \Bool$.
-  Il teorema \'e vacuamente vero per questa derivazione siccome
-  $\not \exists{M'}. M \to{} M'$.
+\item Caso Base 
+		\begin{itemize}[label=$\star$]
+
+		\item \textbf{True}  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \true{} : \Bool$.
+  		Il teorema \'e vacuamente vero per questa derivazione siccome $\not \exists{M'}. M \to{} M'$.\\
+  		Il tutto si pu\`o riassumere con $fv(M)$ $=$ $fv(true)$ $=$ $\emptyset$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$
+
   
- \item[False]
-  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \false{} : \Bool$.
-  Analogo a True.
+ 		\item \textbf{False} $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \false{} : \Bool$. Analogo a True.
 
-\item[Nat]
-  $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} n : \Nat$. Analogo a True.
+		\item \textbf{Nat} $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} n : \Nat$. Analogo a True.
 
-\item[Var] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} x : T$.
-  Analogo a True.
+		\item \textbf{Var}  Se $\Gamma$ $\vdash$ $x$ : $T$ , allora per la regola $(Var)$ possiamo asserire che $x$ : $T$ $\in$ $\Gamma$ e di conseguenza abbiamo che  $fv(M)$ $=$ $fv(x)$ $=$ $\{x\}$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$
+
   
- In questo passo il fatto e' un assioma, questo perche' non esistono variabili libere quindi $fv(M)$ e' $\emptyset$ e il vuoto e un sottoinsieme del $Dom(\Gamma)$
+		\end{itemize}
+		In questo passo il fatto e' un assioma, questo perche' non esistono variabili libere quindi $fv(M)$ e' $\emptyset$ e il vuoto e un sottoinsieme del $Dom(\Gamma)$
 
-\item[Caso Induttivo]
+\item Caso Induttivo
+		
+		\begin{itemize}[label=$\star$]
 
-Al passo h grazie al lemma di inversione e al caso base sappiamo per ipotesi che il fatto e' vero e quindi per induzione lo e' anche al passo h +1 
+		\item \textbf{SUM}  in questo caso $M$ $\equiv$ $A$ $+$ $B$ e quindi per definizione le variabili libere di $M$ sono $f$ $v(A$ $+$ $B)$ $=$ $f$ $v(A)$ $\cup$ $f$ $v(B)$.\\ Per ipotesi induttiva sappiamo che $fv(A)$ e $fv(B)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.\\Poich\`e, come anticipato, $fv(M)$ $\equiv$ $fv(A)$ $\cup$ $fv(B)$ possiamo dedurre che $fv(M)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.
+  		
+  
+ 		\item \textbf{MINUS} in questo caso $M$ $\equiv$ $A$ $-$ $B$ e la sua dimostrazione risulta essere analoga a quella di SUM
 
-\end{description}
+		\item \textbf{IfThenElse} in questo caso $M$ $\equiv$ $if$ $C$ $then$ $A$ $else$ $B$ e quindi per definizione, le variabili libere di $M$ sono $fv(M)$ $=$ $fv(A)$ $\cup$ $fv(B)$ $\cup$ $fv(C)$.\\ Per ipotesi induttiva sappiamo che $fv(A)$, $fv(B)$ e $fv(C)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.\\Poich\`e, come anticipato, $fv(M)$ $\equiv$ $fv(A)$ $\cup$ $fv(B)$ $\cup$ $fv(C)$ possiamo dedurre che $fv(M)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.
+
+		\item \textbf{FUN}  in questo caso $M$ $\equiv$ $fn$ $x.N$ e quindi per definizione le variabili libere di $M$ sono 
+		$fv(M)$ $=$ $fv(N)\textbackslash \{x\}$ ($fv(M)$ $\subseteq$ $fv(N)$).\\ Per ipotesi induttiva sappiamo che $fv(N)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.\\Poich\`e, come anticipato, $fv(M)$ $\equiv$ $fv(N)\textbackslash \{x\}$ possiamo dedurre che $fv(M)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$. 
+		
+		\item \textbf{APP} in questo caso $M$ $\equiv$ $A$ $B$ e quindi per definizione, le variabili libere di $M$ sono $fv(M)$ $=$ $fv(A)$ $\cup$ $fv(B)$.\\ Per ipotesi induttiva sappiamo che $fv(A)$ e $fv(B)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.\\Poich\`e, come anticipato, $fv(M)$ $\equiv$ $fv(A)$ $\cup$ $fv(B)$ possiamo dedurre che $fv(M)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$. 
+  
+		\end{itemize}
+
+\end{itemize}
 
 \subsubsection*{Esercizio 3.18}
 Ricostruire il tipo dei seguenti termini:
