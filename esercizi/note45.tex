@@ -141,13 +141,13 @@ La risposta e' no:
 E sufficiente pensare a $M \rightarrow M_1$ con $\Gamma\vdash$ $M_1$ : $\sigma$ e che 
 $\Gamma\nvdash$ $M$: $\sigma$\\
 Quanto ripostato sopra pu\`o essere semplificato tramite questo esempio:\\
-Supponimao di avere $M_1$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if true then A else B$, ovvero il caso in cui $M$ $\rightarrow$ $M_1$ per la regola (If-True).\\
-In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ ri riesce ad ottenere usando la regaola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+Supponimao di avere $M_1$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ if true then A else B, ovvero il caso in cui $M$ $\rightarrow$ $M_1$ per la regola (If-True).\\
+In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ si riesce ad ottenere usando la regola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
 \begin{itemize}
 \item $\Gamma$ $\vdash$ $true$:$Bool$ che \`e un assioma
 \item $\Gamma$ $\vdash$ $A$:$T$ soddisfatto per l'ipotesi 
-\item  $\Gamma$ $\vdash$ $B$:$T$ putroppo questa informazione non si riesce a repire dall'ipotesi ne dal contesto e pertatnto non c'\`e garanzia sull'uguaglianza di tipi di $A$ e $B$\\
-Pertanto possiamo creare un termine $N$ come $if$ $true$ $then$ $4$ $else$ $false$, da cui si riesce ad attenere $M'$ $\equiv$ $A$ $\equiv$ $4$. Questo termine nonostante esegua risulta essere non non ben-tipato.
+\item  $\Gamma$ $\vdash$ $B$:$T$ questa informazione non si riesce a repire ne' dall'ipotesi, ne' dal contesto e pertanto non c'\`e garanzia sull'uguaglianza di tipi di $A$ e $B$\\
+Pertanto possiamo creare un termine $N$ come $if$ $true$ $then$ $4$ $else$ $false$, da cui si riesce ad attenere $M'$ $\equiv$ $A$ $\equiv$ $4$. Questo termine, $M'$ \`e ben tipato, lo stesso non si puo' dire per M. 
 
 
 \end{itemize}
@@ -232,7 +232,7 @@ e creiamo il suo albero di derivazione:
 \end{prooftree}
 
 
-In questo caso possiamo osservare che il termine $M$ risulta essere ben-tipato secondo le nuove regole di tipo.\\
+In questo caso possiamo osservare che il termine $M$ risulta essere ben tipato secondo le nuove regole di tipo.\\
 Tuttavia, \`e evidente che l'invocazione della funzione in questione porta $M$ ad un termine stuck, questo perch\`e il sottotermine $N$ $=$ $if$ $x$ $then$ $1$ $else$ $0$ si aspetta un $Bool$, infatti le regole della semantica operazionale che gestiscono l'$if$, permettono di avanzare nella computazione.\\
 Nel caso in cui la guardia non sia un valore, la computazione procede con la valutazione della guardia, altrimenti procede il ramo $TRUE$ o con il ramo $FALSE$.\\
 In questo caso, poich\`e il valore passato alla funzione \`e un intero, e quindi gi\`a un valore le uniche regole applicabili sarebbero $(IF-TRUE)$ e $(IF-FALSE)$ ma poich\`e la guardia \'e 1 non sono applicabili e quindi si otterrebbe un termine STUCK.
