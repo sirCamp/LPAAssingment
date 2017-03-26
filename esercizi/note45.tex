@@ -3,15 +3,36 @@
 \subsubsection*{Esercizio 3.2}
 Provare che ogni sottotermine di un termine ben tipato e' ben tipato.
 \subparagraph{Svolgimento}
-Per la risoluzione di questo esericizio e' necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.
+Per la risoluzione di questo esericizio e' necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.\\
+Se $M$ \`e un termine ben tipato vuol dire che il giudizio di tipo $\Gamma$ $\vdash$ $M$ : $T$ \`e derivabile con un albero di derivazione di altezza $h$ e quindi l'induzione viene fatta su $h$.
+
 
 \begin{description}
 
- \item[Caso Base $h=1$] A questo livello il termine e il sottotermine coincidono. Quindi, il fatto che ogni sottotermine risulta essere ben tipato e' un assioma.
+ \item[Caso Base $h=1$] A questo livello il termine e il sottotermine coincidono. Questo perch\`e l'albero consiste nell'applicazione di un assioma e quindi il termine $M$ non contiene sotto-termini, quindi la propriet\`a \`e verificata.
 
- \item[Caso Induttivo $h$ ] Questo caso e' composto dall'applicazione della regola e dai vari sottotermini che la riguardano. Quindi premesso che questa applicazione sia valida per $h = 0$ e che l'ipotesi sia vera anche per h allora per induzione vale anche su $h + 1$ e suoi sottotermini contenuti al passo $h$.
+ \item[Caso Induttivo $h+1$ ] Questo caso \`e composto dall'applicazione della regola e dai vari sotto-alberi che provano le ipotesi della regola.\\I sotto-alberi in questione, riguardano il giudizio dei sotto-termini di $M$ e sono di altezza inferiore rispetto a questo albero ($h$). Possiamo quindi applicare l'ipotesi induttiva per definire ch ei sotto-termini dei sotto-termini di $M$ sono ben tipati e quindi di conseguenza lo sono anche i sotto-termini di $M$. A questo punto la propriet\`a risulta essere verificata.
  
  \end{description}
+ 
+ \`E possibile inoltre, utilizzare un altra dimostrazione che sfrutta il \emph{la struttura di $M$} e il \emph{Lemma di Inversione}.
+ 
+ 
+ \begin{itemize}[label=$\star$]
+
+ \item $M$ $\equiv$ $v$:  In questo caso $M$ \`e un valore, come ad esempio $true$, $false$ o $n$ e quindi, poich\`e questi sono termini privi di sotto-termini la propriet\`a risulta essere verificata.
+
+ \item $M$ $\equiv$ $A+B$:  In questo caso, per il Lemma di Inversione se $M$ \`e ben tipato, allora lo sono anche $A$ e$B$ ( tipo $Nat$ )
+ 
+ \item $M$ $\equiv$ $A-B$:  questo caso \`e analogo al precendente
+
+ \item $M$ $\equiv$ $if$ $C$ $then$ $A$ $else$ $B$:  In questo caso, per il Lemma di Inversione se $M$ \`e ben tipato, allora $C$ \`e ben tipato con tipo $Bool$ mentre $A$ e $B$ sono ben tipati con tipo $T$
+ 
+  \item $M$ $\equiv$ $A$ $B$: In questo caso, per il Lemma di Inversione se $M$ \`e ben tipato, allora $A$ \`e ben tipato con tipo $T_1 \rightarrow T$ mentre $B$ \`e ben tipato con tipo $T$
+  
+    \item $M$ $\equiv$ $fn$ $x.N$: In questo caso, per il Lemma di Inversione $N$ \`e ben tipato con tipo $T$
+ \end{itemize}
+ 
  
 \subsubsection*{Esercizio 3.12} 
 Dimostrare subject reduction per induzione sulla derivazione di $\Gamma\:\vdash$ M : T.
@@ -38,7 +59,7 @@ Si vuole quindi dimostrare che:
 \begin{description}
 
 
- \item[TRUE] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \true{} :
+ \item[True] $\Gamma \vdash{} M : T$ \'e $\Gamma \vdash{} \true{} :
   \Bool$.
   Il teorema \'e vacuamente vero per questa derivazione siccome
   $\not \exists{M'}. M \to{} M'$.
@@ -140,14 +161,14 @@ La risposta e' no:
 
 E sufficiente pensare a $M \rightarrow M_1$ con $\Gamma\vdash$ $M_1$ : $\sigma$ e che 
 $\Gamma\nvdash$ $M$: $\sigma$\\
-Quanto ripostato sopra pu\`o essere semplificato tramite questo esempio:\\
-Supponimao di avere $M_1$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ if true then A else B, ovvero il caso in cui $M$ $\rightarrow$ $M_1$ per la regola (If-True).\\
-In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ si riesce ad ottenere usando la regola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+Quanto riportato sopra pu\`o essere semplificato tramite questo esempio:\\
+Supponimao di avere $M_1$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if$ $true$ $then$ $A$ $else$ $B$, ovvero il caso in cui $M$ $\rightarrow$ $M_1$ per la regola (If-True).\\
+In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ ri riesce ad ottenere usando la regaola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
 \begin{itemize}
 \item $\Gamma$ $\vdash$ $true$:$Bool$ che \`e un assioma
 \item $\Gamma$ $\vdash$ $A$:$T$ soddisfatto per l'ipotesi 
-\item  $\Gamma$ $\vdash$ $B$:$T$ questa informazione non si riesce a repire ne' dall'ipotesi, ne' dal contesto e pertanto non c'\`e garanzia sull'uguaglianza di tipi di $A$ e $B$\\
-Pertanto possiamo creare un termine $N$ come $if$ $true$ $then$ $4$ $else$ $false$, da cui si riesce ad attenere $M'$ $\equiv$ $A$ $\equiv$ $4$. Questo termine, $M'$ \`e ben tipato, lo stesso non si puo' dire per M. 
+\item  $\Gamma$ $\vdash$ $B$:$T$ putroppo questa informazione non si riesce a repire dall'ipotesi ne dal contesto e pertatnto non c'\`e garanzia sull'uguaglianza di tipi di $A$ e $B$\\
+Pertanto possiamo creare un termine $N$ come $if$ $true$ $then$ $4$ $else$ $false$, da cui si riesce ad attenere $M'$ $\equiv$ $A$ $\equiv$ $4$. Questo termine nonostante esegua risulta essere non ben-tipato.
 
 
 \end{itemize}
@@ -171,9 +192,10 @@ Se al posto della regola $(APP)\:$ si definisce la regola seguente:
 
 sarebbe ancora vero il teorema di safety?
 \subparagraph*{Svolgimento}
-Si, lo si puo' dimostrare considerando che APP' non e' altro che una specificazione di APP: se poniamo X uguale all'insieme dei tipi di APP, Y e' un sottoinsieme di X corrispondente ai possibili tipi di APP'.
+Si, lo si pu\`o dimostrare considerando che $APP^{\prime}$ non \`e altro che una specificazione di $APP$: se poniamo $X$ uguale all'insieme dei tipi di $APP$, $Y$ \`e un sottoinsieme di $X$ corrispondente ai possibili tipi di $APP^{\prime}$.\\
+In sostanza la regola restringere l'insieme dei programmi realizzabili con il precedente type system
 
-Di conseguenza il teorema di safety vale anche per APP'
+Di conseguenza il teorema di safety vale anche per $APP^{\prime}$ poich\`e la dimostrazioni continuano a valere.
 
 \subsubsection*{Esercizio 3.15}
 Se al posto delle regole $(APP)\:$ e $(FUN)\:$ si definissero le seguenti regole:
@@ -200,7 +222,7 @@ sarebbe ancora vero il teorema di safety?
 \subparagraph*{Svolgimento}
 
 La risposta e' no:\\
-In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilita' di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso.\\
+In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilit\`a di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso. Questo perch\`e la nuova regola risulta essere pi\`u stringente rispetto a prima visto che ammette solo tipi uguali al tipo di ritorno senza controllare effettivamente che la signatura dei paremtri sia conforme a quanto richiesto.\\
 Supponiamo di avere il termine:\\
 $M$ $=$ $(fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$ 
 
@@ -232,7 +254,7 @@ e creiamo il suo albero di derivazione:
 \end{prooftree}
 
 
-In questo caso possiamo osservare che il termine $M$ risulta essere ben tipato secondo le nuove regole di tipo.\\
+In questo caso possiamo osservare che il termine $M$ risulta essere ben-tipato secondo le nuove regole di tipo.\\
 Tuttavia, \`e evidente che l'invocazione della funzione in questione porta $M$ ad un termine stuck, questo perch\`e il sottotermine $N$ $=$ $if$ $x$ $then$ $1$ $else$ $0$ si aspetta un $Bool$, infatti le regole della semantica operazionale che gestiscono l'$if$, permettono di avanzare nella computazione.\\
 Nel caso in cui la guardia non sia un valore, la computazione procede con la valutazione della guardia, altrimenti procede il ramo $TRUE$ o con il ramo $FALSE$.\\
 In questo caso, poich\`e il valore passato alla funzione \`e un intero, e quindi gi\`a un valore le uniche regole applicabili sarebbero $(IF-TRUE)$ e $(IF-FALSE)$ ma poich\`e la guardia \'e 1 non sono applicabili e quindi si otterrebbe un termine STUCK.
@@ -338,161 +360,321 @@ Ricostruire il tipo dei seguenti termini:
 \end{itemize}
 
 \subparagraph*{Svolgimento}
-\begin{enumerate}[label=\alph*), leftmargin=*]
+\begin{enumerate}[label=\textbf{\alph*}), leftmargin=*]
 
 
-\item $fn$ $x$:$T1.fn$ $y$:$T2.if$ $y$ then $x$ else true  \\
+\item $fn$ $x$:$T_1.fn$ $y$:$T_2.if$ $y$ then $x$ else true  \\
 		\scalebox{.75}{
 		\parbox{1cm}{
 		\begin{prooftree}
 			\AxiomC{y:Bool $\in$ $\Gamma$}
 			\LeftLabel{\textsc{(VAR)}} 
 			\LeftLabel{\textsc{(VAR)}}
-			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $y$ : $Bool$}
+			\UnaryInfC{$\Gamma$,$x$:$T_1$,$y$:$T_2$ $\vdash$ $y$ : $Bool$}
 			\LeftLabel{\textsc{(VAR)}}
-			\AxiomC{x:B$x$:$Nat:\rightarrow Bool$ $\in$ $\Gamma$}
+			\AxiomC{$x$:$T_3$ $\in$ $\Gamma$}
 			\LeftLabel{\textsc{(VAR)}}
-			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $x$ : $Bool$}
+			\UnaryInfC{$\Gamma$,$x$:$T_1$,$y$:$T_2$ $\vdash$ $x$ : $T_3$}
 			\LeftLabel{\textsc{(VAR)}}
 			\AxiomC{$\checkmark$}
 			\LeftLabel{\textsc{(TRUE)}}
-			\UnaryInfC{$\Gamma$,$x$:$T1$, $\vdash$ $true$ : $Bool$}
+			\UnaryInfC{$\Gamma$,$x$:$T_1$,$y$:$T_2$ $\vdash$ $true$ : $Bool$}
 			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
-			\TrinaryInfC{$x$:$T1$,$y$:$T2$ $\vdash$ $if$ $y$ then $x$ else true}
+			\TrinaryInfC{$x$:$T_1$,$y$:$T_2$ $\vdash$ $if$ $y$ $then$ $x$ $else$ $true$ : $T_3$}
 			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$x$:$T1$ $\vdash$  $fn$ $y$:$T2.if$ $y$ then $x$ else true}
+			\UnaryInfC{$x$:$T_1$ $\vdash$  $fn$ $y$:$T_2.if$ $y$ $then$ $x$ $else$ $true$ : $T_2 \rightarrow T_3$}
 			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x$:$T1.fn$ $y$:$T2.if$ $y$ then $x$ else true}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x$:$T_1.fn$ $y$:$T_2.if$ $y$ $then$ $x$ $else$ $true$ : $T_1 \rightarrow T_2 \rightarrow T_3$}
 		\end{prooftree}}
-		}
+		}\vspace{1cm}
 		
-		Il risultato finale e' $Bool \rightarrow (Bool \rightarrow Bool)$
+		Il risultato finale \`e dato dal fatto che $T_1$ = $T_2$ = $T_3$ = $Bool$  e quindi il tipo finale risulta: $Bool \rightarrow Bool \rightarrow Bool$
+		\vspace{1.5cm}
 		
-\item $fn$ $x:Nat:\rightarrow\:$Bool.x  \\
+		\item $fn$ $x:Nat:\rightarrow$ $Bool.x$  \\
 		\scalebox{.75}{
 		\parbox{1cm}{
 		\begin{prooftree}
 		
-			\AxiomC{$x$:$Nat:\rightarrow Bool$ $\in$ $\Gamma$}
+			\AxiomC{$x:T_2$ $\in$ $\Gamma,$ $x$:$Nat:\rightarrow Bool$}
 			\LeftLabel{\textsc{(VAR)}}
-			\UnaryInfC{$x$:$Nat:\rightarrow Bool$ $\vdash$  $x$:$T$}
+			\UnaryInfC{$\Gamma,$ $x$:$Nat:\rightarrow Bool$ $\vdash$  $x$:$T_2$}
 			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x:Nat:\rightarrow\:$Bool.x}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x:Nat:\rightarrow$ $Bool.x$ : $T_1 \rightarrow T_2$}
 		\end{prooftree}}
-		}
+		}\vspace{1cm}
 		
-		Il risultato finale e' $(Nat \rightarrow Bool) \rightarrow (Nat \rightarrow Bool)$
+		Il risultato finale \`e dato dal fatto che $T_2$ = $Nat \rightarrow Bool$  e quindi il tipo finale risulta $(Nat \rightarrow Bool)  \rightarrow (Nat \rightarrow Bool)$
+		\vspace{1.5cm}
 		
 		
-\item $fn$ $f:T.fn$ $x:T'.f$(if true  then  $x$  else  $f$ $x$)  \\
+		\item $fn$ $f:T.fn$ $x:T'.f(if$ $true$  $then$  $x$  $else$  $f$ $x)$ \\ 
 		\scalebox{.75}{
-		\parbox{1cm}{
+		\parbox{1cm}{ \vspace{1.5cm}
 		\begin{prooftree}
-			\AxiomC{$f$:$T$,$x$:$T_1$ $\vdash$ $f$:$T_3 \rightarrow T_2$}
+			
+			%\AxiomC{$f$:$T$,$x$:$T_1$ $\vdash$ $f$:$T_3 \rightarrow T_2$}
 			
 			%%else
 			
-			\AxiomC{$f$:$T$,$x$:$T_1$ $\vdash$ $f:T_4 \rightarrow T$}
-			\AxiomC{$T_1 = T_4$}
-			\LeftLabel{\textsc{(VAR)}}
-			\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $x:T_4$}
-			\LeftLabel{\textsc{(APP)}}
-			\BinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $f x$ : $T_3$}
+			%\AxiomC{$f$:$T$,$x$:$T_1$ $\vdash$ $f:T_4 \rightarrow T$}
+			%\AxiomC{$T_1 = T_4$}
+			%\LeftLabel{\textsc{(VAR)}}
+			%\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $x:T_4$}
+			%\LeftLabel{\textsc{(APP)}}
+			%\BinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $f x$ : $T_3$}
 			
 			%%			
 					
 			%%then
 			
-			\AxiomC{$T_1 = T_3$}
-			\LeftLabel{\textsc{ }}
-			\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $x$ : $T_3$}
+			%\AxiomC{$T_1 = T_3$}
+			%\LeftLabel{\textsc{ }}
+			%\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $x$ : $T_3$}
 						
+			%%			
+			%% if
+			%\AxiomC{$\checkmark$}
+			%\LeftLabel{\textsc{(TRUE)}}
+			%\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $true$ : $Bool$}
+			%%
+			%\LeftLabel{\textsc{(IF-THEN-ELSE)}}
+			%\TrinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $ if true$ then $x$ else $f$ $x$ : $T_3$}
+			
+			\AxiomC{A}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f$:$^{\prime\prime\prime\prime} \rightarrow T^{\prime\prime}$}
+			\AxiomC{B}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $ if true$ then $x$ else $f$ $x$ : $T_3$}
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f$ $(if$ $true$ $then$ $x$ $else$ $f$ $x$)}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T$ $\vdash$  $fn$ $x$:$T^{\prime}.f(if$ $true$  $then$  $x$  $else$  $f$ $x)$:$T^{\prime}\rightarrow T^{\prime\prime} $}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $f:T.fn$ $x:T^{\prime}.f(if$ $true$  $then$  $x$  $else$  $f$ $x)$ : $T \rightarrow T^{\prime}\rightarrow T^{\prime\prime} $}
+		\end{prooftree}}
+		}\vspace{1cm}
+		
+		
+		
+		\begin{itemize}[label=$\star$]
+		
+		\item 	Albero A \\
+		
+		\scalebox{.75}{
+		\parbox{1cm}{\vspace{1cm}
+		\begin{prooftree}
+			\AxiomC{ $f$:$T^{\prime\prime\prime\prime} \rightarrow T^{\prime\prime}$ $\vdash$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}	
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f$:$T^{\prime\prime\prime\prime} \rightarrow T^{\prime\prime}$}
+		
+		\end{prooftree}}	
+		}	\vspace{1cm}
+		
+		\item Albero B\\
+		
+		\scalebox{.75}{
+		\parbox{1cm}{\vspace{1cm}
+		\begin{prooftree}
+		
+		
 			%%			
 			%% if
 			\AxiomC{$\checkmark$}
 			\LeftLabel{\textsc{(TRUE)}}
-			\UnaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $true$ : $Bool$}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $true$ : $Bool$}
+			
+			
+			%%			
+					
+			%%then
+			
+			\AxiomC{$x$ : $T^{\prime\prime}$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR) }}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $x$ : $T^{\prime\prime}$}
+						
+			%%else
+			
+			
+			\AxiomC{C}
+			\LeftLabel{\textsc{(APP)}}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f x$ : $T^{\prime\prime}$}
+			
 			%%
 			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
-			\TrinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $ if true$ then $x$ else $f$ $x$ : $T_3$}
-			
-			\LeftLabel{\textsc{(APP)}}
-			\BinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $f$ $(if true$ then $x$ else $f$ $x$)}
-			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$f$:$T$ $\vdash$  $fn$ $x$:$T_1.f$ $(if true$ then $x$ else $f$ $x$)}
-			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $f:T.fn$ $x:T_1.f$(if true  then  $x$  else  $f$ $x$)}
-		\end{prooftree}}
-		}
+			\TrinaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $if$ $true$ $then$ $x$ $else$ $f$ $x$ : $T^{\prime\prime}$}
 		
-		Il risultato finale e' dato dal fatto che $T = T_1 = T_" = T_3 = T_4$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T \rightarrow T)$
+		\end{prooftree}}	
+		}	\vspace{1cm}
+	
+		
+		\item Albero C (ramo else dell'if)\\
+		
+		\scalebox{.75}{
+		\parbox{1cm}{\vspace{1cm}
+		\begin{prooftree}
+		
+			\AxiomC{$f:T^{\prime\prime\prime}$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f:T^{\prime\prime\prime} \rightarrow T^{\prime\prime}$}
+			\AxiomC{$x:T^{\prime\prime\prime}$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $x:T^{\prime\prime\prime}$}
+			\BinaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f x$ : $T^{\prime\prime}$}		
+		
+		\end{prooftree}}	
+		}	\vspace{1cm}	
+		
+		
+		\end{itemize}
+		
+		il risultato finale \`e supportato dalle seguenti sostituzioni:
+		\begin{itemize}
+		
+		\item $T \rightarrow T^{\prime} \rightarrow T^{\prime\prime}$
+		\item $T^{\prime} \rightarrow T^{\prime\prime}$
+		\item $T^{\prime\prime\prime} \rightarrow T^{\prime\prime}$
+		\item $T^{\prime}$ =  $T^{\prime\prime\prime}$
+		\item $T$ = $T^{\prime\prime\prime\prime}$
+		\item $T^{\prime\prime\prime\prime}$ = $T^{\prime\prime\prime}$
+		\item $T$ =  $T^{\prime\prime\prime}$
+		\item $T^{\prime\prime}$  =  $T^{\prime\prime\prime}$
+			
+		
+		\end{itemize}
+				
+		Il risultato finale e' dato dal fatto che $T = T_1 = T_" = T_3 = T_4$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T) $
+		\vspace{1.5cm}
 		
 	
-\item $fn$ $f:T1.fn$ $g:T2.$if ($f$ ($g$ true)) then $f$ ($fn$ $x:$T3.true) else $f$($fn$ $x:T4.x$)  \\
-		\scalebox{.35}{
-		\parbox{1cm}{
+\item $fn$ $f:T1.fn$ $g:T2.if$ $(f$ $(g$ $true))$ $then$ $f$ ($fn$ $x:T3.true)$ $else$ $f(fn$ $x:T4.x)$  \\
+		
+		\scalebox{.75}{
+		\parbox{1cm}{\vspace{1.5cm}
 		\begin{prooftree}
 			
-			%%else
-			\AxiomC{$x$:$T_4$ $\in$ $\Gamma$}
-			\LeftLabel{\textsc{(VAR)}}
-			\UnaryInfC{$f$:$T_1$,$g$:$T_2$,$x$:$T_4$ $\vdash$ x : $T_4$}
-			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $fn$ $x$:$T_4$.x : $T_4 \rightarrow T_4$}
-			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $T_5 \rightarrow T_1 $}
-			\LeftLabel{\textsc{(APP)}}
-			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$($fn$ $x:T_4.x$)}
+				
+			%guardia if
+			\AxiomC{A}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $(g$ $true))$ : $Bool$}	
 			
-			%%			
-					
-			%%then
-			\AxiomC{$\checkmark$}
-			\LeftLabel{\textsc{(TRUE)}}
-			\UnaryInfC{$f$:$T_1$,$g$:$T_2$,$x$:$T_3$ $\vdash$ true : $Bool$}
-			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $fn$ $x$:$T_3$.true : $T_3 \rightarrow Bool$}
-			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $T_5 \rightarrow T_1 $}
-			\LeftLabel{\textsc{(APP)}}
-			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ ($fn$ $x$:$T_3$.true)}
+			%then
+			\AxiomC{B}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $(fn$ $x$:$T_3.true)$:$W$}
+			
+			%else
+			\AxiomC{C}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f(fn$ $x:T_4.x)$:$W$}
+			
 						
-			%%			
-			%% if
 			
-			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $g$:$ Bool \rightarrow T_2 $}
+			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
+			\TrinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $if$ $(f$ $(g$ $true))$ $then$ $f$ ($fn$ $x:T_3.true)$ $else$ $f(fn$ $x:T_4.x)$:$W$}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T_1$ $\vdash$ $fn$ $g:T_2.if$ $(f$ $(g$ $true))$ $then$ $f$ ($fn$ $x:T_3.true)$ $else$ $f(fn$ $x:T_4.x)$:$T_2 \rightarrow W$}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $f:T_1.fn$ $g:T_2.if$ $(f$ $(g$ $true))$ $then$ $f$ ($fn$ $x:T_3.true)$ $else$ $f(fn$ $x:T_4.x)$:$T_1 \rightarrow T_2 \rightarrow W$}
+		\end{prooftree}}
+		}	
+		
+		\vspace{1cm}
+		Dove gli alberi A, B e C sono:
+		
+
+		\begin{itemize}[label=$\star$]
+		
+		\item 	Albero A (derivazione guardia del'if)\\
+		
+		\scalebox{.75}{
+		\parbox{1cm}{\vspace{1cm}
+		\begin{prooftree}
+		
+			\AxiomC{$f$:$ U \rightarrow Bool $ $\in$ $f$:$T_1$,$g$:$T_2$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$:$ U \rightarrow Bool $}
+			
+			
+			\AxiomC{$g$:$ Bool \rightarrow U $ $\in$ $f$:$T_1$,$g$:$T_2$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $g$:$ Bool \rightarrow U $}
 			\AxiomC{$\checkmark$}
 			\LeftLabel{\textsc{(TRUE)}}
 			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $true$:$ Bool $}
 			\LeftLabel{\textsc{(APP)}}
-			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $g true$:$ T_2$}
-			\AxiomC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$:$ T_2 \rightarrow Bool $}
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $g$ $true$:$U$}
+			
 			\LeftLabel{\textsc{(APP)}}
-			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ ($g$ true)) : $Bool$}
-			%%
-						
-			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
-			\TrinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $if$ ($f$ ($g$ true)) then $f$ ($fn$ $x$:$T_3$.true) else $f$($fn$ $x:T_4.x$)}
-			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$f$:$T_1$ $\vdash$ $fn$ $g:T_2.$if ($f$ ($g$ true)) then $f$ ($fn$ $x$:$T_3$.true) else $f$($fn$ $x:T_4.x$)}
-			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $f:T_1.fn$ $g:T_2.$if ($f$ ($g$ true)) then $f$ ($fn$ $x$:$T_3$.true) else $f$($fn$ $x:T_4.x$)}
-		\end{prooftree}}
-		}	
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $(g$ $true))$ : $Bool$}
+		\end{prooftree}}	
+		}	\vspace{1cm}
 		
-		Il risultato finale e' dato dal fatto che:
+		
+		\item 	Albero B (derivazione ramo then)\\
+		
+		\scalebox{.75}{
+		\parbox{1cm}{\vspace{1cm}
+		\begin{prooftree}
+		
+			\AxiomC{$f: Z \rightarrow W$ $\in$ $f$:$T_1$,$g$:$T_2$}
+			\LeftLabel{\textsc{(VAR)}}	
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $Z \rightarrow W $}
+			
+			\AxiomC{$\checkmark$}
+			\LeftLabel{\textsc{(TRUE)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$,$x$:$T_3$ $\vdash$ $true$ : $Bool$}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $fn$ $x$:$T_3.true$ : $T_3 \rightarrow Bool$}
+			
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $(fn$ $x$:$T_3.true)$ :$W$}
+		\end{prooftree}}	
+		}\vspace{1cm}			
+		
+		
+		
+		\item 	Albero C (derivazione ramo else)\\
+		
+		\scalebox{.75}{
+		\parbox{1cm}{\vspace{1cm}
+		\begin{prooftree}
+		
+			\AxiomC{$f: Z_1 \rightarrow W$ $\in$ $f$:$T_1$,$g$:$T_2$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f$ $Z_1 \rightarrow W $}		
+		
+			\AxiomC{$x$:$T_4$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$,$x$:$T_4$ $\vdash$ $x$ : $T_4$}
+			\LeftLabel{\textsc{(FUN)}}
+			\UnaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $fn$ $x$:$T_4.x$ : $T_4 \rightarrow T_4$}
+			
+			
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f$:$T_1$,$g$:$T_2$ $\vdash$ $f(fn$ $x:T_4.x)$:$W$}
+		\end{prooftree}}	
+		}\vspace{1cm}					
+		
+		
+		\end{itemize}				
+		
+		Il risultato finale \`e supportato dalle seguenti sostituzioni:
 		\begin{itemize}
 		
-	
-		\item $T_4 = Bool$
-		\item $T_1 = T_2 \rightarrow Bool$
-		\item $T_5 = T_3 \rightarrow Bool$
-		\item $T_4 = Bool$
-		\item $T_3 = T_4 = Bool$
-		\item $T_5 = Bool \rightarrow Bool$
-		\item $T_2 = (Bool \rightarrow Bool)$
-		\item $T_1 = (Bool\rightarrow Bool) \rightarrow Bool$
+		\item $T_1$ = $U \rightarrow Bool$
+		\item $T_1$ = $Z \rightarrow Bool$
+		\item $T_1$ = $Z_1 \rightarrow Bool$
+		\item $T_2$ = $Bool \rightarrow U$
+		\item $W$ = $Bool$
+		\item $U$ = $Bool \rightarrow Bool$
+		\item $T_3$ = $T_4$ = $Bool$
+		
+		\item quindi $T_2$ = $Bool \rightarrow (Bool \rightarrow Boool)$ ( per sostituzione infatti $f$ $(fn$ $x$:$T_3.true)$ \`e $U \rightarrow W$ con $W$ = $Bool$ e $U$ = $(Bool \rightarrow Bool))$
+		\item quindi $T_1$ =  $(Bool \rightarrow Bool) \rightarrow Boool$
+		\item quindi da $T_1 \rightarrow T_2 \rightarrow W$ otteniamo $(Bool \rightarrow Bool) \rightarrow Boool$ $\rightarrow$ $(Bool \rightarrow (Bool \rightarrow Boool))$ $\rightarrow$ $Bool$
+		
+		
 		
 		\end{itemize}
-		e quindi il tipo del termine e' quindi $(Bool\rightarrow Bool) \rightarrow Bool$
+		e quindi il tipo del termine \`e quindi:\\  $(Bool \rightarrow Bool) \rightarrow Boool$ $\rightarrow$ $(Bool \rightarrow (Bool \rightarrow Boool))$ $\rightarrow$ $Bool$
 		
 
 \end{enumerate}
