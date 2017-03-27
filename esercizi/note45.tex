@@ -391,9 +391,7 @@ Ricostruire il tipo dei seguenti termini:
 		Il risultato finale \`e dato dal fatto che $T_1$ = $T_2$ = $T_3$ = $Bool$  e quindi il tipo finale risulta: $Bool \rightarrow Bool \rightarrow Bool$
 		\vspace{1.5cm}
 		
-		\item $fn$ $x:Nat:\rightarrow$ $Bool.x$  \\
-		\scalebox{.75}{
-		\parbox{1cm}{
+		\item $fn$ $x:Nat:\rightarrow$ $Bool.x$  \\ 
 		\begin{prooftree}
 		
 			\AxiomC{$x:T_2$ $\in$ $\Gamma,$ $x$:$Nat:\rightarrow Bool$}
@@ -401,15 +399,14 @@ Ricostruire il tipo dei seguenti termini:
 			\UnaryInfC{$\Gamma,$ $x$:$Nat:\rightarrow Bool$ $\vdash$  $x$:$T_2$}
 			\LeftLabel{\textsc{(FUN)}}
 			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x:Nat:\rightarrow$ $Bool.x$ : $T_1 \rightarrow T_2$}
-		\end{prooftree}}
-		}\vspace{1cm}
+		\end{prooftree} 
 		
 		Il risultato finale \`e dato dal fatto che $T_2$ = $Nat \rightarrow Bool$  e quindi il tipo finale risulta $(Nat \rightarrow Bool)  \rightarrow (Nat \rightarrow Bool)$
 		\vspace{1.5cm}
 		
 		
 		\item $fn$ $f:T.fn$ $x:T'.f(if$ $true$  $then$  $x$  $else$  $f$ $x)$ \\ 
-		\scalebox{.75}{
+		\scalebox{.95}{
 		\parbox{1cm}{ \vspace{1.5cm}
 		\begin{prooftree}
 			
@@ -442,9 +439,9 @@ Ricostruire il tipo dei seguenti termini:
 			%\TrinaryInfC{$f$:$T$,$x$:$T_1$ $\vdash$ $ if true$ then $x$ else $f$ $x$ : $T_3$}
 			
 			\AxiomC{A}
-			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f$:$^{\prime\prime\prime\prime} \rightarrow T^{\prime\prime}$}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f$:$T^{\prime\prime\prime\prime} \rightarrow T^{\prime\prime}$}
 			\AxiomC{B}
-			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $ if true$ then $x$ else $f$ $x$ : $T_3$}
+			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $ if true$ then $x$ else $f$ $x$ : $T^{\prime\prime\prime}$}
 			\LeftLabel{\textsc{(APP)}}
 			\BinaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f$ $(if$ $true$ $then$ $x$ $else$ $f$ $x$)}
 			\LeftLabel{\textsc{(FUN)}}
@@ -459,21 +456,17 @@ Ricostruire il tipo dei seguenti termini:
 		\begin{itemize}[label=$\star$]
 		
 		\item 	Albero A \\
-		
-		\scalebox{.75}{
-		\parbox{1cm}{\vspace{1cm}
+		  
 		\begin{prooftree}
 			\AxiomC{ $f$:$T^{\prime\prime\prime\prime} \rightarrow T^{\prime\prime}$ $\vdash$ $\Gamma$}
 			\LeftLabel{\textsc{(VAR)}}	
 			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f$:$T^{\prime\prime\prime\prime} \rightarrow T^{\prime\prime}$}
 		
-		\end{prooftree}}	
-		}	\vspace{1cm}
+		\end{prooftree} 
 		
 		\item Albero B\\
-		
-		\scalebox{.75}{
-		\parbox{1cm}{\vspace{1cm}
+		 \scalebox{.9}{
+		\parbox{1cm}{ \vspace{1.5cm}
 		\begin{prooftree}
 		
 		
@@ -503,14 +496,11 @@ Ricostruire il tipo dei seguenti termini:
 			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
 			\TrinaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $if$ $true$ $then$ $x$ $else$ $f$ $x$ : $T^{\prime\prime}$}
 		
-		\end{prooftree}}	
-		}	\vspace{1cm}
+		\end{prooftree}}}	 
 	
 		
 		\item Albero C (ramo else dell'if)\\
-		
-		\scalebox{.75}{
-		\parbox{1cm}{\vspace{1cm}
+		 
 		\begin{prooftree}
 		
 			\AxiomC{$f:T^{\prime\prime\prime}$ $\in$ $\Gamma$}
@@ -521,8 +511,7 @@ Ricostruire il tipo dei seguenti termini:
 			\UnaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $x:T^{\prime\prime\prime}$}
 			\BinaryInfC{$f$:$T$,$x$:$T^{\prime}$ $\vdash$ $f x$ : $T^{\prime\prime}$}		
 		
-		\end{prooftree}}	
-		}	\vspace{1cm}	
+		\end{prooftree} 
 		
 		
 		\end{itemize}
@@ -542,7 +531,7 @@ Ricostruire il tipo dei seguenti termini:
 		
 		\end{itemize}
 				
-		Il risultato finale \`e dato dal fatto che $T = T_1 = T_" = T_3 = T_4$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T) $
+		Il risultato finale \`e dato dal fatto che $T = T^{\prime} = T^{\prime\prime} = T^{\prime\prime\prime} = T^{\prime\prime\prime\prime}$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T) $
 		\vspace{1.5cm}
 		
 	
@@ -584,7 +573,7 @@ Ricostruire il tipo dei seguenti termini:
 		
 		\item 	Albero A (derivazione guardia del'if)\\
 		
-		\scalebox{.75}{
+		\scalebox{.8}{
 		\parbox{1cm}{\vspace{1cm}
 		\begin{prooftree}
 		
@@ -610,7 +599,7 @@ Ricostruire il tipo dei seguenti termini:
 		
 		\item 	Albero B (derivazione ramo then)\\
 		
-		\scalebox{.75}{
+		\scalebox{.85}{
 		\parbox{1cm}{\vspace{1cm}
 		\begin{prooftree}
 		
@@ -633,7 +622,7 @@ Ricostruire il tipo dei seguenti termini:
 		
 		\item 	Albero C (derivazione ramo else)\\
 		
-		\scalebox{.75}{
+		\scalebox{.85}{
 		\parbox{1cm}{\vspace{1cm}
 		\begin{prooftree}
 		
