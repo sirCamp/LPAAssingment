@@ -130,7 +130,7 @@
     \vspace*{1 cm}
 
 \subsection*{Esercizio 2.1}
-Trovare un contesto $\Gamma$ tale che $\Gamma\:\vdash$' f x y : Bool sia derivabile.
+Trovare un contesto $\Gamma$ tale che $\Gamma\:\vdash$ f x y : Bool sia derivabile.
 
 \subsubsection*{Svolgimento}
  	\begin{prooftree} 
@@ -150,7 +150,7 @@ Trovare un contesto $\Gamma$ tale che $\Gamma\:\vdash$' f x y : Bool sia derivab
 		\BinaryInfC{$\Gamma\:\vdash$ f x y :Bool}
 	\end{prooftree} 
 	
-	Esiste un contesto per questo programma, in quanto il programma si puo' ottenere applicando le regole e costruendo l'albero di derivazione. \\
+	Esiste un contesto per questo programma, in quanto il programma si pu\`o ottenere applicando le regole e costruendo l'albero di derivazione. \\
 	Fanno parte del contesto le seguenti regole di tipo:
 \begin{itemize}
 	\item f:$T_2\:\rightarrow\:T_1\:\rightarrow$ Bool
@@ -186,7 +186,7 @@ Caso f (x y):\\
 
 
 \subsection*{Esercizio 2.2}
-Il giudizio $\Gamma\:\vdash$' x x : T e' derivabile? Se si', trovare una derivazione per qualche $\Gamma$, T, altrimenti provare che non e' derivabile.
+%Il giudizio $\Gamma\:\vdash$ x x : T e' derivabile? Se si', trovare una derivazione per qualche $\Gamma$, T, altrimenti provare che non \`e derivabile.
 
 \subsubsection*{Svolgimento}
  	\begin{prooftree} 
@@ -196,6 +196,6 @@ Il giudizio $\Gamma\:\vdash$' x x : T e' derivabile? Se si', trovare una derivaz
 		\BinaryInfC{$\Gamma\:\vdash$ x x :T}
 	\end{prooftree} 
 
-No, non e' derivabile. Nel nostro sistema di tipi x non puo' assumere contemporaneamente il tipo T e il tipo $T_1\:\rightarrow\:$T. Risulterebbe derivabile se fosse presente il tipo ricorsivo nel sistema di tipi. \\
+No, non \`e derivabile. Nel nostro sistema di tipi x non pu\`o assumere contemporaneamente il tipo T e il tipo $T_1\:\rightarrow\:$T. Risulterebbe derivabile se fosse presente il tipo ricorsivo nel sistema di tipi. \\
 
 
