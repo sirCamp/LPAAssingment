@@ -1,7 +1,7 @@
 \section{Featherweight Java (note 11)} 
 \subsection*{\fbox{Esercizio 7.1}}\
 \\ 
-Si noti che una class table puo' contenere definizioni di classi mutuamente ricorsive.
+Si noti che una class table pu\`o contenere definizioni di classi mutuamente ricorsive.
 \linebreak Scrivere un esempio:
 
 
@@ -18,7 +18,7 @@ Class B extends A {B(){super();} }
 \end{lstlisting}
 
 \noindent
-A e B sono muatamente ricorsive. La relativa Class Table non e' pero' ben fatta, in quanto contiene una relazione di sottotipo indotta con cicli.
+A e B sono muatamente ricorsive. La relativa Class Table non \`e per\`o ben fatta, in quanto contiene una relazione di sottotipo indotta con cicli.
 
 \vspace{1cm}
 \subsection*{\fbox{Esercizio 7.2}}\
@@ -57,8 +57,9 @@ Descrivere la semantica operazionale dei seguenti termini:
 
 Per motivi di spazio i seguenti termini saranno abbreviati con delle lettere
 \begin{itemize}
-\item[$\ast$] new Pair(new A(),new B()) $\equiv$ K
-\item[$\ast$] Pair setfst(Object newfst) \{ return new Pair(newfst, this.snd) $\equiv$ H 
+\item[$\ast$] K $\equiv$ new Pair(new A(),new B())
+\item[$\ast$] H $\equiv$ Pair setfst(Object newfst) \{ return new Pair(newfst, this.snd) 
+\item[$\ast$] J $\equiv$ CT(Pair)= class Pair extends Object {Object fst, Object snd; Pair(Object fst, Object snd),Pair setfst(Object newfst)}
 \end{itemize}
 
 \vspace{0,5cm}
@@ -67,7 +68,7 @@ Per motivi di spazio i seguenti termini saranno abbreviati con delle lettere
 \item \fbox{new Pair(new A(), new B()).snd}
 
 \begin{prooftree}
-	\AxiomC{CT(Pair)= class Pair extends Object...}
+	\AxiomC{J}
 	\AxiomC{fields(Object) = $\emptyset$}	
 	\BinaryInfC{fields(Pair) = (fst : Object, snd : Object)}
 	\LeftLabel{(PROJNEW)}	
@@ -94,9 +95,9 @@ Per motivi di spazio i seguenti termini saranno abbreviati con delle lettere
 
 
 \begin{prooftree}
-	\AxiomC{CT(Pair)= class Pair extends Object...}
+	\AxiomC{J}
 	\AxiomC{H}	
-	\BinaryInfC{mbody(fst, K)}
+	\BinaryInfC{mbody(setfst, Pair)= (newfst, new Pair(newfst, this.snd))}
 	\LeftLabel{(INVKNEW)}	
 	\AxiomC{|fst|=|newB()|}
 	\BinaryInfC{K.setfst(new B()) $\rightarrow$ new Pair(newfst,this.snd)\{fst=new B(),this=K\}}
@@ -111,13 +112,14 @@ Per motivi di spazio i seguenti termini saranno abbreviati con delle lettere
 Passo 1
 
 \begin{prooftree}
-	\AxiomC{LOOKUP DI CAMPI...}
-	\UnaryInfC{fields (Pair) = \{\} }
-	\AxiomC{LOOKUP DI CAMPI...}
+	\AxiomC{J}
+	\AxiomC{field(Object) = $\emptyset$}
+	\BinaryInfC{fields (Pair) = \{Object fst,Object snd\} }
+	\AxiomC{$fst \in \tilde{f}$}
 	\LeftLabel{(PROJNEW)}	
-	\BinaryInfC{(new Pair(K, new A()).fst) $\rightarrow$  }
+	\BinaryInfC{(new Pair(K, new A()).fst) $\rightarrow$ K }
 	\LeftLabel{(CAST)}	
-	\UnaryInfC{((Pair) (new Pair(K, new A()).fst)) $\rightarrow$ }
+	\UnaryInfC{((Pair) (new Pair(K, new A()).fst)) $\rightarrow$ (Pair) K  }
 	\LeftLabel{(FIELD)}
 	\UnaryInfC{((Pair) (new Pair(K, new A()).fst)).snd $\rightarrow$ ((Pair) K).snd}
 \end{prooftree}
@@ -139,8 +141,9 @@ Passo 2
 Passo 3
 
 \begin{prooftree}
-	\AxiomC{LOOKUP DI CAMPI}
-	\UnaryInfC{fields (Pair) = \{Object fst,Object snd\} }
+	\AxiomC{J}
+	\AxiomC{field(Object) = $\emptyset$}
+	\BinaryInfC{fields (Pair) = \{Object fst,Object snd\} }
 	\AxiomC{snd $\in$ $\widetilde{f}$}	
 	\LeftLabel{((PROJNEW))}
 	\BinaryInfC{(new Pair(new A(), new B()).snd $\rightarrow$ new B()}
@@ -251,11 +254,17 @@ consideriamo ora il seguente termine:
 \vspace{0,3cm}
 \hspace{0,3cm}\textit{((A) new B(10,4)).print()}
 
+\vspace{0,3cm}
+Per motivi di spazio il seguente termine sar\`a abbreviato con una lettera
+\begin{itemize}
+\item[$\ast$] J $\equiv$ CT(B)= class B extends A {Object fst, Object snd; B(Nat fst, Nat snd),Nat print()}
+\end{itemize}
+
 \vspace{1cm}
 Passo 1
 \vspace{0,3cm}
 	\begin{prooftree}
-		\AxiomC{CT(B)=class B extends A\{...\}}	
+		\AxiomC{J}	
 		\UnaryInfC{B <: A}
 		\RightLabel{(CASTNEW)}
 		\UnaryInfC{(A) new B(10,4) $\rightarrow$ new B(10,4)}
@@ -269,7 +278,7 @@ Passo 1
 Passo 2
 \vspace{0,3cm}
 	\begin{prooftree}
-		\AxiomC{CT(B)= class B extends A...}
+		\AxiomC{J}
 		\AxiomC{Nat print() \{ return snd \} $\in$ $\widetilde{M}$}	
 		\BinaryInfC{mbody($\emptyset$,B)=(snd, return snd)}
 		\AxiomC{$\emptyset$ = $\emptyset$}
@@ -281,17 +290,17 @@ Passo 2
 \subsection*{\fbox{Esercizio 7.4}}\
 \\
 \
-Perche' c'e' una regola di tipo sia per l'Up-cast che per il Downcast, mentre c'e' la sola regola di valutazione per
+Perch\`e c'\`e una regola di tipo sia per l'Up-cast che per il Downcast, mentre c'\`e la sola regola di valutazione per
 Up-cast, nella semantica operazionale?
 
 \vspace{0,5cm}
 \textbf{Svolgimento}:
 
 \vspace{0,3cm}
-L'operazione di Upcast, applicata su termini non stuck, non produrra' mai termini stuck in quanto effettua una conversione da un tipo piu' informativo(sottoclasse) ad un tipo meno informativo(superclasse).
-Cio' non e' sempre valido con l'operazione di Down-cast, la quale effettua invece una conversione da un tipo meno informativo(superclasse) ad uno che richiede piu' informazione (sottoclasse), con conseguente mancanza di valori da assegnare ai campi dati della sottoclasse stessa.
+L'operazione di Up-cast, applicata su termini non stuck, non produrr\`a mai termini stuck in quanto effettua una conversione da un tipo pi\`u informativo(sottoclasse) ad un tipo meno informativo(superclasse).
+Ci\`o non \`e sempre valido con l'operazione di Down-cast, la quale effettua invece una conversione da un tipo meno informativo(superclasse) ad uno che richiede pi\`u informazione (sottoclasse), con conseguente mancanza di valori da assegnare ai campi dati della sottoclasse stessa.
     
-La regola di typing di Down-cast, e' inserita per permettere la valutazioni di termini, che il compilatore non considerebbe ben tipati anche se a run-time non evolvono in un termine stuck.
+La regola di typing di Down-cast, \`e inserita per permettere la valutazioni di termini, che il compilatore non considerebbe ben tipati anche se a run-time non evolvono in un termine stuck.
 
 \vspace{0,5cm}
 Consideriamo ad esempio il seguente termine: 
@@ -305,7 +314,7 @@ Valutazione di tipo:
 
 \vspace{0,3cm}
 \begin{prooftree}
-		\AxiomC{..........}
+		\AxiomC{$|\emptyset| = |\emptyset|$ $fields(A)=\emptyset$}
 		\LeftLabel{(NEW)}
 		\UnaryInfC{$\emptyset \vdash $ new A(): A }
 		\AxiomC{A <: C}
@@ -364,14 +373,14 @@ Ha senso aggiungere a FJ la regola di sub-typing per i tipi freccia A$\rightarro
 \vspace{0,3cm}
 In FJ le funzioni non appartengono all'insieme Termini t della sintassi del linguaggio.
 
-I tipi freccia li troviamo solamente all'interno di metodi, i quali hanno gia' una regola di typing (INVK) che, essendo il sistema di  regole sintax-direct (o algoritmico), integra direttamente la regola di sub-typing.
+I tipi freccia li troviamo solamente all'interno di metodi, i quali hanno gi\`a una regola di typing (INVK) che, essendo il sistema di  regole sintax-direct (o algoritmico), integra direttamente la regola di sub-typing.
 
 \vspace{1cm}			 
 \subsection*{\fbox{Esercizio 7.12}}\
 \\
 \
 Aggiungere a FJ il termine ClassCastException: come cambia la semantica operazionale? Le regole di tipo? Il teorema di Safety e i teoremi di Preservazione e Progressione? Aggiungere
-in seguito anche la possibilita' di gestire le eccezioni.
+in seguito anche la possibilit\`a di gestire le eccezioni.
 
 \vspace{0,5cm}
 \noindent

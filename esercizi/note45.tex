@@ -1,9 +1,9 @@
 \section{I Tipi Semplici (note 45)}
  
 \subsubsection*{Esercizio 3.2}
-Provare che ogni sottotermine di un termine ben tipato e' ben tipato.
+Provare che ogni sottotermine di un termine ben tipato \`e ben tipato.
 \subparagraph{Svolgimento}
-Per la risoluzione di questo esericizio e' necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.\\
+Per la risoluzione di questo esericizio \`e necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.\\
 Se $M$ \`e un termine ben tipato vuol dire che il giudizio di tipo $\Gamma$ $\vdash$ $M$ : $T$ \`e derivabile con un albero di derivazione di altezza $h$ e quindi l'induzione viene fatta su $h$.
 
 
@@ -45,10 +45,10 @@ Si vuole quindi dimostrare che:
 	Se $\Gamma \vdash{} M : T$ e $M \to{} M'$, allora $\Gamma \vdash{} M' : T$.
 \end{center}
 %La dimostrazione per induzione va fatta sul numero di passi che $M$ portano a $M'$.
-%Dobbiamo ragionare su quella che e' la lunghezza dei cammini della derivazione:
+%Dobbiamo ragionare su quella che \`e la lunghezza dei cammini della derivazione:
 
 %Caso Base l = 0:\\
-%Otteniamo che $M$ = $M'$ e la tesi e' trivialmente vera.
+%Otteniamo che $M$ = $M'$ e la tesi \`e trivialmente vera.
 
 %Caso Induttivo l+1:\\
 %In questo passo ho che $M \rightarrow^{*}_l M_1 \rightarrow M'$, e per ipotesi induttiva ho che $\Gamma \vdash M_1 : T$.\\
@@ -157,13 +157,13 @@ Si vuole quindi dimostrare che:
 
 Vale l'opposto di subject reduction, i.e. se $\Gamma\:\vdash$ $M'\: :  $T e $M\:\rightarrow\:$M', allora $\Gamma\:\vdash$ $M$ : $T$ (detto subject expansion)? Dimostrarlo oppure dare un controesempio.
 \subparagraph*{Svolgimento}
-La risposta e' no:
+La risposta \`e no:
 
 E sufficiente pensare a $M \rightarrow M_1$ con $\Gamma\vdash$ $M_1$ : $\sigma$ e che 
 $\Gamma\nvdash$ $M$: $\sigma$\\
 Quanto riportato sopra pu\`o essere semplificato tramite questo esempio:\\
 Supponimao di avere $M_1$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if$ $true$ $then$ $A$ $else$ $B$, ovvero il caso in cui $M$ $\rightarrow$ $M_1$ per la regola (If-True).\\
-In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ ri riesce ad ottenere usando la regaola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ si riesce ad ottenere usando la regaola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
 \begin{itemize}
 \item $\Gamma$ $\vdash$ $true$:$Bool$ che \`e un assioma
 \item $\Gamma$ $\vdash$ $A$:$T$ soddisfatto per l'ipotesi 
@@ -221,7 +221,7 @@ sarebbe ancora vero il teorema di safety?
 
 \subparagraph*{Svolgimento}
 
-La risposta e' no:\\
+La risposta \`e no:\\
 In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilit\`a di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso. Questo perch\`e la nuova regola risulta essere pi\`u stringente rispetto a prima visto che ammette solo tipi uguali al tipo di ritorno senza controllare effettivamente che la signatura dei paremtri sia conforme a quanto richiesto.\\
 Supponiamo di avere il termine:\\
 $M$ $=$ $(fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$ 
@@ -281,8 +281,8 @@ e
 
 sarebbe ancora vero il teorema di safety?
 \subparagraph*{Svolgimento}
-La risposta e' no:\\
-Data la definizione di Teorema di Safety, e' evidente che viene meno la stessa ipotesi ovvero che M sia un valore o un che non evolva in un termine STUCK.
+La risposta \`e no:\\
+Data la definizione di Teorema di Safety, \`e evidente che viene meno la stessa ipotesi ovvero che M sia un valore o un che non evolva in un termine STUCK.
 
 Con queste regole di tipo, infatti, sarebbe permessa anche l'operazione SUM che genererebbe un termine STUCK, invalidando il teorema stesso.\
 Supponiamo di avere il termine: $M$ $=$ $true+4$
@@ -328,7 +328,7 @@ Si procede con la dimostrazione per induzione:
 
   
 		\end{itemize}
-		In questo passo il fatto e' un assioma, questo perche' non esistono variabili libere quindi $fv(M)$ e' $\emptyset$ e il vuoto e un sottoinsieme del $Dom(\Gamma)$
+		In questo passo il fatto \`e un assioma, questo perch\`e non esistono variabili libere quindi $fv(M)$ \`e $\emptyset$ e il vuoto e un sottoinsieme del $Dom(\Gamma)$
 
 \item Caso Induttivo
 		
@@ -542,7 +542,7 @@ Ricostruire il tipo dei seguenti termini:
 		
 		\end{itemize}
 				
-		Il risultato finale e' dato dal fatto che $T = T_1 = T_" = T_3 = T_4$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T) $
+		Il risultato finale \`e dato dal fatto che $T = T_1 = T_" = T_3 = T_4$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T) $
 		\vspace{1.5cm}
 		
 	

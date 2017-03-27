@@ -2,13 +2,13 @@
 \vspace{1cm}
 
 \subsection*{\fbox{Esercizio 8.1}}
-Scrivere una regola per eliminare i riferimenti non piu' utilizzati.
+Scrivere una regola per eliminare i riferimenti non pi\`u utilizzati.
 
 
 Svolgimento:
 
 
-I riferimenti agli oggetti che non vengono piu' utilizzati all'interno di un termine e, possono essere eliminati.
+I riferimenti agli oggetti che non vengono pi\`u utilizzati all'interno di un termine e, possono essere eliminati.
 
 consideriamo la seguente regola:
 
@@ -140,7 +140,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:,\:C\:y=new\:D(o_2);\:.....\rangle$
 
 \vspace{0,5cm}
-\item Creazione dell'oggetto $o_3$ di tipo D da associare nella variabile y di tipo C. La classe C e' un sottotipo della classe D, pero' non aggiunge nessun nuovo campo dati e nessun nuovo metodo, effettua solamente l'override del metodo m().
+\item Creazione dell'oggetto $o_3$ di tipo D da associare nella variabile y di tipo C. La classe C \`e un sottotipo della classe D, per\`o non aggiunge nessun nuovo campo dati e nessun nuovo metodo, effettua solamente l'override del metodo m().
 
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:,\:C\:y=o_3;\:.....\rangle$
 
@@ -155,7 +155,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:o_2.m();.....\rangle$
 
 \vspace{0,5cm}
-\item Invocazione del metodo m() della classe C perche' la funzione mbody effettua la scelta di tale metodo in base alla class-table dell'oggetto di invocazione, il metodo restituisce l'oggetto stesso quindi $o_2$.
+\item Invocazione del metodo m() della classe C perch\`e la funzione mbody effettua la scelta di tale metodo in base alla class-table dell'oggetto di invocazione, il metodo restituisce l'oggetto stesso quindi $o_2$.
 
 Lo store rimane inalterato e si ha solo il passaggio all'istruzione successiva.
 
@@ -167,7 +167,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x=o_3;.....\rangle$
 
 \vspace{0,5cm}
-\item Associazione dell'oggetto $o_3$ di tipo D alla variabile x. Si effetua una modifica allo store in quanto la variabile x gia' esisteva ed era associata all'oggetto $o_2$.
+\item Associazione dell'oggetto $o_3$ di tipo D alla variabile x. Si effetua una modifica allo store in quanto la variabile x gi\`a esisteva ed era associata all'oggetto $o_2$.
 
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:\underline{[x\:\mapsto\:o_3]}\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x.m();.....\rangle$
 
@@ -177,7 +177,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_3]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:o_3.m();.....\rangle$
 
 \vspace{0,5cm}
-\item Invocazione del metodo m() della classe D perche' la funzione mbody effettua la scelta di tale metodo in base alla class-table dell'oggetto di invocazione, il metodo restituisce l'oggetto stesso quindi $o_3$.
+\item Invocazione del metodo m() della classe D perch\`e la funzione mbody effettua la scelta di tale metodo in base alla class-table dell'oggetto di invocazione, il metodo restituisce l'oggetto stesso quindi $o_3$.
 
 Lo store rimane inalterato e si ha solo il passaggio all'istruzione successiva.
 

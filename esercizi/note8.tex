@@ -264,7 +264,7 @@ Al passo 4 si effettua un salto non locale del flusso di controllo a causa dell'
 	\UnaryInfC{try (8) catch fn z.print(z) $\rightarrow$ 8}
 \end{prooftree}
 
-L'eccezione lanciata da throw x in M viene raccolta dal primo catch (quello piu' vicino).
+L'eccezione lanciata da throw x in M viene raccolta dal primo catch (quello pi\`u vicino).
 
 \paragraph{e) try ((fn x.x throw 1) (try (M 5) catch fn z.z+z)) catch fn z.print(z)}\mbox{}
 
@@ -325,7 +325,7 @@ Non si aggiungono regole per gestire questo tipo, visto che sono state aggiunti 
 	\UnaryInfC{{throw v}.i $\rightarrow$ throw v}
 \end{prooftree} 
 
-La regola SELECT va bene cosi' e basta per tirare fuori i lanci di eccezione che comunque vengono valutati in seguito tramite altre regole.
+La regola SELECT va bene cos\`i e basta per tirare fuori i lanci di eccezione che comunque vengono valutati in seguito tramite altre regole.
 
 \begin{prooftree}    
 	\AxiomC{\textsc{(RAISE EVAL RECORD)}}
@@ -335,7 +335,7 @@ La regola SELECT va bene cosi' e basta per tirare fuori i lanci di eccezione che
 
 \textbf{Varianti:} 
 
-La regola RAISE MATCH non e' necessaria, in quanto si valuta il valore del variante. Se contiene un lancio di un'eccezione si valuta con RAISE RED MATCH. Se il lancio e' all'interno del match, allora dev'essere necessariamente all'interno di $M_i$ e viene valutato solo quando si esegue il contenuto di $M_i$.
+La regola RAISE MATCH non \`e necessaria, in quanto si valuta il valore del variante. Se contiene un lancio di un'eccezione si valuta con RAISE RED MATCH. Se il lancio \`e all'interno del match, allora dev'essere necessariamente all'interno di $M_i$ e viene valutato solo quando si esegue il contenuto di $M_i$.
 
 \begin{prooftree}    
 	\AxiomC{\textsc{(RAISE RED MATCH)}}

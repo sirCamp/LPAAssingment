@@ -62,7 +62,7 @@ Si scriva la derivazione di \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool\}
 \scalebox{.85}{
 \parbox{1cm}{
  \begin{prooftree} 
-	\AxiomC{\{a:Nat, b:Bool, c:Nat\} e' permutazione di \{b:Bool, a:Nat, c:Nat\}}
+	\AxiomC{\{a:Nat, b:Bool, c:Nat\} \`e permutazione di \{b:Bool, a:Nat, c:Nat\}}
 	\LeftLabel{\textsc{PERMUTE}}
 	\UnaryInfC{$\emptyset\:\vdash$ \{a:Nat, b:Bool, c:Nat\} <: \{b:Bool, a:Nat, c:Nat\}}
 	\AxiomC{(SUB-WIDTH)}
@@ -121,7 +121,7 @@ Esempio di alternativa:
 	\BinaryInfC{$\emptyset\:\vdash$ (fn r:\{l:Nat\}.r.l + 2) \{l= 0, l'= 1\}:Nat}
 \end{prooftree}   
 
-Dove A e' la derivazione vista precedentemente. Potendo applicare SUBSUMPTION in qualsiasi punto della derivazione, anche piu' volte, ne consegue che il numero di derivazioni possibili e' infinito. 
+Dove A \`e la derivazione vista precedentemente. Potendo applicare SUBSUMPTION in qualsiasi punto della derivazione, anche pi\`u volte, ne consegue che il numero di derivazioni possibili \`e infinito. 
 
 \subsection*{Esercizio 6.4}
 Quale potrebbbe essere la relazione di sottotipo dei variant types? 
@@ -134,11 +134,11 @@ Quale potrebbbe essere la relazione di sottotipo dei variant types?
 	\BinaryInfC{$\Gamma$ $\vdash$ <$l_j$ = M> : <$l_i$ : $T_i$\textsuperscript{i $\in$ 1..n}>} 
 \end{prooftree} 
 
-In questo modo, modificando TYPE VARIANT, si ottiene il subtyping in larghezza (WIDTH). Per ottenere il subtyping in profondita' (DEPTH) basta usare SUBSUMPTION.
+In questo modo, modificando TYPE VARIANT, si ottiene il subtyping in larghezza (WIDTH). Per ottenere il subtyping in profondit\`a (DEPTH) basta usare SUBSUMPTION.
 
 \subsection*{Esercizio 6.5}
-Quali proprieta' del sistema di tipi si perderebbero se avessimo definito la relazione di
-subtyping con una regola di troppo? E se l'avessimo definita con una regola in meno? Se avessimo definito le regole in modo tale che \{l : Nat\} <: \{l : Nat, l' : Nat\}, quale proprieta' del sistema non sarebbe piu' vera? Identificarla e darne un controesempio.
+Quali propriet\`a del sistema di tipi si perderebbero se avessimo definito la relazione di
+subtyping con una regola di troppo? E se l'avessimo definita con una regola in meno? Se avessimo definito le regole in modo tale che \{l : Nat\} <: \{l : Nat, l' : Nat\}, quale propriet\`a del sistema non sarebbe pi\`u vera? Identificarla e darne un controesempio.
 \subsection*{Svolgimento}
 
 \subparagraph*{Regola di troppo}
@@ -674,7 +674,7 @@ $\varnothing \vdash M : T$.
 
 
 \subsection*{Esercizio 6.16}
-Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Gamma\vdash$ N : S con S<::T e T$\nless$::S, cioe' esibire un caso in cui il tipo di un termine decresce durante la computazione. 
+Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Gamma\vdash$ N : S con S<::T e T$\nless$::S, cio\`e esibire un caso in cui il tipo di un termine decresce durante la computazione. 
 \subsubsection*{Svolgimento}
 Una possibile soluione potrebbe essere la seguente:
 

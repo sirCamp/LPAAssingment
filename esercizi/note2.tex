@@ -1,7 +1,6 @@
 \section{Il mini linguaggio funzionale (note 2)}
 \subsection*{Esercizio 1.1}
-La relazione di riduzione data definisce una strategia efficiente per la valutazione del ter-
-mine if-then-else, che permette cioè di valutare unicamente il ramo scelto dalla valutazione della guardia
+La relazione di riduzione data definisce una strategia efficiente per la valutazione del termine if-then-else, che permette cioè di valutare unicamente il ramo scelto dalla valutazione della guardia
 booleana. Ridefinire la semantica operazionale del linguaggio in modo che adotti una strategia non efficiente per il costrutto if-then-else, valutando entambi i rami del costrutto condizionale.
 
 \subsubsection*{Svolgimento}
@@ -450,7 +449,7 @@ Si consideri la seguente definizione in Scala:
 \begin{lstlisting}
 def test(x:Int, y:Int):Int = x*x
 \end{lstlisting}
-confrontare la velocita' (cioe' il numero di passi) di riduzione delle seguenti espressioni secondo le strategie CBV e CBN, indicando quale delle due e' piu' veloce. 
+confrontare la velocit\`a (cio\`e il numero di passi) di riduzione delle seguenti espressioni secondo le strategie CBV e CBN, indicando quale delle due \`e pi\`u veloce. 
 \begin{enumerate}
 	\item test(2,3)
 	\item test(3+4,8)
@@ -461,8 +460,8 @@ confrontare la velocita' (cioe' il numero di passi) di riduzione delle seguenti 
 \subsubsection*{Svolgimento}
 \begin{enumerate}
 	\item CBV=CBN: entrambi terminano l'esecuzione in 2 passi; 
-	\item CBV<CBN: CBV termina prima perche' valuta l'espressione 3+4 subito (una sola volta). CBN invece invoca prima la funzione, sostituendo ad x l'espressione. Essendo x presente 2 volte nella funzione, la valutazione viene effettuata 2 volte. 
-	\item CBV>CBN: CBN termina prima perche' non valuta l'espressione 2*4 che non e' utilizzata nella funzione test.
+	\item CBV<CBN: CBV termina prima perch\`e valuta l'espressione 3+4 subito (una sola volta). CBN invece invoca prima la funzione, sostituendo ad x l'espressione. Essendo x presente 2 volte nella funzione, la valutazione viene effettuata 2 volte. 
+	\item CBV>CBN: CBN termina prima perch\`e non valuta l'espressione 2*4 che non \`e utilizzata nella funzione test.
 	\item CBV=CBN: entrambi terminano l'esecuzione in 4 passi; la differenza sta nel fatto che con CBV si svolgono prima le due operazioni (somma e moltiplicazione) e poi si chiama la funzione. Con CBN invece, si evita di calcolare 2*4, tuttavia si calcola 3+4 due volte.
 \end{enumerate}
 
@@ -481,7 +480,7 @@ def and(b1:=> Boolean, b2:=> Boolean): Boolean =
 		 else false; 
 \end{lstlisting}
 
-Il parametro b1 viene passato by-name nella nostra soluzione. Tuttavia, esso puo' essere passato anche by-value visto che in ogni caso viene valutato. 
+Il parametro b1 viene passato by-name nella nostra soluzione. Tuttavia, esso pu\`o essere passato anche by-value visto che in ogni caso viene valutato. 
 
 
 
