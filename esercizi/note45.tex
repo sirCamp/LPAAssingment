@@ -3,7 +3,7 @@
 \subsubsection*{Esercizio 3.2}
 Provare che ogni sottotermine di un termine ben tipato \`e ben tipato.
 \subparagraph{Svolgimento}
-Per la risoluzione di questo esericizio \`e necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.\\
+Per la risoluzione di questo esercizio \`e necessario utilizzare il metodo dell'induzione sui passi di derivazione, ovvero sull'altezza dell'albero di derivazione.\\
 Se $M$ \`e un termine ben tipato vuol dire che il giudizio di tipo $\Gamma$ $\vdash$ $M$ : $T$ \`e derivabile con un albero di derivazione di altezza $h$ e quindi l'induzione viene fatta su $h$.
 
 
@@ -11,11 +11,11 @@ Se $M$ \`e un termine ben tipato vuol dire che il giudizio di tipo $\Gamma$ $\vd
 
  \item[Caso Base $h=1$] A questo livello il termine e il sottotermine coincidono. Questo perch\`e l'albero consiste nell'applicazione di un assioma e quindi il termine $M$ non contiene sotto-termini, quindi la propriet\`a \`e verificata.
 
- \item[Caso Induttivo $h+1$ ] Questo caso \`e composto dall'applicazione della regola e dai vari sotto-alberi che provano le ipotesi della regola.\\I sotto-alberi in questione, riguardano il giudizio dei sotto-termini di $M$ e sono di altezza inferiore rispetto a questo albero ($h$). Possiamo quindi applicare l'ipotesi induttiva per definire ch ei sotto-termini dei sotto-termini di $M$ sono ben tipati e quindi di conseguenza lo sono anche i sotto-termini di $M$. A questo punto la propriet\`a risulta essere verificata.
+ \item[Caso Induttivo $h+1$ ] Questo caso \`e composto dall'applicazione della regola e dai vari sotto-alberi che provano le ipotesi della regola.\\I sotto-alberi in questione, riguardano il giudizio dei sotto-termini di $M$ e sono di altezza inferiore rispetto a questo albero ($h$). Possiamo quindi applicare l'ipotesi induttiva per definire che i sotto-termini dei sotto-termini di $M$ sono ben tipati e quindi di conseguenza lo sono anche i sotto-termini di $M$. A questo punto la propriet\`a risulta essere verificata.
  
  \end{description}
  
- \`E possibile inoltre, utilizzare un altra dimostrazione che sfrutta il \emph{la struttura di $M$} e il \emph{Lemma di Inversione}.
+ \`E possibile inoltre, utilizzare un altra dimostrazione che sfrutta la \emph{struttura di $M$} e il \emph{Lemma di Inversione}.
  
  
  \begin{itemize}[label=$\star$]
@@ -24,7 +24,7 @@ Se $M$ \`e un termine ben tipato vuol dire che il giudizio di tipo $\Gamma$ $\vd
 
  \item $M$ $\equiv$ $A+B$:  In questo caso, per il Lemma di Inversione se $M$ \`e ben tipato, allora lo sono anche $A$ e$B$ ( tipo $Nat$ )
  
- \item $M$ $\equiv$ $A-B$:  questo caso \`e analogo al precendente
+ \item $M$ $\equiv$ $A-B$:  questo caso \`e analogo al precedente
 
  \item $M$ $\equiv$ $if$ $C$ $then$ $A$ $else$ $B$:  In questo caso, per il Lemma di Inversione se $M$ \`e ben tipato, allora $C$ \`e ben tipato con tipo $Bool$ mentre $A$ e $B$ sono ben tipati con tipo $T$
  
@@ -163,13 +163,13 @@ La risposta \`e no:
 $\Gamma\nvdash$ $M$: $T$\\
 Quanto riportato sopra pu\`o essere semplificato tramite questo esempio:\\
 
-Supponimao di avere $M^{\prime}$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if$ $true$ $then$ $A$ $else$ $B$, ovvero il caso in cui $M$ $\rightarrow$ $M^{\prime}$ per la regola (If-True).\\
-In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ ri riesce ad ottenere usando la regaola $IF_THEN_ELSE$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+Supponiamo di avere $M^{\prime}$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if$ $true$ $then$ $A$ $else$ $B$, ovvero il caso in cui $M$ $\rightarrow$ $M^{\prime}$ per la regola (If-True).\\
+In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ riesce ad ottenere usando la regola $IF_THEN_ELSE$, tuttavia questo impone che nel contesto ci siano questi giudizi:
 
 \begin{itemize}
 \item $\Gamma$ $\vdash$ $true$:$Bool$ che \`e un assioma
 \item $\Gamma$ $\vdash$ $A$:$T$ soddisfatto per l'ipotesi 
-\item  $\Gamma$ $\vdash$ $B$:$T$ putroppo questa informazione non si riesce a repire dall'ipotesi ne dal contesto e pertatnto non c'\`e garanzia sull'uguaglianza di tipi di $A$ e $B$\\
+\item  $\Gamma$ $\vdash$ $B$:$T$ purtroppo questa informazione non si riesce a epeire dall'ipotesi ne dal contesto e pertanto non c'\`e garanzia sull'uguaglianza di tipi di $A$ e $B$\\
 Pertanto possiamo creare un termine $N$ come $if$ $true$ $then$ $4$ $else$ $false$, da cui si riesce ad attenere $M'$ $\equiv$ $A$ $\equiv$ $4$. Questo termine nonostante esegua risulta essere non ben-tipato.
 
 
@@ -223,13 +223,9 @@ sarebbe ancora vero il teorema di safety?
 
 \subparagraph*{Svolgimento}
 
-<<<<<<< Updated upstream
-La risposta \`e no:\\
-In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilit\`a di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso. Questo perch\`e la nuova regola risulta essere pi\`u stringente rispetto a prima visto che ammette solo tipi uguali al tipo di ritorno senza controllare effettivamente che la signatura dei paremtri sia conforme a quanto richiesto.\\
-=======
 La risposta e' no:\\
-In questo caso la $FUN^{\prime}$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilit\`a di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso. Questo perch\`e la nuova regola risulta essere pi\`u stringente rispetto a prima visto che ammette solo tipi uguali al tipo di ritorno senza controllare effettivamente che la signatura dei paremtri sia conforme a quanto richiesto.\\
->>>>>>> Stashed changes
+In questo caso la $FUN^{\prime}$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilit\`a di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso. Questo perch\`e la nuova regola risulta essere pi\`u stringente rispetto a prima visto che ammette solo tipi uguali al tipo di ritorno senza controllare effettivamente che la signatura dei parametri sia conforme a quanto richiesto.\\
+
 Supponiamo di avere il termine:\\
 $M$ $=$ $(fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$ 
 
@@ -306,7 +302,7 @@ Supponiamo di avere il termine: $M$ $=$ $true+4$
 	\BinaryInfC{$\empty \vdash$ $true$ $+$ $4$  } 
 \end{prooftree}
 
-Anche in questo caso, come nel precendete, notiamo che le regole di tipo permettono la derivazione dell'albero.\\
+Anche in questo caso, come nel precedete, notiamo che le regole di tipo permettono la derivazione dell'albero.\\
 Tuttavia, se applicassimo le regole della semantica operazionale non potremo avanzare perch\`e entrambi gli addendi sono gi\'a dei valori e quindi non posso applicare $SUM-LEFT$ o $SUM-RIGHT$ ma non posso neppure applicare $SUM$ perch\'e genero un termine STUCK in quanto $true$ non pu\'o essere sommato a $4$.
 
 \subsubsection*{Esercizio 3.17}
@@ -538,11 +534,8 @@ Ricostruire il tipo dei seguenti termini:
 		
 		\end{itemize}
 				
-<<<<<<< Updated upstream
-		Il risultato finale \`e dato dal fatto che $T = T^{\prime} = T^{\prime\prime} = T^{\prime\prime\prime} = T^{\prime\prime\prime\prime}$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T) $
-=======
 		Il risultato finale \`e dato dalle sostituzioni precedenti e quindi il tipo \`e:\\ $(T \rightarrow T) \rightarrow (T \rightarrow T) $
->>>>>>> Stashed changes
+
 		\vspace{1.5cm}
 		
 	

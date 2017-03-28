@@ -67,7 +67,7 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 	\AxiomC{}
 	\LeftLabel{\textsc{(SuM)}}
 	\UnaryInfC{3 $+$ 1 $\rightarrow$ 4}
-	\LeftLabel{\textsc{(EVAL PAIR 1)}}
+	\LeftLabel{\textsc{(EVAL PAIR 2)}}
 	\UnaryInfC{(2, 3 $+$ 1) $\rightarrow$ (2, 4)}
 	\LeftLabel{\textsc{(APP2)}}
 	\UnaryInfC{(fn x : Nat $\ast$ Nat.x.$\_$2) (2, 3 $+$ 1) $\rightarrow$ (fn x : Nat $\ast$ Nat.x.$\_$2) (2, 4)}
@@ -102,8 +102,7 @@ Per rendere pi\`u semplice la dimostrazione, inoltre, \'e necessario anche aggio
 \noindent Per poter procedere con la dimostrazione del teorema di Progressione \`e necessario aggiungere alla dimostrazione due nuovi casi induttivi, mentre i casi per le altre regole di tipo restano invariati e continuano a valere.
 
 \begin{itemize}
-	\item \myrule{Type-Record} Se $M = \{ l_i = M_i \:^{i = 1 \ldots n} \}$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Record} valgono i giudizi di tipo $\emptyset \vdash M_i : T_i \: \forall \: i = 1\ldots n$ e che gli alberi di derivazione relativi ai vari giudizi sono di altezza inferiore all'albero del giudizio principale.
-	\`e quindi possibile applicare l'ipotesi induttiva sui sotto-termini $M_i$, i quali o sono un valore $v_i$ di tipo $T_i$ oppure possono avanzare in un termine $M_i'$:
+	\item \myrule{Type-Record} Se $M = \{ l_i = M_i \:^{i = 1 \ldots n} \}$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Record} valgono i giudizi di tipo $\emptyset \vdash M_i : T_i \: \forall \: i = 1\ldots n$ e che gli alberi di derivazione relativi ai vari giudizi sono di altezza inferiore all'albero del giudizio principale.\\ \`E quindi possibile applicare l'ipotesi induttiva sui sotto-termini $M_i$, i quali o sono un valore $v_i$ di tipo $T_i$ oppure possono avanzare in un termine $M_i'$:
 	\begin{itemize}
 		\item Se sono tutti dei valori si ha $M = \{ l_i = v_i \:^{i = 1 \ldots n} \}$, ovvero $M$ \`e un valore record di tipo $\{ l_i : T_i \:^{i = 1 \ldots n} \}$ e quindi il teorema di Progressione continua a valere banalmente.
 		\item Se c'\`e almeno un $M_i$ che non \`e un valore, \`e possibile identificare il termine $M_j$ di indice minimo che non \`e un valore e per il quale continua a valere il giudizio di tipo $\emptyset \vdash M_j : T_j$. Vale quindi l'ipotesi induttiva, ovvero $\exists M_j'$ tale che $M_j \to M_j'$. Posso quindi applicare la regola \myrule{Eval-Record} per far avanzare il termine $M$ al termine $M'$, dove al posto di $M_j$ compare $M_j'$. Anche in questo caso il teorema di Progressione continua a valere.
