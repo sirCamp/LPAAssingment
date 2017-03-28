@@ -155,15 +155,17 @@ Si vuole quindi dimostrare che:
 
 \subsubsection*{Esercizio 3.13}
 
-Vale l'opposto di subject reduction, i.e. se $\Gamma\:\vdash$ $M'\: :  $T e $M\:\rightarrow\:$M', allora $\Gamma\:\vdash$ $M$ : $T$ (detto subject expansion)? Dimostrarlo oppure dare un controesempio.
+Vale l'opposto di subject reduction, i.e. se $\Gamma\:\vdash$ $M'\: :  $T e $M\:\rightarrow$ $M'$, allora $\Gamma\:\vdash$ $M$ : $T$ (detto subject expansion)? Dimostrarlo oppure dare un controesempio.
 \subparagraph*{Svolgimento}
 La risposta \`e no:
 
-E sufficiente pensare a $M \rightarrow M_1$ con $\Gamma\vdash$ $M_1$ : $\sigma$ e che 
-$\Gamma\nvdash$ $M$: $\sigma$\\
+\`E sufficiente pensare a $M \rightarrow M^{\prime}$ con $\Gamma\vdash$ $M^{\prime}$ : $T$ e che 
+$\Gamma\nvdash$ $M$: $T$\\
 Quanto riportato sopra pu\`o essere semplificato tramite questo esempio:\\
-Supponimao di avere $M_1$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if$ $true$ $then$ $A$ $else$ $B$, ovvero il caso in cui $M$ $\rightarrow$ $M_1$ per la regola (If-True).\\
-In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ si riesce ad ottenere usando la regaola $IfThenElse$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+
+Supponimao di avere $M^{\prime}$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if$ $true$ $then$ $A$ $else$ $B$, ovvero il caso in cui $M$ $\rightarrow$ $M^{\prime}$ per la regola (If-True).\\
+In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ ri riesce ad ottenere usando la regaola $IF_THEN_ELSE$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+
 \begin{itemize}
 \item $\Gamma$ $\vdash$ $true$:$Bool$ che \`e un assioma
 \item $\Gamma$ $\vdash$ $A$:$T$ soddisfatto per l'ipotesi 
@@ -186,7 +188,7 @@ Se al posto della regola $(APP)\:$ si definisce la regola seguente:
 	\AxiomC{$\Gamma\:\vdash$ $M\: :  $T$\:\rightarrow\:$T}
 	\AxiomC{$\Gamma\:\vdash$ $N\ :$T}
 	
-	\LeftLabel{\textsc{(APP')}}
+	\LeftLabel{\textsc{($APP^{\prime}$)}}
 	\BinaryInfC{$\Gamma\:\vdash$ $M$ $N$ : $T$  }
 \end{prooftree} 
 
@@ -203,7 +205,7 @@ Se al posto delle regole $(APP)$ e $(FUN)$ si definissero le seguenti regole:
 	\AxiomC{$\Gamma\:\vdash$ $M\: :  $T$\:\rightarrow\:$T}
 	\AxiomC{$\Gamma\:\vdash$ $N\ :$T}
 	
-	\LeftLabel{\textsc{(APP')}}
+	\LeftLabel{\textsc{($APP^{\prime}$)}}
 	\BinaryInfC{$\Gamma\:\vdash$ $M$ $N$ : $T$  }
 \end{prooftree} 
 
@@ -213,7 +215,7 @@ e
 \begin{prooftree} 
 	\AxiomC{$\Gamma\:$, x : $T1\vdash$ $M\: : $T}
 	\AxiomC{}
-	\LeftLabel{\textsc{(FUN')}}
+	\LeftLabel{\textsc{($FUN^{\prime}$)}}
 	\BinaryInfC{$\Gamma\:\vdash$ $fn$ x : $T1.M:T\rightarrow\:$T  } 
 \end{prooftree} 
 
@@ -221,8 +223,13 @@ sarebbe ancora vero il teorema di safety?
 
 \subparagraph*{Svolgimento}
 
+<<<<<<< Updated upstream
 La risposta \`e no:\\
 In questo caso la $FUN_1$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilit\`a di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso. Questo perch\`e la nuova regola risulta essere pi\`u stringente rispetto a prima visto che ammette solo tipi uguali al tipo di ritorno senza controllare effettivamente che la signatura dei paremtri sia conforme a quanto richiesto.\\
+=======
+La risposta e' no:\\
+In questo caso la $FUN^{\prime}$ non fa alcun controllo sul tipo dell'argomento e quindi esiste la possibilit\`a di arrivare ad un passo della derivazione che produce un termine STUCK, invalidando il teorema stesso. Questo perch\`e la nuova regola risulta essere pi\`u stringente rispetto a prima visto che ammette solo tipi uguali al tipo di ritorno senza controllare effettivamente che la signatura dei paremtri sia conforme a quanto richiesto.\\
+>>>>>>> Stashed changes
 Supponiamo di avere il termine:\\
 $M$ $=$ $(fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$ 
 
@@ -242,14 +249,14 @@ e creiamo il suo albero di derivazione:
 	\AxiomC{$ \checkmark $}
 	\LeftLabel{\textsc{($Nat$)}}
 	\UnaryInfC{$\Gamma$ $\vdash$ $0$:$Nat$}
-	\LeftLabel{\textsc{($IfThenElse$)}}
+	\LeftLabel{\textsc{($IF-THEN-ELSE$)}}
 	\TrinaryInfC{$x$:$Bool$ $\vdash$ $if$ $x$ $then$ $1$ $else$ $0$ :$Nat$}
-	\LeftLabel{\textsc{($FUN_1$)}}
+	\LeftLabel{\textsc{($FUN^{\prime}$)}}
 	\UnaryInfC{$\empty \vdash fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0$ :$Nat \rightarrow$ :$Nat$}
 	\AxiomC{$ \checkmark $}
 	\LeftLabel{\textsc{($Nat$)}}
 	\UnaryInfC{$\empty \vdash 1$:$Nat$}
-	\LeftLabel{\textsc{($APP_1$)}}
+	\LeftLabel{\textsc{($APP^{\prime}$)}}
 	\BinaryInfC{$\empty \vdash (fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$  } 
 \end{prooftree}
 
@@ -266,7 +273,7 @@ Se si aggiungessero al sistema di tipi i seguenti due assiomi
 \begin{prooftree} 
 	\AxiomC{}
 	\AxiomC{}
-	\LeftLabel{\textsc{(TRUE')}}
+	\LeftLabel{\textsc{($TRUE^{\prime}$)}}
 	\BinaryInfC{$\Gamma\:\vdash$ true : $Nat$  } 
 \end{prooftree}
 
@@ -275,7 +282,7 @@ e
 \begin{prooftree} 
 	\AxiomC{}
 	\AxiomC{}
-	\LeftLabel{\textsc{(FALSE')}}
+	\LeftLabel{\textsc{($FALSE^{\prime}$)}}
 	\BinaryInfC{$\Gamma\:\vdash$ false : $Nat$  } 
 \end{prooftree}
 
@@ -339,7 +346,7 @@ Si procede con la dimostrazione per induzione:
   
  		\item \textbf{MINUS} in questo caso $M$ $\equiv$ $A$ $-$ $B$ e la sua dimostrazione risulta essere analoga a quella di SUM
 
-		\item \textbf{IfThenElse} in questo caso $M$ $\equiv$ $if$ $C$ $then$ $A$ $else$ $B$ e quindi per definizione, le variabili libere di $M$ sono $fv(M)$ $=$ $fv(A)$ $\cup$ $fv(B)$ $\cup$ $fv(C)$.\\ Per ipotesi induttiva sappiamo che $fv(A)$, $fv(B)$ e $fv(C)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.\\Poich\`e, come anticipato, $fv(M)$ $\equiv$ $fv(A)$ $\cup$ $fv(B)$ $\cup$ $fv(C)$ possiamo dedurre che $fv(M)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.
+		\item \textbf{IF-THEN-ELSE} in questo caso $M$ $\equiv$ $if$ $C$ $then$ $A$ $else$ $B$ e quindi per definizione, le variabili libere di $M$ sono $fv(M)$ $=$ $fv(A)$ $\cup$ $fv(B)$ $\cup$ $fv(C)$.\\ Per ipotesi induttiva sappiamo che $fv(A)$, $fv(B)$ e $fv(C)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.\\Poich\`e, come anticipato, $fv(M)$ $\equiv$ $fv(A)$ $\cup$ $fv(B)$ $\cup$ $fv(C)$ possiamo dedurre che $fv(M)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.
 
 		\item \textbf{FUN}  in questo caso $M$ $\equiv$ $fn$ $x.N$ e quindi per definizione le variabili libere di $M$ sono 
 		$fv(M)$ $=$ $fv(N)\textbackslash \{x\}$ ($fv(M)$ $\subseteq$ $fv(N)$).\\ Per ipotesi induttiva sappiamo che $fv(N)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$.\\Poich\`e, come anticipato, $fv(M)$ $\equiv$ $fv(N)\textbackslash \{x\}$ possiamo dedurre che $fv(M)$ $\subseteq$ $\emph{Dom(}\Gamma\emph{)}$. 
@@ -401,7 +408,7 @@ Ricostruire il tipo dei seguenti termini:
 			\UnaryInfC{$\emptyset\:\vdash$  $fn$ $x:Nat:\rightarrow$ $Bool.x$ : $T_1 \rightarrow T_2$}
 		\end{prooftree} 
 		
-		Il risultato finale \`e dato dal fatto che $T_2$ = $Nat \rightarrow Bool$  e quindi il tipo finale risulta $(Nat \rightarrow Bool)  \rightarrow (Nat \rightarrow Bool)$
+		Il risultato finale \`e dato dal fatto che $T_2$ = $Nat \rightarrow Bool$  e quindi il tipo finale risulta:\\ $(Nat \rightarrow Bool)  \rightarrow (Nat \rightarrow Bool)$
 		\vspace{1.5cm}
 		
 		
@@ -531,7 +538,11 @@ Ricostruire il tipo dei seguenti termini:
 		
 		\end{itemize}
 				
+<<<<<<< Updated upstream
 		Il risultato finale \`e dato dal fatto che $T = T^{\prime} = T^{\prime\prime} = T^{\prime\prime\prime} = T^{\prime\prime\prime\prime}$ quindi $(T \rightarrow T) \rightarrow (T \rightarrow T) $
+=======
+		Il risultato finale \`e dato dalle sostituzioni precedenti e quindi il tipo \`e:\\ $(T \rightarrow T) \rightarrow (T \rightarrow T) $
+>>>>>>> Stashed changes
 		\vspace{1.5cm}
 		
 	
