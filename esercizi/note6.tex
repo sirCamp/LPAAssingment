@@ -27,7 +27,7 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 \textbf{Termine 1: (4 $-$ 1, if true then false else false).\_1} 
 \begin{prooftree}
 	\AxiomC{}
-	\LeftLabel{\textsc{(MINuS)}}
+	\LeftLabel{\textsc{(MINUS)}}
 	\UnaryInfC{4 $-$ 1 $\rightarrow$ 3}
 	\LeftLabel{\textsc{(EVAL PAIR 1)}}
 	\UnaryInfC{(4 $-$ 1, if true then false else false) $\rightarrow$ (3, if true then false else false)}
@@ -37,7 +37,7 @@ Scrivere la valutazione dei termini (4 $-$ 1, if true then false else false).\_1
 
 \begin{prooftree}
 	\AxiomC{}
-	\LeftLabel{\textsc{(IF-TRuE)}}
+	\LeftLabel{\textsc{(IF-TRUE)}}
 	\UnaryInfC{if true then false else false $\rightarrow$ false}
 	\LeftLabel{\textsc{(EVAL PAIR 2)}}
 	\UnaryInfC{(3, if true then false else false) $\rightarrow$ (3, false)}
@@ -107,7 +107,7 @@ Per rendere pi\`u semplice la dimostrazione, inoltre, \'e necessario anche aggio
 		\item Se sono tutti dei valori si ha $M = \{ l_i = v_i \:^{i = 1 \ldots n} \}$, ovvero $M$ \`e un valore record di tipo $\{ l_i : T_i \:^{i = 1 \ldots n} \}$ e quindi il teorema di Progressione continua a valere banalmente.
 		\item Se c'\`e almeno un $M_i$ che non \`e un valore, \`e possibile identificare il termine $M_j$ di indice minimo che non \`e un valore e per il quale continua a valere il giudizio di tipo $\emptyset \vdash M_j : T_j$. Vale quindi l'ipotesi induttiva, ovvero $\exists M_j'$ tale che $M_j \to M_j'$. Posso quindi applicare la regola \myrule{Eval-Record} per far avanzare il termine $M$ al termine $M'$, dove al posto di $M_j$ compare $M_j'$. Anche in questo caso il teorema di Progressione continua a valere.
 	\end{itemize}
-	\item \myrule{Type-Select} Se $M = N.l_j$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Select} vale il giudizio di tipo $\emptyset \vdash N : \{ l_i : T_i \:^{i = 1 \ldots n}\}$ (con un albero di derivazione pi\`u piccolo, ovvero il passo precendete) e che $j \in \{1 \ldots n\}$.
+	\item \myrule{Type-Select} Se $M = N.l_j$ e $\emptyset \vdash M : T$, sappiamo che per la regola \myrule{Type-Select} vale il giudizio di tipo $\emptyset \vdash N : \{ l_i : T_i \:^{i = 1 \ldots n}\}$ (con un albero di derivazione pi\`u piccolo, ovvero il passo precedete) e che $j \in \{1 \ldots n\}$.
 	Si ha quindi che $N$ pu\`o essere:
 	\begin{itemize}
 		\item un valore di tipo record, ovvero $N = \{ l_i = v_i \:^{i = 1 \ldots n} \}$ e quindi $M = \{ l_i = v_i \:^{i = 1 \ldots n} \}.l_j$ con $j \in 1 \ldots n$. In questo caso il termine $M$ pu\`o avanzare nel termine $M' = v_j$ perch\`e sono soddisfatte le premesse della regola \myrule{Select} e quindi il teorema di Progressione continua a valere.

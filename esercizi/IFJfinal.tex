@@ -1,11 +1,11 @@
 \section{Imperative Featherweight Java (note 12)}
 \vspace{1cm}
 
-\subsection*{\fbox{Esercizio 8.1}}
+\subsection*{Esercizio 8.1}
 Scrivere una regola per eliminare i riferimenti non pi\`u utilizzati.
 
 
-Svolgimento:
+\subparagraph{Svolgimento}:
 
 
 I riferimenti agli oggetti che non vengono pi\`u utilizzati all'interno di un termine e, possono essere eliminati.
@@ -29,7 +29,7 @@ consideriamo la seguente regola:
 
 
 
-\subsection*{\fbox{Esercizio 8.2}}
+\subsection*{Esercizio 8.2}
 Descrivere il comportamento del seguente programma:
  
 \begin{lstlisting}
@@ -66,7 +66,7 @@ z=null; x.f=z; y.f.m();
 
 \end{lstlisting}
 
-Risoluzione:
+\subparagraph{Svolgimento}:
 
 Definiamo la configurazione iniziale sostituendo allo store $\sigma$ l'insieme vuoto($\emptyset$) ed all'espressione $e$ l'insieme delle istruzioni del programma. Otteniamo dunque la seguente configurazione iniziale:
 
@@ -120,7 +120,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:(Object)]\:\:,\:C\:x=new\:C(z)
 
 
 \vspace{0,5cm}
-\item Dereferenzazione della varibile z per creare l'oggetto $o_2$
+\item Dereferenzazione della variabile z per creare l'oggetto $o_2$
 
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto:o_1]\:,\:C\:x=new\:C(o_1);\:.....\rangle$
 
@@ -167,7 +167,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x=o_3;.....\rangle$
 
 \vspace{0,5cm}
-\item Associazione dell'oggetto $o_3$ di tipo D alla variabile x. Si effetua una modifica allo store in quanto la variabile x gi\`a esisteva ed era associata all'oggetto $o_2$.
+\item Associazione dell'oggetto $o_3$ di tipo D alla variabile x. Si effettua una modifica allo store in quanto la variabile x gi\`a esisteva ed era associata all'oggetto $o_2$.
 
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:\underline{[x\:\mapsto\:o_3]}\:[o_3\:\mapsto\:(D,f:o_2)]\:[y\:\mapsto\:o_3]\:,\:x.m();.....\rangle$
 
@@ -232,13 +232,15 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\mapsto\:null]\:[o_
 
 
 \vspace{1,5cm}
-\subsection*{\fbox{Esercizio 8.3}}
+\subsection*{Esercizio 8.3}
 \
 \\
 \
 \vspace{0,6cm}
 Dare una derivazione di tipo per il termine C x=$o_1$; $o_1$.f=y; x=$o_2$.
 \vspace{0,6cm}
+
+\subparagraph{Svolgimento}
 
 \begin{prooftree}
 	\AxiomC{$o_1\::\:F\:\in\:\Gamma$}

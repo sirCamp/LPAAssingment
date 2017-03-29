@@ -1,7 +1,7 @@
 \section{Il mini linguaggio funzionale (note 2)}
 \subsection*{Esercizio 1.1}
-La relazione di riduzione data definisce una strategia efficiente per la valutazione del termine if-then-else, che permette cioè di valutare unicamente il ramo scelto dalla valutazione della guardia
-booleana. Ridefinire la semantica operazionale del linguaggio in modo che adotti una strategia non efficiente per il costrutto if-then-else, valutando entambi i rami del costrutto condizionale.
+La relazione di riduzione data definisce una strategia efficiente per la valutazione del termine if-then-else, che permette cio\`e di valutare unicamente il ramo scelto dalla valutazione della guardia
+booleana. Ridefinire la semantica operazionale del linguaggio in modo che adotti una strategia non efficiente per il costrutto if-then-else, valutando entrambi i rami del costrutto condizionale.
 
 \subsubsection*{Svolgimento}
 Per ottenere una semantica meno efficiente, si cambiano gli assiomi (IF-TRUE) e (IF-FALSE) e si aggiungono le regole (THEN) ed (ELSE). (IF) si mantiene tale.
@@ -35,7 +35,7 @@ Per ottenere una semantica meno efficiente, si cambiano gli assiomi (IF-TRUE) e 
 \end{prooftree} 
 
 \subsection*{Esercizio 1.4}
-La valutazione, cioè l’esecuzione del programma, è deterministica. Se $M \rightarrow$ M' e
+La valutazione, cio\`e l’esecuzione del programma, \`e deterministica. Se $M \rightarrow$ M' e
 $M \rightarrow$ M'' allora M'=M''.\\
 Dimostrare la proposizione precedente per induzione sulla struttura del termine M.
 
@@ -94,10 +94,10 @@ Passo induttivo:
 					\LeftLabel{\textsc{(SUM)}}
 					\UnaryInfC{$n_1+n_2 \:\rightarrow \: n'$}
 				\end{prooftree} 
-				\indent Il risultato della somma è univoco e di conseguenza la derivazione è deterministica. 
+				\indent Il risultato della somma è univoco e di conseguenza la derivazione \`e deterministica. 
 	\end{enumerate}
-	In tutti e 3 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
-	è dimostrata.\\
+	In tutti e 3 i casi, i soli possibili, la derivazione \`e deterministica, quindi la tesi 
+	\`e dimostrata.\\
 	
 	
 	\item Tesi: $M=M_1-M_2 \:\rightarrow\: M', \:M_1-M_2 \:\rightarrow$ M'' $\implies$ M'=M''\\
@@ -132,10 +132,10 @@ Passo induttivo:
 					\LeftLabel{\textsc{(MINUS)}}
 					\UnaryInfC{$n_1-n_2 \:\rightarrow \: n'$}
 				\end{prooftree} 
-				\indent Il risultato della differenza è univoco e di conseguenza la derivazione è deterministica. 
+				\indent Il risultato della differenza \`e univoco e di conseguenza la derivazione \`e deterministica. 
 	\end{enumerate}
-	In tutti e 3 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
-	è dimostrata.\\
+	In tutti e 3 i casi, i soli possibili, la derivazione \`e deterministica, quindi la tesi 
+	\`e dimostrata.\\
 	
 	
 	\item Tesi: $M=if\:M_1\:then\:M_2\:else\:M_3\:\rightarrow\: M',\:if\:M_1\:then\:M_2\:else\:M_3\:\rightarrow\: M''\:\implies$ M'=M''\\
@@ -171,8 +171,8 @@ Passo induttivo:
 				\indent In questo caso $M_3=M'=M''$ per applicazione dell'assioma e 
 				la derivazione risulta deterministica.  
 	\end{enumerate} 
-	In tutti e 3 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
-	è dimostrata.\\	
+	In tutti e 3 i casi, i soli possibili, la derivazione \`e deterministica, quindi la tesi 
+	\`e dimostrata.\\	
 	
 	
 		\item Tesi: $M=M_1\:M_2 \:\rightarrow\: M', \:M_1\:M_2 \:\rightarrow$ M'' $\implies$ M'=M''\\
@@ -202,8 +202,8 @@ Passo induttivo:
 						induttiva e quindi anche $M'=M''$;\\
 				\indent La derivazione risulta deterministica applicando questa regola. 
 	\end{enumerate} 
-	In tutti e 2 i casi, i soli possibili, la derivazione è deterministica, quindi la tesi 
-	è dimostrata.\\	
+	In tutti e 2 i casi, i soli possibili, la derivazione \`e deterministica, quindi la tesi 
+	\`e dimostrata.\\	
 	
 	
 		\item Tesi: $M=fn\:x.M\:v\:\rightarrow \:M\{x:=v\}=M'$, $fn\:x.M\:v\:\rightarrow \:M\{x:=v\}=M''\implies$ M'=M''\\  
@@ -217,7 +217,7 @@ Passo induttivo:
 				\indent La derivazione risulta quindi deterministica e la tesi risulta dimostrata.\\	
 \end{itemize}
 
-La derivazione è determinstica all'applicazione di tutte le regole e gli assiomi del linguaggio, di conseguenza è deterministica l'esecuzione del programma.\\ 
+La derivazione \`e deterministica all'applicazione di tutte le regole e gli assiomi del linguaggio, di conseguenza \`e deterministica l'esecuzione del programma.\\ 
 \begin{flushright}
 $\Box$
 \end{flushright}
@@ -265,9 +265,9 @@ Si può mantenere la strategia CBV e terminare l'esecuzione in un numero minore 
 	\UnaryInfC{$(\fn x.M)\: N\:\rightarrow\:\fn x.M\:N'$} 
 \end{prooftree}
 
-In questo modo l'esecuzione del programma terminerebbe dopo un solo passo. Infatti, ci si ritroverebbe in una forma in cui non è possibile applicare alcuna regola o assioma (3 non è una funzione).\\
+In questo modo l'esecuzione del programma terminerebbe dopo un solo passo. Infatti, ci si ritroverebbe in una forma in cui non \`e possibile applicare alcuna regola o assioma (3 non \`e una funzione).\\
 
-Con una strategia CBN (Call-by-name) non ho (APP2) e la funzione (BETA) è la seguente:
+Con una strategia CBN (Call-by-name) non ho (APP2) e la funzione (BETA) \`e la seguente:
 
 \begin{prooftree}
 	\AxiomC{$\checkmark$}
@@ -287,7 +287,7 @@ Con questa regola mostriamo l'esecuzione del programma:\\
 	\:3\:((\fn z.if\:z\:then\:1\:else\:0)(false))$}
 \end{prooftree}
 
-Stuck! Non esistono regole o assiomi applicabili: APP1 non è applicabile in quanto 3 non è funzione.
+Stuck! Non esistono regole o assiomi applicabili: APP1 non \`e applicabile in quanto 3 non \`e funzione.
 
 
 

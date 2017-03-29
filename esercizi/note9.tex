@@ -124,7 +124,7 @@ Esempio di alternativa:
 Dove A \`e la derivazione vista precedentemente. Potendo applicare SUBSUMPTION in qualsiasi punto della derivazione, anche pi\`u volte, ne consegue che il numero di derivazioni possibili \`e infinito. 
 
 \subsection*{Esercizio 6.4}
-Quale potrebbbe essere la relazione di sottotipo dei variant types? 
+Quale potrebbe essere la relazione di sottotipo dei variant types? 
  
 \subsubsection*{Svolgimento} 
  \begin{prooftree} 
@@ -163,13 +163,13 @@ Gli effetti che si otterrebbero con una regola in meno sono diversi e dipendono 
 \begin{itemize}
 \item (SUBSUMPTION): la rimozione di questa regola comporta la perdita della possibilit\`a di usare un sottotipo dove viene utilizzato il sopra-tipo.
 \item (REFLEX): la rimozione di questa regola comporterebbe degli assurdi, come ad esempio l'impossibilit\`a di poter derivare la regola SUB-DEPTH per record i cui tipi dei valori siano uguali, in quanto un tipo $T$ generico non sarebbe pi\`u sotto-tipo di se stesso.In sostanza avremo una situazione di questo tipo: $T \not <$: $T$.
-\item (TRANS):  la rimozione di questa regola comporterebbe la rimozione della possibilit\`a di rendere transitiva la propriet\`a e la relazione di subtyping impedendo di avere realazioni di subtyping a pi\`u livelli. Poniamo $U$ e $S$ sottotipi di un tipo generico $T$, se mancasse tale regola non si riuscirebbe a derivare un giudizio del tipo $S<$:$T$ sulla base di $S <$:$U$ e $U<$:$T$. In sostanza la derivazione tramite l'utilizzo di tipi intermedi non sarebbe pi\`u sopportata e quindi la gerarchia di tipo verrebbe meno.
+\item (TRANS):  la rimozione di questa regola comporterebbe la rimozione della possibilit\`a di rendere transitiva la propriet\`a e la relazione di subtyping impedendo di avere relazioni di subtyping a pi\`u livelli. Poniamo $U$ e $S$ sottotipi di un tipo generico $T$, se mancasse tale regola non si riuscirebbe a derivare un giudizio del tipo $S<$:$T$ sulla base di $S <$:$U$ e $U<$:$T$. In sostanza la derivazione tramite l'utilizzo di tipi intermedi non sarebbe pi\`u sopportata e quindi la gerarchia di tipo verrebbe meno.
 \item (SUB-WIDTH):
 la rimozione di questa regola renderebbe limiterebbe la relazione di subtyping per quanto riguarda i record. Questa regola infatti permette di una relazione di subtyping tra il record $\{l$:$Nat,l_1$:$Nat\}$ e il record $\{l$:$Nat\}$ permettendo di utilizzare il primo (specifico) al posto del secondo (generale). La mancanza di tale regola, come detto, limita fortemente il subtyping per i record perch\`e obbliga sempre l'utilizzo di record della stessa \emph{larghezza}, tuttavia la relazione di subtyping tra record, continua ad esistere in altre forme, come quelle garantite dall SUB-DEPTH.
 \item (SUB-DEPTH): 
-la rimozione di questa regola, come nel caso precedente, limita la relazione di subtyping dei record, anche se pi\`u debolmente rispetto alla precedente. Senza questa regola, la relazione di subtyping tra record non potrebbe pi\`u appoggiarsi sulla relazione di tipo esistente tra i corrispettivi tipi dei valori dei record. Supponendo di avere $S <$: $T$, un record   $\{l$:$S\}$ e un record $\{l$:$T\}$, nonstante il primo record possa potenzialmente essere utilizzato ovunque venga utilizzato il secondo, la mancanza di questa regola ne impedisce di derivare il giudizio che ne garantirebbe il funzionamento.
+la rimozione di questa regola, come nel caso precedente, limita la relazione di subtyping dei record, anche se pi\`u debolmente rispetto alla precedente. Senza questa regola, la relazione di subtyping tra record non potrebbe pi\`u appoggiarsi sulla relazione di tipo esistente tra i corrispettivi tipi dei valori dei record. Supponendo di avere $S <$: $T$, un record   $\{l$:$S\}$ e un record $\{l$:$T\}$, nonostante il primo record possa potenzialmente essere utilizzato ovunque venga utilizzato il secondo, la mancanza di questa regola ne impedisce di derivare il giudizio che ne garantirebbe il funzionamento.
 \item (PERMUTE):
-la rimozione di questa regola, elimina la possibilit\`a di avere giudizi come ad esmepio $\{a$:$Nat,b$:$Nat\}$ <: $\{b$:$Nat\}$, questo perch\`e senza questa regola la relazione di suptyping risulta essere posizionale e non gestirebbe il sottotipo con permutazione degli elementi del record.
+la rimozione di questa regola, elimina la possibilit\`a di avere giudizi come ad esempio $\{a$:$Nat,b$:$Nat\}$ <: $\{b$:$Nat\}$, questo perch\`e senza questa regola la relazione di suptyping risulta essere posizionale e non gestirebbe il sottotipo con permutazione degli elementi del record.
 \item (ARROW):
 la rimozione di questa regola le funzioni accetterebbero solo il tipo $T$ scritto nella signatura della funzione stessa senza accettare un sottotipo del tipo specificato. Inoltre il tipo di ritorno della funzione sarebbe sempre quello pi\'u specifico. In sostanza il sottotipaggio per le funzioni non potrebbe esistere.
 \end{itemize}
@@ -345,7 +345,7 @@ regola di tipo che \`e stata applicata per derivare tale giudizio:
 				\item $\Gamma, x : S \vdash_{k+1} M : T$
 				\item $\Gamma \vdash N : S$
 			\end{enumerate}
-			Visto che l'utima regola applicata \`e stata $\myrule{Subsumption}$ posso dire che valgono le sue premesse:
+			Visto che l'ultima regola applicata \`e stata $\myrule{Subsumption}$ posso dire che valgono le sue premesse:
 			$$
 			%\prftree[r]
 			{\myrule{Subsumption}}
@@ -676,12 +676,12 @@ $\varnothing \vdash M : T$.
 \subsection*{Esercizio 6.16}
 Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Gamma\vdash$ N : S con S<::T e T$\nless$::S, cio\`e esibire un caso in cui il tipo di un termine decresce durante la computazione. 
 \subsubsection*{Svolgimento}
-Una possibile soluione potrebbe essere la seguente:
+Una possibile soluzione potrebbe essere la seguente:
 
 $ (fn$ $x$:$\{l$:$Nat\}.\{l_i = x.l_i^{i \in 1,...,x.length},l_j^{j=x.lenght+1} = 0\})$ $({l=4})$
 
 Questa funzione, in sostanza non fa altro che ritornare un record con gli stessi campi del primo pi\`u un ulteriore campo.
-Cos\`i facendo il tipo del paramentro della funzione \`e $T$  ma accetta qualsiasi tipo $S$ tale che $S$ <: $T$, tuttavia il tipo di ritorno \`e sempre pi\`u specifico ( a causa della nuova etichetta aggiunta) e di conseguenza, per come abbiamo definito la regola di subtyping, il tipo di ritorno $U$ non sar\`a mai sopra-tipo di $T$.
+Cos\`i facendo il tipo del parametro della funzione \`e $T$  ma accetta qualsiasi tipo $S$ tale che $S$ <: $T$, tuttavia il tipo di ritorno \`e sempre pi\`u specifico ( a causa della nuova etichetta aggiunta) e di conseguenza, per come abbiamo definito la regola di subtyping, il tipo di ritorno $U$ non sar\`a mai sopra-tipo di $T$.
 
 Quindi abbiamo trovato due termini, $M$:$T$ e $N$:$S$ tali che $M \rightarrow N$ con le caratteristiche richieste.
 
