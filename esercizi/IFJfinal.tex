@@ -105,7 +105,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:(Object)]\:\:,\:C\:x=new\:C(z)
 
 \begin{prooftree}
 	\AxiomC{$z\:\notin Dom(\sigma)$ }
-	\RightLabel{(NEW)}
+	\RightLabel{(DICHIAR)}
 	\UnaryInfC{$\langle\sigma\:,\:Object\:z=\:o_1\:;\:e\rangle$ $\rightarrow$ $\langle\sigma\:[z\mapsto o_1]\:,\:e\rangle$}
 	\LeftLabel{(CONG)}
 	\UnaryInfC{$\langle\sigma\:,E[t]\rangle$ $\rightarrow$ $\langle\sigma\:[z\:\mapsto\:o_1]\:,\:E[o_1]\rangle$}
@@ -135,7 +135,7 @@ $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:,\:C\:y=new\:D(x);\:.....\rangle$
 
 \vspace{0,5cm}
-\item Dereferenzazione della variabile x per creare l'oggetto $o_2$
+\item Dereferenzazione della variabile x per creare l'oggetto $o_3$
 
 $\rightarrow$ $\langle\emptyset\:\:[o_1\:\mapsto\:Object]\:[z\:\mapsto\:o_1]\:[o_2\:\mapsto\:(C,f:o_1)]\:[x\:\mapsto\:o_2]\:,\:C\:y=new\:D(o_2);\:.....\rangle$
 

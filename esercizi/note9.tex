@@ -131,10 +131,34 @@ Quale potrebbe essere la relazione di sottotipo dei variant types?
 	\AxiomC{$\Gamma$ $\vdash$ M : $T_j$}
 	\AxiomC{j $\in$ 1..n+k}	
 	\LeftLabel{\textsc{(SUBTYPE VARIANT)}}
-	\BinaryInfC{$\Gamma$ $\vdash$ <$l_j$ = M> : <$l_i$ : $T_i$\textsuperscript{i $\in$ 1..n}>} 
+	\BinaryInfC{$\Gamma$ $\vdash$ $\langle$ $l_j$ = M $\rangle$ : $\langle$ $l_i$ : $T_i$\textsuperscript{i $\in$ 1..n} $\rangle$} 
 \end{prooftree} 
 
 In questo modo, modificando TYPE VARIANT, si ottiene il subtyping in larghezza (WIDTH). Per ottenere il subtyping in profondit\`a (DEPTH) basta usare SUBSUMPTION.
+Questa regola, basa il sottotipaggio sul fatto che il typevariant sottotipo pu\`o avere un numero $\geq$ di elementi del sopra-tipo, l'importante e che i tipi di ogni elemento siano compresi uguali a $T_i $ con $i$ $\in$ $1,...,n $ dove $n$ \`e il numero di elementi del sopra-tipo.\\
+
+Inoltre, sulla base del fatto che i variant-type sono simili ai record, \`e possibile ipotizzare un subtyping basato sulle reogle SUB-WITH e SUB-DEPTH. I variant-type, infatti, hanno la stessa struttura, la differenza risiede nel fatto che i campi di quest'ultimi vengono acceduti tramite \textit{pattern matching} e non tramite etichette.\\
+Pertanto si possono avere anche le regole:\\
+
+ \begin{prooftree} 
+	\AxiomC{}	
+	\LeftLabel{\textsc{(SUB-WIDTH VARIANT)}}
+	\UnaryInfC{$\langle l_i$ : $T_i$ $^{i=1,...,n}\rangle $ $<:$ $\langle l_i$ : $T_i$ $^{i=1,...,n+k}\rangle $} 
+\end{prooftree} 
+
+
+ \begin{prooftree} 
+	\AxiomC{$\forall$ $i$ $\in$ $1,...,n$ $S$ $<:$ $T$}	
+	\LeftLabel{\textsc{(SUB-DEPTH VARIANT)}}
+	\UnaryInfC{$\langle l_i$ : $S_i$ $^{i=1,...,n}\rangle $ $<:$ $\langle l_i$ : $T_i$ $^{i=1,...,n}\rangle $} 
+\end{prooftree} 
+
+
+ \begin{prooftree} 
+	\AxiomC{$\langle k_i$ : $S_j$ $^{j=1,...,n}\rangle $ \`e una permutazione di $\langle l_i$ : $T_i$ $^{i=1,...,n}\rangle $ }	
+	\LeftLabel{\textsc{(SUB-PERMUTE VARIANT)}}
+	\UnaryInfC{$\langle k_i$ : $S_j$ $^{j=1,...,n}\rangle $ $<:$ $\langle l_i$ : $T_i$ $^{i=1,...,n}\rangle $} 
+\end{prooftree} 
 
 \subsection*{Esercizio 6.5}
 Quali propriet\`a del sistema di tipi si perderebbero se avessimo definito la relazione di
