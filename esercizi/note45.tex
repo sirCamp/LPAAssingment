@@ -164,7 +164,7 @@ $\Gamma\nvdash$ $M$: $T$\\
 Quanto riportato sopra pu\`o essere semplificato tramite questo esempio:\\
 
 Supponiamo di avere $M^{\prime}$ $\equiv$ $A$ : $T$ e $M$ $\equiv$ $if$ $true$ $then$ $A$ $else$ $B$, ovvero il caso in cui $M$ $\rightarrow$ $M^{\prime}$ per la regola (If-True).\\
-In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ riesce ad ottenere usando la regola $IF_THEN_ELSE$, tuttavia questo impone che nel contesto ci siano questi giudizi:
+In questo caso la derivazione di $\Gamma$ $\vdash$ $M$ : $T$ riesce ad ottenere usando la regola $IF-THEN-ELSE$, tuttavia questo impone che nel contesto ci siano questi giudizi:
 
 \begin{itemize}
 \item $\Gamma$ $\vdash$ $true$:$Bool$ che \`e un assioma
@@ -233,7 +233,8 @@ e creiamo il suo albero di derivazione:
 
 
 
-
+\scalebox{.90}{
+\parbox{1cm}{
 \begin{prooftree} 
 	\AxiomC{$ \checkmark $}
 	\UnaryInfC{$x$:$Bool$ $\in$  $\Gamma$ }
@@ -248,14 +249,14 @@ e creiamo il suo albero di derivazione:
 	\LeftLabel{\textsc{($IF-THEN-ELSE$)}}
 	\TrinaryInfC{$x$:$Bool$ $\vdash$ $if$ $x$ $then$ $1$ $else$ $0$ :$Nat$}
 	\LeftLabel{\textsc{($FUN^{\prime}$)}}
-	\UnaryInfC{$\empty \vdash fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0$ :$Nat \rightarrow$ :$Nat$}
+	\UnaryInfC{$\emptyset \vdash fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0$ :$Nat \rightarrow$ :$Nat$}
 	\AxiomC{$ \checkmark $}
 	\LeftLabel{\textsc{($Nat$)}}
-	\UnaryInfC{$\empty \vdash 1$:$Nat$}
+	\UnaryInfC{$\emptyset \vdash 1$:$Nat$}
 	\LeftLabel{\textsc{($APP^{\prime}$)}}
-	\BinaryInfC{$\empty \vdash (fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$  } 
+	\BinaryInfC{$\emptyset \vdash (fn$ $x$:$Bool.if$ $x$ $then$ $1$ $else$ $0)$ $(1)$  } 
 \end{prooftree}
-
+}}
 
 In questo caso possiamo osservare che il termine $M$ risulta essere ben-tipato secondo le nuove regole di tipo.\\
 Tuttavia, \`e evidente che l'invocazione della funzione in questione porta $M$ ad un termine stuck, questo perch\`e il sottotermine $N$ $=$ $if$ $x$ $then$ $1$ $else$ $0$ si aspetta un $Bool$, infatti le regole della semantica operazionale che gestiscono l'$if$, permettono di avanzare nella computazione.\\
