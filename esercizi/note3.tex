@@ -97,34 +97,75 @@
     \vspace*{1 cm}
 	\item f:Bool$\rightarrow$ Bool $\vdash\:\fn$ x:Bool.f(if x then false else x) :Bool$\rightarrow$Bool 
 		Sia $\Gamma$ = f:Bool$\rightarrow$Bool \\
-		\scalebox{.75}{
+		\scalebox{.65}{
 		\parbox{1cm}{
 		\begin{prooftree}  
 			\AxiomC{f:Bool $\rightarrow$ Bool $\in$ $\Gamma$, x:Bool}
 			\LeftLabel{\textsc{(VAR)}}
 			\UnaryInfC{$\Gamma$, x:Bool $\vdash$ f: Bool $\rightarrow$ Bool} 
 			\LeftLabel{\textsc{(FUN)}}
-			\UnaryInfC{$\Gamma$ $\vdash\:\fn$ x:Bool.f: ? $\rightarrow$ Bool 
+			\UnaryInfC{$\Gamma$ $\vdash\:\fn$ x:Bool.f: Bool $\rightarrow$ Bool 
 			$\rightarrow$ Bool} 
 			\AxiomC{x:Bool $\in$ $\Gamma$}
 			\LeftLabel{\textsc{(VAR)}}
-			\UnaryInfC{$\Gamma$ $\vdash$ x :?}
-			\AxiomC{$\checkmark$}
-			\LeftLabel{\textsc{(TRUE)}}
-			\UnaryInfC{$\Gamma$ $\vdash$ true :Bool}
+			\UnaryInfC{$\Gamma$ $\vdash$ x :Bool}
+			\AxiomC{x:Bool $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$\Gamma$ $\vdash$ x :Bool}
 			\AxiomC{$\checkmark$}
 			\LeftLabel{\textsc{(FALSE)}}
 			\UnaryInfC{$\Gamma$ $\vdash$ false :Bool}
 			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
-			\TrinaryInfC{$\Gamma$ $\vdash$ (if x then false else x):? 
-			$\rightarrow$ Bool}
+			\TrinaryInfC{$\Gamma$ $\vdash$ (if x then false else x):Bool}
 			\LeftLabel{\textsc{(APP)}}
 			\BinaryInfC{$\Gamma\:\vdash\:\fn$ x:Bool.f(if x then false 
 			else x)
 			 :Bool$\rightarrow$Bool}
 		\end{prooftree}}
 		} \\
-		Quindi ?=Bool.	
+		Quindi il tipo \`e $Bool$ $\rightarrow$ $(Bool \rightarrow Bool)$.	
+		
+		
+	\vspace*{1 cm}
+	\item f:Bool$\rightarrow$ Bool $\vdash\:\fn$ x:Bool.f(if x then false else x) :Bool$\rightarrow$Bool 
+		Sia $\Gamma$ = f:Bool$\rightarrow$Bool. Questa \`e una variante del precedente in cui si assume che nel corpo della funzione sia:\\  $f(if$ $x$ $then$ $false$ $else$ $x)$\\
+		\scalebox{.65}{
+		\parbox{1cm}{
+		\begin{prooftree}  
+		
+			
+			\AxiomC{$x:Bool$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$\Gamma$ $\vdash$ $x:Bool$}
+
+			\AxiomC{$f:Bool\rightarrow Bool$ $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$\Gamma$ $\vdash$ $f:Bool\rightarrow Bool$}
+			
+			\AxiomC{x:Bool $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$\Gamma$ $\vdash$ $x$ $:Bool$}
+			\AxiomC{$\checkmark$}
+			\LeftLabel{\textsc{(FALSE)}}
+			\UnaryInfC{$\Gamma$ $\vdash$ false :Bool}
+			\AxiomC{x:Bool $\in$ $\Gamma$}
+			\LeftLabel{\textsc{(VAR)}}
+			\UnaryInfC{$\Gamma$ $\vdash$ $x$ $:Bool$}
+			\LeftLabel{\textsc{(IF-THEN-ELSE)}}
+			\TrinaryInfC{$\Gamma$ $\vdash$ $if$ $x$ $then$ $false$ $else$ $x)$:$Bool$}
+
+
+			
+			\LeftLabel{\textsc{(APP)}}
+			\BinaryInfC{$f(if$ $x$ $then$ $false$ $else$ $x)$ :$Bool$ $\rightarrow$ $Bool$}
+			
+			\LeftLabel{\textsc{(FUN)}}
+			\BinaryInfC{$\Gamma\:\vdash\:\fn$ $x:Bool.f(if$ $x$ $then$ $false$ $else$ $x)$ :$Bool$ $\rightarrow$ $Bool$}
+		\end{prooftree}}
+		} \\
+		Quindi il tipo \`e $Bool \rightarrow Bool$.	
+		
+		
 \end{enumerate}
  
     \vspace*{1 cm}
