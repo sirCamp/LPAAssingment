@@ -284,7 +284,7 @@ regola di tipo che \`e stata applicata per derivare tale giudizio:
 		che $\true \{x \coloneqq N \} \equiv \true$, si ottiene che la tesi \`e:
 		$\Gamma \vdash \true: \Bool$ che \`e vera per l'assioma \myrule{True}.
 		\item $\boxed{\myrule{False}}$: analogo al caso \myrule{True}.
-		\item $\boxed{\myrule{True}}$: analogo al caso \myrule{True}.
+		\item $\boxed{\myrule{Nat}}$: analogo al caso \myrule{True}.
 		\item $\boxed{\myrule{Var}}$. Questo caso differisce leggermente da quello visto a lezione, in quanto il lemma di inversione
 		per le variabili \`e stato modificato e asserisce che se $\Gamma \vdash x : T$, allora $x: S \in \Gamma$ con $S <: T$. 
 		Tuttavia, se il giudizio con il tipo preciso non \`e nel contesto (ovvero $S \neq T$), l'albero non pu\`o essere composto dal solo assioma \myrule{Var} ma
@@ -318,8 +318,8 @@ regola di tipo che \`e stata applicata per derivare tale giudizio:
 		
 		\item \textbf{Passo Induttivo}:  
 		I casi \myrule{Sum}, \myrule{Minus}, \myrule{Fun} sono analoghi a quelli visti a lezione. Visto che questo teorema
-		vuole dimostrare giudizi del tipo $\Delta \vdash M : T$ le regole di sottotipo non potranno essere mai l'ultima regola 
-		applicata (poich\`e dimostrano giudizi solo del tipo $\Delta \vdash M <: T$) e quindi non devono essere considerate. Queste hanno infatti un ruolo
+		vuole dimostrare giudizi del tipo $\Gamma \vdash M : T$ le regole di sottotipo non potranno essere mai l'ultima regola 
+		applicata (poich\`e dimostrano giudizi solo del tipo $\Gamma \vdash M <: T$) e quindi non devono essere considerate. Queste hanno infatti un ruolo
 		indiretto nel caso \myrule{Subsumption}.
 		\begin{itemize}
 			\item $\boxed{\myrule{Sum}}$: Invariato rispetto a quanto visto a lezione.
@@ -370,23 +370,16 @@ regola di tipo che \`e stata applicata per derivare tale giudizio:
 				\item $\Gamma \vdash N : S$
 			\end{enumerate}
 			Visto che l'ultima regola applicata \`e stata $\myrule{Subsumption}$ posso dire che valgono le sue premesse:
-			$$
-			%\prftree[r]
-			{\myrule{Subsumption}}
-			{\Gamma, x : S \vdash_k M : U}
-			{U <: T}
-			{\Gamma, x : S \vdash_{k+1} M : T}
-			$$
-			Ora siccome vale $\Gamma, x : S \vdash_k M : U$ e $\Gamma \vdash N : S$ posso applicare l'ipotesi induttiva 
+			
+		    %\prftree[r]
+			$\myrule{Subsumption}$ 	$\Gamma, x : S \vdash_k M : U$ $U <: T$  $\Gamma$, $x : S$ $\vdash_{k+1}$ $M$ : $T$
+		
+			Ora siccome vale $\Gamma, x : S \vdash_k M$ : $U$ e $\Gamma \vdash N : S$ posso applicare l'ipotesi induttiva 
 			e ottenere che $\Gamma \vdash M\{ x \coloneqq N \} : U $. 
-			E visto che $U$ \`e un sottotipo di $T$ l'asserto \`e dimostrato per la regola \myrule{Subsumption}.
-			$$
-			%%\prftree[r]
-			{\myrule{Subsumption}}
-			{\Gamma \vdash M\{x \coloneqq N \} : U}
-			{U <: T}
-			{\Gamma \vdash M\{x \coloneqq N\} : T}
-			$$
+			E visto che $U$ \`e un sottotipo di $T$ l'asserto \`e dimostrato per la regola \myrule{Subsumption}.\\
+			
+			$\myrule{Subsumption}$ $\Gamma$ $\vdash$ $M\{x \coloneqq N \}$ : $U$  $U <: T$ $\Gamma$ $\vdash$ $M\{x \coloneqq N\}$: $T$
+			
 		\end{itemize}
 	\end{itemize} 
 \end{itemize}
