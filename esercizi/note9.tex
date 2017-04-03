@@ -471,15 +471,11 @@ Inizio dai casi base, che sono quelli in cui $M \longrightarrow M'$ viene da un 
 		Assumo come di consueto le due ipotesi:
 		\begin{enumerate}
 			\item 
-			$$
-			%\prftree[r]
-			{\myrule{Eval-Record}}
-			{M_x \longrightarrow M_x'}
-			{
-				\{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\} \longrightarrow
-				\{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M'_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\}
-			}
-			$$
+			$\myrule{Eval-Record}$\\
+			$M_x \longrightarrow M_x'$\\
+			\scalebox{.90}{
+		     $\{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\}$ 	$\longrightarrow \{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M'_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\}$ }
+			
 			Con $M_x \to M'_x$ che viene derivato con un albero di derivazione di altezza inferiore rispetto a quello per $M \to M'$.
 			Si pu\`o quindi applicare l'ipotesi induttiva ad $M'_x$, ottenendo che \`e derivabile il giudizio $\Gamma \vdash M'_x : T_x$.
 			\item $\{\ell_i : v_i\ ^{i \in 1 \dots x-1}, \ell_x : M_x, \ell_j : M_j\ ^{j \in x+1 \dots m}\} : T$ \`e derivabile.
@@ -496,26 +492,28 @@ Inizio dai casi base, che sono quelli in cui $M \longrightarrow M'$ viene da un 
 	\end{itemize}
 \end{itemize}
 
-\paragraph{Dimostrazione del teorema di preservazione (per induzione su $\Gamma \vdash M : T$)}
+%\paragraph{Dimostrazione del teorema di preservazione (per induzione su $\Gamma \vdash M : T$)}
 
 	Se $\Gamma \vdash M : T$ e $M \longrightarrow M'$, allora
 	$\Gamma \vdash M':T$
-
-\begin{proof}
-Procedo in analogia all'esercizio 3.12, che dimostra $\Gamma \vdash M : T$ per
-induzione sull'altezza dell'albero della prova.
-\begin{itemize}
-	\item $\boxed{\text{\textbf{Casi Base}}} (h = 1)$: Casi in cui \`e stato applicato uno degli assiomi. Si veda
-	l'esercizio 3.12.
-	\item $\boxed{\text{\textbf{Passo Induttivo}}}$ Ora siccome l'ipotesi \`e verificata
-	per i casi base dimostro che vale anche per i casi induttivi a seconda dell'ultima regola usata. 
-	Rispetto all'esercizio 3.12 sono state aggiunte solo
-	3 regole di tipo:
-	\begin{itemize}
-		\item $\boxed{\myrule{Type-Record}}$ assumendo le due ipotesi, ovvero:
-		\begin{enumerate}
-			\item $\Gamma \vdash M : T$ visto che l'ultima regola applicata \`e
-			 \myrule{Type-Record}, allora
+	
+	\iffalse
+%%
+%\begin{proof}
+%Procedo in analogia all'esercizio 3.12, che dimostra $\Gamma \vdash M : T$ per
+%induzione sull'altezza dell'albero della prova.
+%\begin{itemize}
+%	\item $\boxed{\text{\textbf{Casi Base}}} (h = 1)$: Casi in cui \`e stato applicato uno degli assiomi. Si veda
+%	l'esercizio 3.12.
+%	\item $\boxed{\text{\textbf{Passo Induttivo}}}$ Ora siccome l'ipotesi \`e verificata
+%	per i casi base dimostro che vale anche per i casi induttivi a seconda dell'ultima regola usata. 
+%	Rispetto all'esercizio 3.12 sono state aggiunte solo
+%	3 regole di tipo:
+%	\begin{itemize}
+%		\item $\boxed{\myrule{Type-Record}}$ assumendo le due ipotesi, ovvero:
+%		\begin{enumerate}
+%			\item $\Gamma \vdash M : T$ visto che l'ultima regola applicata \`e
+%			 \myrule{Type-Record}, allora
 			 $M \equiv \{\ell_i = M_i\ ^{i \in 1 \dots n} \}$ e
 			 $T = \{\ell_i : T_i\ ^{i \in 1 \dots n}\}$. Dal momento che la sua
 			 premessa deve essere verificata si ha quindi
@@ -604,7 +602,7 @@ induzione sull'altezza dell'albero della prova.
 \end{itemize}
 \end{proof}
 
-
+\fi
 \paragraph{Dimostrazione del teorema di progressione}
 (Progressione).
 	 Sia $M$ un termine chiuso e ben tipato, i.e. $\emptyset \vdash M : T $, allora o $M$ \`e un
