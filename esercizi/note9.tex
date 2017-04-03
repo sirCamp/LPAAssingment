@@ -651,24 +651,18 @@ $\varnothing \vdash M : T$.
 		
 		
 		
-		\item \myrule{Subsumption}
-		$$
-		%\prftree[r]
-		{\myrule{Subsumption}}
-		{
-			%\prftree[r]
-			{}
-			{\vdots}
-			{\varnothing \vdash_{k} M : S}
-		}
-		{
-			%\prftree[r]
-			{}
-			{\vdots}
-			{S <: T}
-		}
-		{\varnothing \vdash_{k+1} M : T}
-		$$
+		\item \myrule{Subsumption}\\
+		
+		\scalebox{.90}{
+		\parbox{1cm}{
+		\begin{prooftree} 
+		\AxiomC{$\emptyset \vdash_{k} M : S$}
+		\AxiomC{$ S <: T $}
+		\LeftLabel{\myrule{Subsumption}}
+		\BinaryInfC{$\emptyset \vdash_{k+1} M : T$  } 
+		\end{prooftree}
+	}}
+		
 		Ora, siccome la derivazione del giudizio $\varnothing \vdash M  : S$ \`e pi\`u
 		corta di (almeno) un passo di derivazione rispetto a quella di partenza,
 		posso concludere per ipotesi induttiva che $M$ o \`e un buon valore finale o
