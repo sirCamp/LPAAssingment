@@ -126,18 +126,9 @@ Dove A \`e la derivazione vista precedentemente. Potendo applicare SUBSUMPTION i
 \subsection*{Esercizio 6.4}
 Quale potrebbe essere la relazione di sottotipo dei variant types? 
  
-\subsubsection*{Svolgimento} 
- \begin{prooftree} 
-	\AxiomC{$\Gamma$ $\vdash$ M : $T_j$}
-	\AxiomC{j $\in$ 1..n+k}	
-	\LeftLabel{\textsc{(SUBTYPE VARIANT)}}
-	\BinaryInfC{$\Gamma$ $\vdash$ $\langle$ $l_j$ = M $\rangle$ : $\langle$ $l_i$ : $T_i$\textsuperscript{i $\in$ 1..n} $\rangle$} 
-\end{prooftree} 
+\subsubsection*{Svolgimento}  
 
-In questo modo, modificando TYPE VARIANT, si ottiene il subtyping in larghezza (WIDTH). Per ottenere il subtyping in profondit\`a (DEPTH) basta usare SUBSUMPTION.
-Questa regola, basa il sottotipaggio sul fatto che il typevariant sottotipo pu\`o avere un numero $\geq$ di elementi del sopra-tipo, l'importante e che i tipi di ogni elemento siano compresi uguali a $T_i $ con $i$ $\in$ $1,...,n $ dove $n$ \`e il numero di elementi del sopra-tipo.\\
-
-Inoltre, sulla base del fatto che i variant-type sono simili ai record, \`e possibile ipotizzare un subtyping basato sulle reogle SUB-WITH e SUB-DEPTH. I variant-type, infatti, hanno la stessa struttura, la differenza risiede nel fatto che i campi di quest'ultimi vengono acceduti tramite \textit{pattern matching} e non tramite etichette.\\
+Sulla base del fatto che i variant-type sono simili ai record, \`e possibile ipotizzare un subtyping basato sulle reogle SUB-WITH e SUB-DEPTH. I variant-type, infatti, hanno la stessa struttura, la differenza risiede nel fatto che i campi di quest'ultimi vengono acceduti tramite \textit{pattern matching} e non tramite etichette. La differenza principale sta nel fatto che un variant type con meno tipi \`e pi\`u informativo di uno che ne ha di pi\`u. Considerando il pattern matching, infatti, un variant type con meno tipi pu\`o essere usato in ogni caso in cui il pattern matching gestisca pi\`u casi. Non \`e vero il contrario. \\
 Pertanto si possono avere anche le regole:\\
 
  \begin{prooftree} 
@@ -687,11 +678,9 @@ Trovare due termini M e N tali che M $\rightarrow$ N, $\Gamma\vdash$ M : T, $\Ga
 \subsubsection*{Svolgimento}
 Una possibile soluzione potrebbe essere la seguente:
 
-$ (fn$ $x$:$\{l$:$Nat\}.\{l_i = x.l_i^{i \in 1,...,x.length},l_j^{j=x.lenght+1} = 0\})$ $({l=4})$
+$ (fn$ x:$T.x)\{l_1 = 1, l_2 = 2 \} $. Questo termine ha tipo T = $\{\ l_1: Nat\}$.
+Infatti, possiamo passare un record con tipo S<:T dove \`e richiesto un record di tipo T.
 
-Questa funzione, in sostanza non fa altro che ritornare un record con gli stessi campi del primo pi\`u un ulteriore campo.
-Cos\`i facendo il tipo del parametro della funzione \`e $T$  ma accetta qualsiasi tipo $S$ tale che $S$ <: $T$, tuttavia il tipo di ritorno \`e sempre pi\`u specifico ( a causa della nuova etichetta aggiunta) e di conseguenza, per come abbiamo definito la regola di subtyping, il tipo di ritorno $U$ non sar\`a mai sopra-tipo di $T$.
+A questo punto, si nota che il risultato dell'applicazione sar\`a $\{l_1 = 1, l_2 = 2 \} $ dove il suo tipo \`e S. 
 
-Quindi abbiamo trovato due termini, $M$:$T$ e $N$:$S$ tali che $M \rightarrow N$ con le caratteristiche richieste.
-
-Inoltre, per come definita, questa funzione rispetta quanto richiesto anche nel subtyping non algoritmico.
+ 
